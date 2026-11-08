@@ -603,6 +603,49 @@
   .app-backdrop > span { opacity: 0.2; }
 }
 
+/* ───────── Landing motion (LandingMotion.js) ─────────
+  Lenis does the smoothing, so the browser's own smooth scroll must be off while it runs or the two fight.
+  The hero ships in the intro's first frame ([data-hero-pending]) so nothing flashes before the script takes over.
+  The headline starts low in its masks and faint, not invisible, so it still counts as painted text. */
+html.lenis { scroll-behavior: auto; }
+
+/* X-ray layer: shown only inside a soft circle. LandingMotion moves the circle (--xx, --xy) and opens it (--xr). */
+.hero-xray {
+  --xr: 0px;
+  -webkit-mask-image: radial-gradient(circle var(--xr) at var(--xx, 55%) var(--xy, 28%), #000 70%, transparent 100%);
+  mask-image: radial-gradient(circle var(--xr) at var(--xx, 55%) var(--xy, 28%), #000 70%, transparent 100%);
+}
+
+/* Darkens the field under the nav and, more strongly, under the headline */
+.hero-veil {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--background) 80%, transparent) 0%,
+      transparent 20%,
+      transparent 42%,
+      color-mix(in oklch, var(--background) 88%, transparent) 70%,
+      var(--background) 100%);
+}
+@media (max-width: 767px) {
+  .hero-veil {
+    background:
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--background) 80%, transparent) 0%,
+        transparent 16%,
+        transparent 34%,
+        color-mix(in oklch, var(--background) 92%, transparent) 52%,
+        var(--background) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-pending] [data-hero-line] { opacity: 0.15; transform: translateY(55%); }
+  [data-hero-pending] [data-hero-in],
+  [data-hero-pending] [data-hero-alert] { opacity: 0; }
+  [data-hero-pending] [data-hero-pulse] path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  [data-hero-pending] [data-hero-field] { clip-path: circle(0% at 55% 28%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .app-backdrop > span { animation: none; }
   html { scroll-behavior: auto; }

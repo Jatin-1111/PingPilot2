@@ -1,16 +1,20 @@
+import { Fragment } from 'react'
 import Link from 'next/link'
 import { ArrowDown, DeviceMobile } from '@phosphor-icons/react/dist/ssr'
 import Navbar from './components/Landing Page/Navbar'
-import HeroPreview from './components/Landing Page/HeroPreview'
+import HeroField from './components/Landing Page/HeroField'
 import FeatureBento from './components/Landing Page/FeatureBento'
 import PricingSection from './components/Landing Page/PricingSection'
 import FooterNav from './components/Landing Page/FooterNav'
+import LandingMotion from './components/Landing Page/LandingMotion'
 import { Brand } from '@/components/ui/brand'
 import { Button, ButtonArrow } from '@/components/ui/button'
-import { Reveal } from '@/components/ui/reveal'
 import { ThemeSwitch } from '@/components/ui/theme-switch'
 import { SITE_URL, SITE_NAME } from '@/lib/site'
 import { pageMetadata, faqSchema } from '@/lib/seo'
+
+// The headline, one entry per line: each line rises out of its own mask in the intro
+const HEADLINE = ["Know it's down", 'before your', 'customers do.']
 
 const STEPS = [
     {
@@ -105,26 +109,52 @@ export default function LandingPage() {
         <div className="flex min-h-[100dvh] flex-col">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
             <Navbar />
+            <LandingMotion />
 
-            <main id="main-content">
-                {/* Hero: editorial split */}
-                <section className="px-4 pb-28 pt-32 sm:px-8 md:pb-36 md:pt-44">
-                    <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
-                        <div className="space-y-8">
-                            <Reveal>
+            {/* overflow-x-clip: headings slide in from the sides and must not widen the page on phones */}
+            <main id="main-content" className="overflow-x-clip">
+                {/* Hero: full-screen field of uptime cells, headline pinned to the bottom (see HeroField) */}
+                <section
+                    data-hero
+                    data-hero-pending=""
+                    className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden px-4 pb-10 pt-[18.5rem] sm:px-8 md:pb-14 md:pt-32"
+                >
+                    {/* Without JavaScript the intro never plays, so show the hero as it is */}
+                    <noscript>
+                        <style>{'[data-hero-pending] [data-hero-line],[data-hero-pending] [data-hero-in],[data-hero-pending] [data-hero-alert]{opacity:1!important;transform:none!important}[data-hero-pending] [data-hero-field]{clip-path:none!important}[data-hero-pending] [data-hero-pulse] path{stroke-dashoffset:0!important}'}</style>
+                    </noscript>
+                    <HeroField />
+
+                    <div data-hero-copy className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-12 lg:items-end lg:gap-x-10">
+                        <div className="space-y-6 lg:col-span-8">
+                            <div data-hero-in className="flex flex-wrap items-center gap-3">
                                 <span className="eyebrow">Website uptime monitoring</span>
-                            </Reveal>
-                            <Reveal delay={80}>
-                                <h1 className="font-display text-5xl font-medium leading-[0.98] tracking-[-0.035em] sm:text-6xl md:text-7xl">
-                                    Know it&apos;s down before your customers do.
-                                </h1>
-                            </Reveal>
-                            <Reveal delay={160}>
-                                <p className="max-w-[48ch] text-lg leading-relaxed text-muted-foreground">
-                                    Ping Pilott is a website and server uptime monitor. It checks your URLs as often as every minute, emails you the moment a site goes down, and keeps a clear history of every incident.
-                                </p>
-                            </Reveal>
-                            <Reveal delay={240} className="flex flex-wrap items-center gap-3">
+                                <Link
+                                    href="/android-app"
+                                    className="inline-flex items-center gap-2 rounded-full bg-tint/[0.04] px-3 py-1 text-[12px] text-muted-foreground ring-1 ring-tint/10 backdrop-blur-sm transition-colors duration-300 ease-fluid hover:bg-tint/[0.07] hover:text-foreground"
+                                >
+                                    <DeviceMobile weight="light" className="size-3.5 text-primary" />
+                                    New: Android alerts
+                                </Link>
+                            </div>
+                            {/* One masked line per row: each rises out of its own slot */}
+                            <h1 className="font-display text-[clamp(2.9rem,8.2vw,7.5rem)] font-medium leading-[0.92] tracking-[-0.045em]">
+                                {HEADLINE.map((line, i) => (
+                                    <Fragment key={line}>
+                                        <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+                                            <span data-hero-line className="block">{line}</span>
+                                        </span>
+                                        {i < HEADLINE.length - 1 && <span className="sr-only"> </span>}
+                                    </Fragment>
+                                ))}
+                            </h1>
+                        </div>
+
+                        <div className="space-y-6 lg:col-span-4 lg:pb-3">
+                            <p data-hero-in className="max-w-[44ch] text-base leading-relaxed text-muted-foreground md:text-lg">
+                                Ping Pilott is a website and server uptime monitor. It checks your URLs as often as every minute, alerts you the moment a site goes down, and shows which step of the check failed.
+                            </p>
+                            <div data-hero-in className="flex flex-wrap items-center gap-3">
                                 <Button asChild size="lg">
                                     <Link href="/auth?mode=signup">
                                         Start free
@@ -137,36 +167,21 @@ export default function LandingPage() {
                                         <ArrowDown weight="light" />
                                     </a>
                                 </Button>
-                            </Reveal>
-                            <Reveal delay={300}>
-                                <p className="text-[13px] text-muted-foreground">Free forever. 5 URLs, checked every 5 minutes.</p>
-                            </Reveal>
-                            <Reveal delay={360}>
-                                <Link
-                                    href="/android-app"
-                                    className="inline-flex items-center gap-2 rounded-full bg-tint/[0.04] px-3.5 py-1.5 text-[13px] text-muted-foreground ring-1 ring-tint/10 transition-colors duration-300 ease-fluid hover:bg-tint/[0.07] hover:text-foreground"
-                                >
-                                    <DeviceMobile weight="light" className="size-4 text-primary" />
-                                    New: the Android app sends alerts to your phone
-                                </Link>
-                            </Reveal>
+                            </div>
+                            <p data-hero-in className="text-[13px] text-muted-foreground">Free forever. 5 URLs, checked every 5 minutes.</p>
                         </div>
-
-                        <Reveal delay={200} className="lg:pl-4">
-                            <HeroPreview />
-                        </Reveal>
                     </div>
                 </section>
 
                 {/* Features: asymmetric bento */}
                 <section id="features" className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto max-w-6xl">
-                        <Reveal className="mb-14 max-w-xl space-y-5">
+                        <div data-reveal="heading" className="mb-14 max-w-xl space-y-5">
                             <span className="eyebrow">What you get</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
                                 Website and server monitoring, without the setup.
                             </h2>
-                        </Reveal>
+                        </div>
                         <FeatureBento />
                     </div>
                 </section>
@@ -174,20 +189,20 @@ export default function LandingPage() {
                 {/* Beyond uptime checks: links to the deeper pages */}
                 <section className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto max-w-6xl">
-                        <Reveal className="mb-12 max-w-xl space-y-5">
+                        <div data-reveal="heading" className="mb-12 max-w-xl space-y-5">
                             <span className="eyebrow">More than a ping</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
                                 Find out why, and tell your customers.
                             </h2>
-                        </Reveal>
-                        <ul className="grid gap-5 md:grid-cols-3">
-                            {MORE.map((m, i) => (
-                                <Reveal as="li" key={m.href} delay={i * 80}>
+                        </div>
+                        <ul data-reveal-group className="grid gap-5 md:grid-cols-3">
+                            {MORE.map((m) => (
+                                <li data-reveal-item key={m.href}>
                                     <Link href={m.href} className="block h-full rounded-2xl bg-tint/[0.03] p-7 ring-1 ring-tint/[0.07] transition-colors duration-300 ease-fluid hover:bg-tint/[0.06]">
                                         <h3 className="font-display text-2xl font-medium tracking-tight">{m.title}</h3>
                                         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{m.body}</p>
                                     </Link>
-                                </Reveal>
+                                </li>
                             ))}
                         </ul>
                     </div>
@@ -196,23 +211,30 @@ export default function LandingPage() {
                 {/* How it works: sticky title, stepped list */}
                 <section id="how" className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
-                        <Reveal className="md:sticky md:top-32 md:self-start">
-                            <div className="space-y-5">
+                        <div className="md:sticky md:top-32 md:self-start">
+                            <div data-reveal="heading" className="space-y-5">
                                 <span className="eyebrow">How it works</span>
                                 <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
                                     Three steps to a quiet pager.
                                 </h2>
                             </div>
-                        </Reveal>
-                        <ol className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
-                            {STEPS.map((s, i) => (
-                                <Reveal as="li" key={s.n} delay={i * 80} className="grid grid-cols-[3.5rem_1fr] gap-4 py-9 md:grid-cols-[5rem_1fr]">
+                        </div>
+                        <ol data-reveal-group className="relative divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
+                            {/* Fills as the steps scroll past, like a check travelling down the list */}
+                            <span
+                                data-reveal-track
+                                aria-hidden="true"
+                                className="pointer-events-none absolute -left-px top-0 h-full w-px origin-top bg-primary/60 motion-reduce:hidden"
+                                style={{ transform: 'scaleY(0)' }}
+                            />
+                            {STEPS.map((s) => (
+                                <li data-reveal-item key={s.n} className="grid grid-cols-[3.5rem_1fr] gap-4 py-9 md:grid-cols-[5rem_1fr]">
                                     <span className="font-mono text-sm tabular-nums text-primary">{s.n}</span>
                                     <div className="space-y-2.5">
                                         <h3 className="font-display text-2xl font-medium tracking-tight">{s.title}</h3>
                                         <p className="max-w-[52ch] text-[15px] leading-relaxed text-muted-foreground">{s.body}</p>
                                     </div>
-                                </Reveal>
+                                </li>
                             ))}
                         </ol>
                     </div>
@@ -222,13 +244,13 @@ export default function LandingPage() {
 
                 <section id="faq" className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto max-w-6xl">
-                        <Reveal className="mb-12 max-w-xl space-y-5">
+                        <div data-reveal="heading" className="mb-12 max-w-xl space-y-5">
                             <span className="eyebrow">FAQ</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">Common questions.</h2>
-                        </Reveal>
-                        <dl className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
+                        </div>
+                        <dl data-reveal-group className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
                             {FAQS.map((f) => (
-                                <div key={f.q} className="grid gap-3 py-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
+                                <div data-reveal-item key={f.q} className="grid gap-3 py-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
                                     <dt className="font-display text-xl font-medium tracking-tight">{f.q}</dt>
                                     <dd className="max-w-[60ch] text-[15px] leading-relaxed text-muted-foreground">{f.a}</dd>
                                 </div>
@@ -239,8 +261,8 @@ export default function LandingPage() {
 
                 {/* Closing call to action */}
                 <section className="px-4 pb-20 pt-8 sm:px-8 md:pb-28">
-                    <Reveal className="mx-auto max-w-6xl">
-                        <div className="bezel">
+                    <div data-reveal-group className="mx-auto max-w-6xl">
+                        <div data-reveal-item className="bezel">
                             <div className="bezel-core relative overflow-hidden px-7 py-16 text-center sm:px-12 md:py-24">
                                 <div
                                     aria-hidden="true"
@@ -266,7 +288,7 @@ export default function LandingPage() {
                                 </div>
                             </div>
                         </div>
-                    </Reveal>
+                    </div>
                 </section>
             </main>
 
