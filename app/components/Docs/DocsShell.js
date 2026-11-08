@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 
 const item = (active) => cn(
     'block min-h-11 rounded-lg px-3 py-2.5 text-sm transition-colors duration-300 ease-fluid',
-    active ? 'bg-white/[0.08] text-foreground' : 'text-muted-foreground hover:bg-white/[0.04] hover:text-foreground'
+    active ? 'bg-tint/[0.08] text-foreground' : 'text-muted-foreground hover:bg-tint/[0.04] hover:text-foreground'
 )
 
 function Menu({ current }) {
@@ -32,7 +32,7 @@ export default function DocsShell({ current = null, children }) {
             <main id="main-content" className="px-4 pb-24 pt-28 sm:px-8 md:pt-40">
                 <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-14">
                     <aside className="lg:sticky lg:top-28 lg:self-start">
-                        <details className="rounded-xl ring-1 ring-white/[0.08] lg:hidden">
+                        <details className="rounded-xl ring-1 ring-tint/[0.08] lg:hidden">
                             <summary className="min-h-12 cursor-pointer list-none px-4 py-3 text-sm font-medium">Documentation menu</summary>
                             <div className="px-2 pb-3"><Menu current={current} /></div>
                         </details>

@@ -17,7 +17,7 @@ function Alert({ tone = "info", title, children, action, className, ...props }) 
   return (
     <div
       role={tone === "error" ? "alert" : "status"}
-      className={cn("flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm ring-1", t.box, className)}
+      className={cn("flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm ring-1 backdrop-blur-xl backdrop-saturate-150", t.box, className)}
       {...props}>
       <Icon weight="light" className={cn("mt-0.5 size-5 shrink-0", t.icon_)} />
       <div className="min-w-0 flex-1">

@@ -62,8 +62,8 @@ function ChoiceGroup({ legend, name, value, onChange, disabled, options, columns
                     <label
                         key={opt.id}
                         className={cn(
-                            'group relative flex min-h-12 cursor-pointer items-center rounded-2xl bg-white/[0.03] px-4 py-3 ring-1 ring-white/10 transition-[background-color,box-shadow] duration-500 ease-fluid',
-                            'hover:bg-white/[0.06] hover:ring-white/20',
+                            'group relative flex min-h-12 cursor-pointer items-center rounded-2xl bg-tint/[0.03] px-4 py-3 ring-1 ring-tint/10 transition-[background-color,box-shadow] duration-500 ease-fluid',
+                            'hover:bg-tint/[0.06] hover:ring-tint/20',
                             'has-[:checked]:bg-primary/10 has-[:checked]:ring-2 has-[:checked]:ring-primary/60',
                             'has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring',
                             disabled && 'cursor-not-allowed opacity-50'
@@ -344,7 +344,7 @@ export const ServerForm = ({
                     </button>
                 )}
 
-                <div className="flex flex-col-reverse gap-3 border-t border-white/[0.07] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col-reverse gap-3 border-t border-tint/[0.07] pt-6 sm:flex-row sm:items-center sm:justify-between">
                     {cancelHref ? (
                         <Button asChild variant="ghost" className="sm:w-auto">
                             <Link href={cancelHref}>Cancel</Link>

@@ -118,7 +118,7 @@ const CreateTicketForm = () => {
                                         return (
                                             <label
                                                 key={cat}
-                                                className={`relative flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 ring-1 transition-[background-color,box-shadow] duration-500 ease-fluid has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring ${on ? 'bg-primary/[0.08] ring-primary/40' : 'bg-white/[0.03] ring-white/10 hover:bg-white/[0.05] hover:ring-white/20'}`}
+                                                className={`relative flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 ring-1 transition-[background-color,box-shadow] duration-500 ease-fluid has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring ${on ? 'bg-primary/[0.08] ring-primary/40' : 'bg-tint/[0.03] ring-tint/10 hover:bg-tint/[0.05] hover:ring-tint/20'}`}
                                             >
                                                 <input type="radio" value={cat} {...register('category')} className="sr-only" />
                                                 <Icon weight="light" className={`size-6 shrink-0 ${on ? 'text-primary' : 'text-muted-foreground'}`} aria-hidden="true" />

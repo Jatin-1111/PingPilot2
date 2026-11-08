@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useAuth } from '@/app/context/AuthContext'
 import { Brand } from '@/components/ui/brand'
 import { Button, ButtonArrow } from '@/components/ui/button'
+import { ThemeSwitch } from '@/components/ui/theme-switch'
 
 const NAV_LINKS = [
     { label: 'Features', href: '/#features' },
@@ -75,6 +76,7 @@ const Navbar = () => {
                                 <Link href="/auth">Sign in</Link>
                             </Button>
                         )}
+                        <ThemeSwitch labels className="mt-3 w-full" />
                     </div>
                 </nav>
             </div>
@@ -88,25 +90,28 @@ const Navbar = () => {
                         <a
                             key={l.href}
                             href={l.href}
-                            className="whitespace-nowrap rounded-full px-3.5 py-2 text-sm text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-white/[0.06] hover:text-foreground"
+                            className="whitespace-nowrap rounded-full px-3.5 py-2 text-sm text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-tint/[0.06] hover:text-foreground"
                         >
                             {l.label}
                         </a>
                     ))}
                 </nav>
 
-                <div className={`hidden items-center gap-1.5 lg:flex ${pending ? 'invisible' : ''}`}>
-                    {!signedIn && (
-                        <Button asChild variant="ghost" size="sm">
-                            <Link href="/auth">Sign in</Link>
+                <div className="hidden items-center gap-1.5 lg:flex">
+                    <ThemeSwitch className="mr-1" />
+                    <div className={`flex items-center gap-1.5 ${pending ? 'invisible' : ''}`}>
+                        {!signedIn && (
+                            <Button asChild variant="ghost" size="sm">
+                                <Link href="/auth">Sign in</Link>
+                            </Button>
+                        )}
+                        <Button asChild size="sm" className="pr-1">
+                            <Link href={primary.href}>
+                                {primary.label}
+                                <ButtonArrow className="size-6" />
+                            </Link>
                         </Button>
-                    )}
-                    <Button asChild size="sm" className="pr-1">
-                        <Link href={primary.href}>
-                            {primary.label}
-                            <ButtonArrow className="size-6" />
-                        </Link>
-                    </Button>
+                    </div>
                 </div>
 
                 <button
@@ -115,7 +120,7 @@ const Navbar = () => {
                     aria-expanded={open}
                     aria-controls="mobile-menu"
                     aria-label={open ? 'Close menu' : 'Open menu'}
-                    className="relative grid size-10 place-items-center rounded-full bg-white/[0.06] transition-colors duration-300 ease-fluid hover:bg-white/[0.1] active:scale-95 lg:hidden"
+                    className="relative grid size-10 place-items-center rounded-full bg-tint/[0.06] transition-colors duration-300 ease-fluid hover:bg-tint/[0.1] active:scale-95 lg:hidden"
                 >
                     <span
                         className={`absolute h-px w-4 bg-foreground transition-transform duration-500 ease-fluid ${open ? 'rotate-45' : '-translate-y-[3px]'}`}

@@ -29,7 +29,7 @@ export default function DocsIndex() {
             <ol className="mt-12 grid gap-4 sm:grid-cols-2">
                 {DOCS.map((d, i) => (
                     <li key={d.slug}>
-                        <Link href={`/docs/${d.slug}`} className="block h-full min-h-12 rounded-2xl p-5 ring-1 ring-white/[0.08] transition-colors duration-300 ease-fluid hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                        <Link href={`/docs/${d.slug}`} className="block h-full min-h-12 rounded-2xl p-5 ring-1 ring-tint/[0.08] transition-colors duration-300 ease-fluid hover:bg-tint/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                             <span className="text-xs text-muted-foreground">Step {i + 1}</span>
                             <span className="mt-1 block font-display text-xl font-medium tracking-tight">{d.title}</span>
                             <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{d.summary}</span>

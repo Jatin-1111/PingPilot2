@@ -62,7 +62,7 @@ function GetStarted({ limits, plan, admin }) {
           <ol className="space-y-5">
             {steps.map((step, i) => (
               <li key={step.title} className="flex gap-4">
-                <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-white/[0.05] text-primary ring-1 ring-white/10">
+                <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-tint/[0.05] text-primary ring-1 ring-tint/10">
                   <step.icon weight="light" className="size-5" />
                 </span>
                 <div>
@@ -262,12 +262,12 @@ export default function DashboardPage() {
                   <div>
                     <div className="flex h-2 gap-1 overflow-hidden rounded-full" role="img" aria-label={`${counts.up} operational, ${counts.down} down, ${counts.pending} pending`}>
                       {counts.total === 0 ? (
-                        <span className="h-full flex-1 rounded-full bg-white/[0.08]" />
+                        <span className="h-full flex-1 rounded-full bg-tint/[0.08]" />
                       ) : (
                         <>
-                          {counts.up > 0 && <span className="h-full rounded-full bg-success transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.up / barTotal }} />}
-                          {counts.down > 0 && <span className="h-full rounded-full bg-destructive transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.down / barTotal }} />}
-                          {counts.pending > 0 && <span className="h-full rounded-full bg-white/20 transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.pending / barTotal }} />}
+                          {counts.up > 0 && <span className="h-full rounded-full bg-success shadow-[0_0_14px_oklch(0.8_0.15_160/0.55)] transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.up / barTotal }} />}
+                          {counts.down > 0 && <span className="h-full rounded-full bg-destructive shadow-[0_0_14px_oklch(0.72_0.17_22/0.55)] transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.down / barTotal }} />}
+                          {counts.pending > 0 && <span className="h-full rounded-full bg-tint/20 transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.pending / barTotal }} />}
                         </>
                       )}
                     </div>
@@ -364,11 +364,11 @@ export default function DashboardPage() {
                     ))}
                   </div>
                 ) : (
-                  <ul className="divide-y divide-white/[0.05]">
+                  <ul className="divide-y divide-tint/[0.05]">
                     {sorted.map((server) => {
                       const id = idOf(server);
                       return (
-                        <li key={id} className="flex flex-wrap items-center gap-x-4 gap-y-3 px-5 py-4 transition-colors duration-300 ease-fluid hover:bg-white/[0.025]">
+                        <li key={id} className="flex flex-wrap items-center gap-x-4 gap-y-3 px-5 py-4 transition-colors duration-300 ease-fluid hover:bg-tint/[0.025]">
                           <StatusDot status={server.status} />
                           <div className="min-w-0 flex-1 basis-48">
                             <Link href={`/servers?s=${id}`} className="block truncate font-medium underline-offset-4 hover:underline">

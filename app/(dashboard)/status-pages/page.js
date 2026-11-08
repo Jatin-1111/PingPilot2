@@ -28,7 +28,7 @@ const idOf = (s) => String(s?._id || s?.id);
 /** A switch row: a title, one line of what it does, and a checkbox that reads as a switch */
 function Toggle({ id, title, description, checked, onChange }) {
     return (
-        <label htmlFor={id} className="flex cursor-pointer items-start justify-between gap-4 rounded-xl bg-white/[0.03] px-4 py-3.5 ring-1 ring-white/10">
+        <label htmlFor={id} className="flex cursor-pointer items-start justify-between gap-4 rounded-xl bg-tint/[0.03] px-4 py-3.5 ring-1 ring-tint/10">
             <span className="min-w-0">
                 <span className="block text-sm font-medium">{title}</span>
                 <span className="mt-0.5 block text-[13px] text-muted-foreground">{description}</span>
@@ -163,13 +163,13 @@ function Editor({ page, servers, branded, onSaved, onCancel, apiRequest }) {
                     </div>
 
                     {form.servers.length === 0 ? (
-                        <p className="rounded-xl px-4 py-5 text-sm text-muted-foreground ring-1 ring-white/10">No monitors yet. Add some from the list below.</p>
+                        <p className="rounded-xl px-4 py-5 text-sm text-muted-foreground ring-1 ring-tint/10">No monitors yet. Add some from the list below.</p>
                     ) : (
                         <ul className="space-y-2.5" aria-label="Monitors on this page">
                             {form.servers.map((c, i) => {
                                 const owned = byId.get(c.serverId);
                                 return (
-                                    <li key={c.serverId} className="flex flex-wrap items-center gap-2.5 rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
+                                    <li key={c.serverId} className="flex flex-wrap items-center gap-2.5 rounded-xl bg-tint/[0.03] p-3 ring-1 ring-tint/10">
                                         <div className="flex shrink-0 items-center gap-1">
                                             <Button type="button" variant="ghost" size="icon-sm" disabled={i === 0} onClick={() => setForm((f) => moveServer(f, c.serverId, -1))} aria-label={`Move ${owned?.name || 'monitor'} up`}><ArrowUp weight="light" /></Button>
                                             <Button type="button" variant="ghost" size="icon-sm" disabled={i === form.servers.length - 1} onClick={() => setForm((f) => moveServer(f, c.serverId, 1))} aria-label={`Move ${owned?.name || 'monitor'} down`}><ArrowDown weight="light" /></Button>
@@ -210,7 +210,7 @@ function Editor({ page, servers, branded, onSaved, onCancel, apiRequest }) {
                                             type="button"
                                             onClick={() => setForm((f) => toggleServer(f, idOf(s)))}
                                             disabled={form.servers.length >= MAX_COMPONENTS}
-                                            className="flex w-full items-center gap-3 rounded-xl bg-white/[0.03] px-3.5 py-3 text-left ring-1 ring-white/10 transition-colors duration-300 hover:bg-white/[0.06] disabled:opacity-50"
+                                            className="flex w-full items-center gap-3 rounded-xl bg-tint/[0.03] px-3.5 py-3 text-left ring-1 ring-tint/10 transition-colors duration-300 hover:bg-tint/[0.06] disabled:opacity-50"
                                         >
                                             <Plus weight="light" className="size-4 shrink-0 text-primary" />
                                             <span className="min-w-0">

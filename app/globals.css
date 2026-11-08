@@ -1,15 +1,31 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 /*
   Ping Pilott design tokens
   One surface family (ink teal, hue 218), one accent (pilot azure), semantic status colours.
-  The product is dark-only: the :root tokens below are the dark theme.
+  Two themes. :root is dark (the default); [data-theme="light"] overrides it.
+  The theme is set on <html> before first paint by the script in app/layout.js
+  (stored choice: light | dark | system). Never hardcode white/black overlays:
+  use tint (white in dark, ink in light), shade, hi (top-edge highlight) and shadow-ink.
 */
 :root {
   color-scheme: dark;
+
+  --tint: oklch(1 0 0);
+  --shade: oklch(0 0 0);
+  --hi: oklch(1 0 0);
+  --shadow-ink: oklch(0.08 0.045 225);
+  --primary-hover: oklch(0.86 0.1 215);
+  --hero-glow: oklch(0.5 0.1 215 / 0.35);
+  --ambient-1: oklch(0.5 0.1 215 / 0.22);
+  --ambient-2: oklch(0.45 0.08 190 / 0.14);
+  --ambient-3: oklch(0.4 0.07 230 / 0.16);
+  --grain-opacity: 0.045;
+  --pane-solid: oklch(0.21 0.026 218);
 
   --radius: 1rem;
 
@@ -33,8 +49,8 @@
   --success: oklch(0.8 0.15 160);
   --warning: oklch(0.83 0.14 82);
 
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 12%);
+  --border: color-mix(in oklch, var(--tint) 8%, transparent);
+  --input: color-mix(in oklch, var(--tint) 12%, transparent);
   --ring: oklch(0.82 0.11 215 / 70%);
 
   --chart-1: oklch(0.82 0.11 215);
@@ -49,7 +65,7 @@
   --sidebar-primary-foreground: oklch(0.2 0.035 222);
   --sidebar-accent: oklch(0.24 0.028 218);
   --sidebar-accent-foreground: oklch(0.955 0.008 215);
-  --sidebar-border: oklch(1 0 0 / 7%);
+  --sidebar-border: color-mix(in oklch, var(--tint) 7%, transparent);
   --sidebar-ring: oklch(0.82 0.11 215 / 70%);
 
   /* Systemic z layers. Nothing else gets a z-index. */
@@ -58,6 +74,61 @@
   --z-overlay: 60;
   --z-modal: 70;
   --z-grain: 90;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --tint: oklch(0.25 0.035 225);
+  --shade: oklch(0.74 0.03 220);
+  --hi: oklch(1 0 0);
+  --shadow-ink: oklch(0.35 0.06 228);
+  --primary-hover: oklch(0.47 0.13 230);
+  --hero-glow: oklch(0.8 0.09 215 / 0.45);
+  --ambient-1: oklch(0.85 0.08 215 / 0.55);
+  --ambient-2: oklch(0.88 0.07 185 / 0.45);
+  --ambient-3: oklch(0.86 0.06 235 / 0.4);
+  --grain-opacity: 0.03;
+  --pane-solid: oklch(0.99 0.004 215);
+
+  --background: oklch(0.972 0.008 215);
+  --foreground: oklch(0.22 0.032 228);
+  --card: oklch(0.995 0.003 215);
+  --card-foreground: oklch(0.22 0.032 228);
+  --popover: oklch(0.995 0.003 215);
+  --popover-foreground: oklch(0.22 0.032 228);
+
+  --primary: oklch(0.52 0.13 230);
+  --primary-foreground: oklch(0.985 0.006 215);
+  --secondary: oklch(0.935 0.014 218);
+  --secondary-foreground: oklch(0.22 0.032 228);
+  --muted: oklch(0.945 0.012 218);
+  --muted-foreground: oklch(0.47 0.035 225);
+  --accent: oklch(0.92 0.018 218);
+  --accent-foreground: oklch(0.22 0.032 228);
+
+  --destructive: oklch(0.55 0.19 25);
+  --success: oklch(0.54 0.13 160);
+  --warning: oklch(0.6 0.14 68);
+
+  --border: oklch(0.25 0.035 225 / 10%);
+  --input: oklch(0.25 0.035 225 / 15%);
+  --ring: oklch(0.52 0.13 230 / 60%);
+
+  --chart-1: oklch(0.55 0.13 230);
+  --chart-2: oklch(0.56 0.13 160);
+  --chart-3: oklch(0.65 0.14 70);
+  --chart-4: oklch(0.57 0.19 25);
+  --chart-5: oklch(0.6 0.04 220);
+
+  --sidebar: oklch(0.96 0.01 218);
+  --sidebar-foreground: oklch(0.22 0.032 228);
+  --sidebar-primary: oklch(0.52 0.13 230);
+  --sidebar-primary-foreground: oklch(0.985 0.006 215);
+  --sidebar-accent: oklch(0.92 0.018 218);
+  --sidebar-accent-foreground: oklch(0.22 0.032 228);
+  --sidebar-border: oklch(0.25 0.035 225 / 9%);
+  --sidebar-ring: oklch(0.52 0.13 230 / 60%);
 }
 
 @theme inline {
@@ -93,6 +164,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-tint: var(--tint);
+  --color-shade: var(--shade);
+  --color-primary-hover: var(--primary-hover);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -151,7 +225,7 @@
   }
 
   ::selection {
-    background: oklch(0.82 0.11 215 / 35%);
+    background: color-mix(in oklch, var(--primary) 30%, transparent);
     color: var(--foreground);
   }
 
@@ -168,9 +242,9 @@
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(60rem 36rem at 12% -8%, oklch(0.5 0.1 215 / 0.22), transparent 60%),
-      radial-gradient(48rem 30rem at 100% 8%, oklch(0.45 0.08 190 / 0.14), transparent 62%),
-      radial-gradient(50rem 30rem at 50% 110%, oklch(0.4 0.07 230 / 0.16), transparent 60%);
+      radial-gradient(60rem 36rem at 12% -8%, var(--ambient-1), transparent 60%),
+      radial-gradient(48rem 30rem at 100% 8%, var(--ambient-2), transparent 62%),
+      radial-gradient(50rem 30rem at 50% 110%, var(--ambient-3), transparent 60%);
   }
 
   /* Film grain: fixed, non-interactive */
@@ -180,7 +254,7 @@
     inset: 0;
     z-index: var(--z-grain);
     pointer-events: none;
-    opacity: 0.045;
+    opacity: var(--grain-opacity);
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
@@ -188,9 +262,39 @@
   /* Thin, tinted scrollbars */
   * {
     scrollbar-width: thin;
-    scrollbar-color: oklch(1 0 0 / 14%) transparent;
+    scrollbar-color: color-mix(in oklch, var(--tint) 14%, transparent) transparent;
   }
 }
+
+/* Theme swap. The DOM changes in one frame (.theme-switching kills per-element transitions);
+   the motion is a View Transition driven by framer-motion's animateView (lib/theme.js).
+   The new theme is masked by a feathered circle whose radius, --theme-reveal, is springed from the
+   switch; the old page stays put underneath and only dims. */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+:root.theme-vt::view-transition-new(root) {
+  -webkit-mask-image: radial-gradient(circle at var(--theme-reveal-x) var(--theme-reveal-y), #000 calc(var(--theme-reveal) - 72px), transparent var(--theme-reveal));
+  mask-image: radial-gradient(circle at var(--theme-reveal-x) var(--theme-reveal-y), #000 calc(var(--theme-reveal) - 72px), transparent var(--theme-reveal));
+}
+/* The theme reveal is the only thing animating: hold the drifting backdrop still while it runs. */
+.theme-vt .app-backdrop > span { animation-play-state: paused; }
+
+/* Sidebar nav: scrolls when it has to (admins have more destinations) without a scrollbar
+   eating the column; the edges fade so clipped items read as "more below". */
+.sidebar-scroll {
+  scrollbar-width: none;
+  mask-image: linear-gradient(to bottom, transparent, #000 0.75rem, #000 calc(100% - 1.25rem), transparent);
+}
+.sidebar-scroll::-webkit-scrollbar { display: none; }
 
 /* ───────── Reusable surfaces ───────── */
 
@@ -198,40 +302,40 @@
 @utility bezel {
   padding: 0.375rem;
   border-radius: 1.75rem;
-  background: oklch(1 0 0 / 0.03);
-  box-shadow: 0 0 0 1px oklch(1 0 0 / 0.07);
+  background: color-mix(in oklch, var(--tint) 3%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--tint) 7%, transparent);
 }
 
 @utility bezel-core {
   border-radius: calc(1.75rem - 0.375rem);
   background: var(--card);
   box-shadow:
-    inset 0 1px 1px oklch(1 0 0 / 0.07),
-    0 24px 48px -28px oklch(0.1 0.04 225 / 0.8);
+    inset 0 1px 1px color-mix(in oklch, var(--hi) 7%, transparent),
+    0 24px 48px -28px color-mix(in oklch, var(--shadow-ink) 80%, transparent);
 }
 
 /* Compact variant for dense app surfaces */
 @utility bezel-sm {
   padding: 0.25rem;
   border-radius: 1.375rem;
-  background: oklch(1 0 0 / 0.025);
-  box-shadow: 0 0 0 1px oklch(1 0 0 / 0.06);
+  background: color-mix(in oklch, var(--tint) 2.5%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--tint) 6%, transparent);
 }
 
 @utility bezel-sm-core {
   border-radius: calc(1.375rem - 0.25rem);
   background: var(--card);
-  box-shadow: inset 0 1px 1px oklch(1 0 0 / 0.06);
+  box-shadow: inset 0 1px 1px color-mix(in oklch, var(--hi) 6%, transparent);
 }
 
 @utility glass {
-  background: oklch(0.2 0.025 218 / 0.82);
+  background: color-mix(in oklch, var(--background) 82%, transparent);
   backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
   box-shadow:
-    inset 0 1px 1px oklch(1 0 0 / 0.08),
-    0 0 0 1px oklch(1 0 0 / 0.08),
-    0 18px 40px -18px oklch(0.08 0.04 225 / 0.7);
+    inset 0 1px 1px color-mix(in oklch, var(--hi) 8%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--tint) 8%, transparent),
+    0 18px 40px -18px color-mix(in oklch, var(--shadow-ink) 70%, transparent);
 }
 
 @utility eyebrow {
@@ -245,8 +349,8 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--primary);
-  background: oklch(0.82 0.11 215 / 0.08);
-  box-shadow: 0 0 0 1px oklch(0.82 0.11 215 / 0.18);
+  background: color-mix(in oklch, var(--primary) 8%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent);
 }
 
 @utility hairline-b {
@@ -271,7 +375,236 @@
   filter: blur(0);
 }
 
+/* ───────── Glass app shell ─────────
+  The signed-in app (everything inside <AppShell>) is glassmorphic: frosted panes
+  floating over a slow, lit backdrop. Scoped to `.app-glass` (the shell) and
+  `html.glass-app` (set while the shell is mounted, so portalled dialogs and menus
+  match) so marketing pages keep their opaque bezels. Unlayered on purpose so it wins over the bezel utilities.
+
+  Rule of thumb: only the innermost pane blurs. An ancestor with filter, opacity < 1
+  or backdrop-filter becomes a "backdrop root" and flattens the glass inside it. */
+:is(.app-glass, :root.glass-app) {
+  --card: var(--glass-card);
+  --muted-foreground: var(--glass-muted);
+  --glass-tint: var(--glass-base);
+  --glass-blur: blur(22px) saturate(170%);
+}
+
+/* Glass recipe per theme. Dark: smoked glass lit from the top-left. Light: milk glass with a bright rim. */
+:root {
+  --glass-card: oklch(0.24 0.03 220 / 0.42);
+  --glass-muted: oklch(0.76 0.028 215);
+  --glass-base: oklch(0.2 0.03 220 / 0.3);
+  --glass-chrome: oklch(0.18 0.03 220 / 0.5);
+  --glass-menu: oklch(0.19 0.03 220 / 0.72);
+  --glass-dialog: oklch(0.19 0.03 220 / 0.6);
+  --glass-scrim: oklch(0.1 0.03 225 / 0.5);
+  --glass-spot: oklch(0.86 0.1 215 / 0.6);
+  --glass-sheen: linear-gradient(160deg, oklch(1 0 0 / 0.085), oklch(1 0 0 / 0.02) 42%, oklch(1 0 0 / 0.035));
+  --glass-edge: linear-gradient(150deg, oklch(1 0 0 / 0.3), oklch(1 0 0 / 0.07) 32%, oklch(1 0 0 / 0.03) 62%, color-mix(in oklch, var(--primary) 24%, transparent));
+  --glass-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.12),
+    inset 0 -1px 0 oklch(1 0 0 / 0.025),
+    0 1px 2px color-mix(in oklch, var(--shadow-ink) 30%, transparent),
+    0 28px 60px -30px color-mix(in oklch, var(--shadow-ink) 90%, transparent);
+  --orb-1: oklch(0.68 0.14 225);
+  --orb-2: oklch(0.6 0.11 190);
+  --orb-3: oklch(0.66 0.13 162);
+  --orb-4: oklch(0.56 0.11 238);
+  --orb-strength: 1;
+}
+:root[data-theme="light"] {
+  --glass-card: oklch(1 0 0 / 0.55);
+  --glass-muted: oklch(0.45 0.035 225);
+  --glass-base: oklch(1 0 0 / 0.42);
+  --glass-chrome: oklch(1 0 0 / 0.55);
+  --glass-menu: oklch(1 0 0 / 0.82);
+  --glass-dialog: oklch(1 0 0 / 0.72);
+  --glass-scrim: oklch(0.3 0.04 225 / 0.22);
+  --glass-spot: color-mix(in oklch, var(--primary) 45%, transparent);
+  --glass-sheen: linear-gradient(160deg, oklch(1 0 0 / 0.55), oklch(1 0 0 / 0.15) 42%, oklch(1 0 0 / 0.3));
+  --glass-edge: linear-gradient(150deg, oklch(1 0 0 / 0.95), oklch(1 0 0 / 0.5) 32%, oklch(0.25 0.035 225 / 0.08) 62%, color-mix(in oklch, var(--primary) 30%, transparent));
+  --glass-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.85),
+    0 1px 2px color-mix(in oklch, var(--shadow-ink) 8%, transparent),
+    0 24px 50px -28px color-mix(in oklch, var(--shadow-ink) 32%, transparent);
+  --orb-1: oklch(0.8 0.11 225);
+  --orb-2: oklch(0.86 0.1 185);
+  --orb-3: oklch(0.88 0.11 158);
+  --orb-4: oklch(0.8 0.09 250);
+  --orb-strength: 0.85;
+}
+
+/* Backdrop: drifting light the panes refract. Fixed, behind everything, never repaints on scroll. */
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.app-backdrop > span {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(72px);
+  opacity: 0.55;
+  will-change: transform;
+}
+.app-backdrop > span:nth-child(1) {
+  width: 42rem; height: 42rem; left: -12rem; top: -14rem;
+  background: radial-gradient(circle, var(--orb-1), transparent 68%);
+  opacity: calc(0.8 * var(--orb-strength));
+  animation: glass-drift-a 38s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+.app-backdrop > span:nth-child(2) {
+  width: 36rem; height: 36rem; right: -10rem; top: 6%;
+  background: radial-gradient(circle, var(--orb-2), transparent 68%);
+  opacity: calc(0.62 * var(--orb-strength));
+  animation: glass-drift-b 46s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+.app-backdrop > span:nth-child(3) {
+  width: 30rem; height: 30rem; right: 18%; bottom: -16rem;
+  background: radial-gradient(circle, var(--orb-3), transparent 68%);
+  opacity: calc(0.45 * var(--orb-strength));
+  animation: glass-drift-a 52s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate-reverse;
+}
+.app-backdrop > span:nth-child(4) {
+  width: 34rem; height: 34rem; left: 22%; top: 42%;
+  background: radial-gradient(circle, oklch(0.56 0.11 238), transparent 70%);
+  opacity: calc(0.5 * var(--orb-strength));
+  animation: glass-drift-b 60s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate-reverse;
+}
+/* A faint grid gives the frost something to bend. */
+.app-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--tint) 3.5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--tint) 3.5%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 80%);
+}
+@keyframes glass-drift-a {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(14vw, 10vh, 0) scale(1.12); }
+}
+@keyframes glass-drift-b {
+  0% { transform: translate3d(0, 0, 0) scale(1.05); }
+  100% { transform: translate3d(-12vw, 16vh, 0) scale(0.92); }
+}
+
+/* Trays dissolve: each pane is one sheet of glass with a lit edge. */
+:is(.app-glass, .glass-app) :is(.bezel, .bezel-sm) {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:is(.app-glass, .glass-app) .bezel > .bezel-core { border-radius: 1.75rem; }
+:is(.app-glass, .glass-app) .bezel-sm > .bezel-sm-core { border-radius: 1.375rem; }
+
+:is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"], [data-slot$="menu-content"], [data-slot="select-content"], .glass):not(.bg-white) {
+  --mx: -999px;
+  --my: -999px;
+  isolation: isolate;
+  background: var(--glass-sheen), var(--glass-tint);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+}
+/* The edge pseudo-elements need a containing block; leave sticky/fixed/absolute panes alone. */
+:is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"], [data-slot$="menu-content"], [data-slot="select-content"], .glass):not(.bg-white, .sticky, .fixed, .absolute) {
+  position: relative;
+}
+/* Refraction edge: 1px gradient border, brighter at the top-left light source.
+   Follows the pointer as a spotlight when hovered. */
+:is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"], [data-slot$="menu-content"], [data-slot="select-content"], .glass):not(.bg-white)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background:
+    radial-gradient(16rem circle at var(--mx) var(--my), var(--glass-spot), transparent 70%),
+    var(--glass-edge);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+/* Soft interior glow under the pointer */
+:is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"]):not(.bg-white)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(28rem circle at var(--mx) var(--my), color-mix(in oklch, var(--primary) 7%, transparent), transparent 65%);
+  opacity: 0;
+  transition: opacity 500ms var(--ease-fluid);
+}
+:is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"]):not(.bg-white):hover::after {
+  opacity: 1;
+}
+
+/* Navigation chrome: thicker, more saturated glass so it reads as the top layer. */
+:is(.app-glass, .glass-app) .app-sidebar .bezel-sm-core,
+:is(.app-glass, .glass-app) .glass {
+  --glass-tint: var(--glass-chrome);
+  --glass-blur: blur(32px) saturate(185%);
+}
+
+/* Menus and dialogs sit above everything: densest glass, so their text never fights the page. */
+.glass-app :is([data-slot$="menu-content"], [data-slot="select-content"]) {
+  --glass-tint: var(--glass-menu);
+  --glass-blur: blur(28px) saturate(180%);
+}
+.glass-app [data-slot="dialog-panel"] .bezel-sm-core {
+  --glass-tint: var(--glass-dialog);
+  --glass-blur: blur(40px) saturate(180%);
+}
+/* The scrim only dims. A blurred scrim would be a backdrop root and flatten the panel's own frost,
+   so the panel does the blurring instead. */
+.glass-app [data-slot="dialog-overlay"] {
+  background: var(--glass-scrim);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Reveal inside glass: no blur filter and a short fade, so panes are not flattened for long
+   (a filtered or translucent ancestor stops backdrop-filter from seeing the backdrop). */
+:is(.app-glass, .glass-app) .reveal {
+  filter: none;
+  transform: translate3d(0, 0.875rem, 0);
+  transition:
+    opacity 420ms var(--ease-fluid),
+    transform 700ms var(--ease-fluid);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+:is(.app-glass, .glass-app) .reveal-in {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Browsers without backdrop-filter: fall back to a solid, readable pane. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"], [data-slot$="menu-content"], [data-slot="select-content"], .glass):not(.bg-white) {
+    background: var(--pane-solid);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :is(.app-glass, .glass-app) :is(.bezel-core, .bezel-sm-core, [data-slot="card"], [data-slot$="menu-content"], [data-slot="select-content"], .glass):not(.bg-white) {
+    background: var(--pane-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .app-backdrop > span { opacity: 0.2; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .app-backdrop > span { animation: none; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; filter: none; transition: none; }
   *, *::before, *::after {

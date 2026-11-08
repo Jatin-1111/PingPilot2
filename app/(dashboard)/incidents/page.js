@@ -50,7 +50,7 @@ const writeFilters = (f) => {
 
 function Segmented({ label, options, value, onChange }) {
   return (
-    <div role="group" aria-label={label} className="inline-flex rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]">
+    <div role="group" aria-label={label} className="inline-flex rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]">
       {options.map((o) => {
         const on = value === o.key;
         return (
@@ -61,7 +61,7 @@ function Segmented({ label, options, value, onChange }) {
             onClick={() => onChange(o.key)}
             className={cn(
               'rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-[background-color,color] duration-500 ease-fluid',
-              on ? 'bg-white/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'
+              on ? 'bg-tint/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'
             )}
           >
             {o.label}
@@ -197,7 +197,7 @@ export default function IncidentsPage() {
       {filters && (
         <Reveal>
           <div className="bezel-sm">
-            <div className="bezel-sm-core grid divide-y divide-white/[0.06] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            <div className="bezel-sm-core grid divide-y divide-tint/[0.06] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {loading && !data ? (
                 [0, 1, 2].map((i) => (
                   <div key={i} className="p-6">
@@ -239,7 +239,7 @@ export default function IncidentsPage() {
                 aria-label="Filter by server"
                 value={filters.server}
                 onChange={(e) => update({ server: e.target.value })}
-                className="h-11 min-w-0 rounded-full bg-white/[0.04] px-4 text-sm text-foreground ring-1 ring-white/[0.08] outline-none transition-[box-shadow] duration-300 ease-fluid hover:ring-white/20 focus-visible:ring-2 focus-visible:ring-ring [&>option]:bg-popover [&>option]:text-popover-foreground"
+                className="h-11 min-w-0 rounded-full bg-tint/[0.04] px-4 text-sm text-foreground ring-1 ring-tint/[0.08] outline-none transition-[box-shadow] duration-300 ease-fluid hover:ring-tint/20 focus-visible:ring-2 focus-visible:ring-ring [&>option]:bg-popover [&>option]:text-popover-foreground"
               >
                 <option value="">All servers</option>
                 {servers.map((s) => (
@@ -297,9 +297,9 @@ export default function IncidentsPage() {
                 />
               )
             ) : (
-              <ul className="divide-y divide-white/[0.05]">
+              <ul className="divide-y divide-tint/[0.05]">
                 {data.incidents.map((inc) => (
-                  <li key={inc.id} className="flex flex-wrap items-start gap-x-4 gap-y-2 px-5 py-5 transition-colors duration-300 ease-fluid hover:bg-white/[0.025]">
+                  <li key={inc.id} className="flex flex-wrap items-start gap-x-4 gap-y-2 px-5 py-5 transition-colors duration-300 ease-fluid hover:bg-tint/[0.025]">
                     <span className={cn('mt-2 size-2 shrink-0 rounded-full', inc.ongoing ? 'bg-destructive' : 'bg-muted-foreground/60')} aria-hidden="true" />
                     <div className="min-w-0 flex-1 basis-56">
                       <p className="flex flex-wrap items-center gap-2 font-medium">

@@ -6,8 +6,8 @@ const STATUS = {
   up: { label: "Operational", dot: "bg-success", text: "text-success", tint: "bg-success/10 ring-success/25" },
   down: { label: "Down", dot: "bg-destructive", text: "text-destructive", tint: "bg-destructive/10 ring-destructive/30" },
   warning: { label: "Degraded", dot: "bg-warning", text: "text-warning", tint: "bg-warning/10 ring-warning/25" },
-  paused: { label: "Paused", dot: "bg-muted-foreground", text: "text-muted-foreground", tint: "bg-white/[0.04] ring-white/10" },
-  unknown: { label: "Pending", dot: "bg-muted-foreground", text: "text-muted-foreground", tint: "bg-white/[0.04] ring-white/10" },
+  paused: { label: "Paused", dot: "bg-muted-foreground", text: "text-muted-foreground", tint: "bg-tint/[0.04] ring-tint/10" },
+  unknown: { label: "Pending", dot: "bg-muted-foreground", text: "text-muted-foreground", tint: "bg-tint/[0.04] ring-tint/10" },
 }
 
 function statusKey(status) {

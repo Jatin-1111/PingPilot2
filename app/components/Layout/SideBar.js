@@ -25,6 +25,7 @@ import {
 } from '@phosphor-icons/react';
 import { Brand } from '@/components/ui/brand';
 import { Button } from '@/components/ui/button';
+import { ThemeSwitch } from '@/components/ui/theme-switch';
 import { SEEN_KEY } from '@/lib/app-version';
 
 // One destination per row. `match` decides the active state so nested routes keep their parent lit.
@@ -90,8 +91,8 @@ function NavItem({ item, collapsed, onNavigate }) {
             aria-current={active ? 'page' : undefined}
             title={collapsed ? item.name : undefined}
             className={`group relative flex h-11 items-center gap-3 rounded-full text-sm transition-[background-color,color] duration-500 ease-fluid ${collapsed ? 'w-11 justify-center' : 'px-3.5'} ${active
-                ? 'bg-white/[0.08] font-medium text-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.06)]'
-                : 'text-muted-foreground hover:bg-white/[0.05] hover:text-foreground'
+                ? 'bg-tint/[0.08] font-medium text-foreground shadow-[inset_0_1px_0_color-mix(in_oklch,var(--hi)_6%,transparent)]'
+                : 'text-muted-foreground hover:bg-tint/[0.05] hover:text-foreground'
                 }`}
         >
             <Icon weight={active ? 'regular' : 'light'} className={`size-[22px] shrink-0 transition-colors duration-500 ease-fluid ${active ? 'text-primary' : ''}`} />
@@ -102,7 +103,7 @@ function NavItem({ item, collapsed, onNavigate }) {
             {showBadge && collapsed && <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-primary" aria-hidden="true" />}
             {showBadge && <span className="sr-only">, {item.badge}</span>}
             {collapsed && (
-                <span className="pointer-events-none absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-full bg-popover px-3 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-[0_0_0_1px_oklch(1_0_0/0.08),0_12px_24px_-12px_oklch(0_0_0/0.6)] transition-[opacity,transform] duration-300 ease-fluid group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100" style={{ zIndex: 'var(--z-overlay)' }} aria-hidden="true">
+                <span className="pointer-events-none absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-full bg-popover px-3 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-[0_0_0_1px_color-mix(in_oklch,var(--tint)_8%,transparent),0_12px_24px_-12px_color-mix(in_oklch,var(--shadow-ink)_60%,transparent)] transition-[opacity,transform] duration-300 ease-fluid group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100" style={{ zIndex: 'var(--z-overlay)' }} aria-hidden="true">
                     {item.name}
                 </span>
             )}
@@ -134,11 +135,11 @@ function NavGroup({ label, items, collapsed, onNavigate }) {
     return (
         <div>
             {collapsed ? (
-                <div className="mx-auto my-3 h-px w-6 bg-white/[0.08]" />
+                <div className="mx-auto my-3 h-px w-6 bg-tint/[0.08]" />
             ) : (
-                <p className="mb-2 mt-6 px-3.5 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">{label}</p>
+                <p className="mb-1.5 mt-5 px-3.5 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">{label}</p>
             )}
-            <div className={`space-y-1 ${collapsed ? 'flex flex-col items-center' : ''}`}>
+            <div className={`space-y-0.5 ${collapsed ? 'flex flex-col items-center' : ''}`}>
                 {items.map((item) => (
                     <NavItem key={item.href} item={item} collapsed={collapsed} onNavigate={onNavigate} />
                 ))}
@@ -157,9 +158,9 @@ function UserBlock({ user, collapsed, onLogout, onNavigate }) {
                 onClick={onNavigate}
                 aria-label={`Account settings for ${name}`}
                 title={collapsed ? `${name}: account settings` : undefined}
-                className="group flex min-w-0 flex-1 items-center gap-3 rounded-2xl p-1 transition-colors duration-300 ease-fluid hover:bg-white/[0.05]"
+                className="group flex min-w-0 flex-1 items-center gap-3 rounded-2xl p-1 transition-colors duration-300 ease-fluid hover:bg-tint/[0.05]"
             >
-                <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white/[0.07] font-display text-sm font-medium text-foreground ring-1 ring-white/10" aria-hidden="true">
+                <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-2xl bg-tint/[0.07] font-display text-sm font-medium text-foreground ring-1 ring-tint/10" aria-hidden="true">
                     {user?.photoURL ? <img src={user.photoURL} alt="" className="size-full object-cover" /> : initial}
                 </span>
                 {!collapsed && (
@@ -227,11 +228,11 @@ const SideBar = ({ collapsed = false, onToggle }) => {
             {/* Desktop: floating panel, expanded by default, opt-in icon rail */}
             <aside
                 aria-label="Main"
-                className={`fixed bottom-3 left-3 top-3 hidden transition-[width] duration-700 ease-fluid md:block ${collapsed ? 'w-[76px]' : 'w-[248px]'}`}
+                className={`app-sidebar fixed bottom-3 left-3 top-3 hidden transition-[width] duration-700 ease-fluid md:block ${collapsed ? 'w-[76px]' : 'w-[248px]'}`}
                 style={{ zIndex: 'var(--z-sidebar)' }}
             >
                 <div className="bezel-sm h-full">
-                    <div className="bezel-sm-core flex h-full flex-col bg-sidebar p-3">
+                    <div className="bezel-sm-core flex h-full flex-col p-3">
                         <div className={`flex h-12 items-center ${collapsed ? 'justify-center' : 'justify-between pl-1'}`}>
                             <Brand href="/dashboard" showWord={!collapsed} className={collapsed ? '[&>span:first-child]:scale-95' : ''} />
                             {!collapsed && (
@@ -240,7 +241,7 @@ const SideBar = ({ collapsed = false, onToggle }) => {
                                     onClick={onToggle}
                                     aria-label="Collapse sidebar"
                                     aria-expanded="true"
-                                    className="grid size-9 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-white/[0.06] hover:text-foreground"
+                                    className="grid size-9 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-tint/[0.06] hover:text-foreground"
                                 >
                                     <SidebarSimple weight="light" className="size-5" />
                                 </button>
@@ -252,7 +253,7 @@ const SideBar = ({ collapsed = false, onToggle }) => {
                                 onClick={onToggle}
                                 aria-label="Expand sidebar"
                                 aria-expanded="false"
-                                className="mx-auto mt-2 grid size-11 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-white/[0.06] hover:text-foreground"
+                                className="mx-auto mt-2 grid size-11 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-tint/[0.06] hover:text-foreground"
                             >
                                 <SidebarSimple weight="light" className="size-5 -scale-x-100" />
                             </button>
@@ -260,11 +261,19 @@ const SideBar = ({ collapsed = false, onToggle }) => {
 
                         <AddServerButton collapsed={collapsed} />
 
-                        <nav aria-label="Primary" className="-mx-1 mt-2 flex-1 overflow-y-auto overflow-x-hidden px-1">
+                        <nav aria-label="Primary" className="sidebar-scroll -mx-1 mt-2 min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-1 pb-2">
                             {renderGroups(collapsed)}
                         </nav>
 
-                        <div className="mt-3 border-t border-white/[0.07] pt-3">
+                        <div className="mt-3 border-t border-tint/[0.07] pt-3">
+                            {collapsed ? (
+                                <ThemeSwitch compact className="mx-auto mb-2" />
+                            ) : (
+                                <div className="mb-2 flex items-center justify-between gap-2 pl-3.5">
+                                    <span className="text-xs text-muted-foreground">Theme</span>
+                                    <ThemeSwitch />
+                                </div>
+                            )}
                             <UserBlock user={user} collapsed={collapsed} onLogout={handleLogout} />
                         </div>
                     </div>
@@ -281,7 +290,7 @@ const SideBar = ({ collapsed = false, onToggle }) => {
                         aria-label="Open menu"
                         aria-expanded={mobileOpen}
                         aria-controls="app-mobile-menu"
-                        className="grid size-10 place-items-center rounded-full bg-white/[0.06] transition-colors duration-300 ease-fluid hover:bg-white/[0.1] active:scale-95"
+                        className="grid size-10 place-items-center rounded-full bg-tint/[0.06] transition-colors duration-300 ease-fluid hover:bg-tint/[0.1] active:scale-95"
                     >
                         <List weight="light" className="size-5" />
                     </button>
@@ -292,7 +301,7 @@ const SideBar = ({ collapsed = false, onToggle }) => {
                 id="app-mobile-menu"
                 aria-hidden={!mobileOpen}
                 inert={!mobileOpen}
-                className={`fixed inset-0 bg-background/90 backdrop-blur-3xl transition-[opacity,visibility] duration-700 ease-fluid md:hidden ${mobileOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
+                className={`fixed inset-0 bg-background/70 backdrop-blur-3xl backdrop-saturate-150 transition-[opacity,visibility] duration-700 ease-fluid md:hidden ${mobileOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
                 style={{ zIndex: 'var(--z-overlay)' }}
             >
                 <div className="flex h-full flex-col px-5 pb-6 pt-4">
@@ -302,7 +311,7 @@ const SideBar = ({ collapsed = false, onToggle }) => {
                             type="button"
                             onClick={() => setMobileOpen(false)}
                             aria-label="Close menu"
-                            className="grid size-10 place-items-center rounded-full bg-white/[0.06] transition-colors duration-300 ease-fluid hover:bg-white/[0.1] active:scale-95"
+                            className="grid size-10 place-items-center rounded-full bg-tint/[0.06] transition-colors duration-300 ease-fluid hover:bg-tint/[0.1] active:scale-95"
                         >
                             <X weight="light" className="size-5" />
                         </button>
@@ -311,7 +320,8 @@ const SideBar = ({ collapsed = false, onToggle }) => {
                     <nav aria-label="Mobile" className="mt-2 flex-1 overflow-y-auto">
                         {renderGroups(false, () => setMobileOpen(false))}
                     </nav>
-                    <div className="border-t border-white/[0.07] pt-4">
+                    <div className="border-t border-tint/[0.07] pt-4">
+                        <ThemeSwitch labels className="mb-4 flex w-full" />
                         <UserBlock user={user} collapsed={false} onLogout={handleLogout} onNavigate={() => setMobileOpen(false)} />
                     </div>
                 </div>

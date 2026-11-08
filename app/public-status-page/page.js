@@ -51,17 +51,17 @@ export default function Page() {
                 <FeatureGrid items={FEATURES} />
             </Section>
             <Section eyebrow="Plans" title="Status pages on every plan">
-                <div className="overflow-x-auto rounded-2xl ring-1 ring-white/[0.07]">
+                <div className="overflow-x-auto rounded-2xl ring-1 ring-tint/[0.07]">
                     <table className="w-full min-w-[26rem] border-collapse text-left text-sm">
                         <caption className="sr-only">Status pages included in each Ping Pilott plan</caption>
                         <thead>
-                            <tr className="bg-white/[0.04] text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                            <tr className="bg-tint/[0.04] text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                                 <th scope="col" className="px-3 py-3 font-medium sm:px-4">Plan</th>
                                 <th scope="col" className="px-3 py-3 font-medium sm:px-4">Status pages</th>
                                 <th scope="col" className="px-3 py-3 font-medium sm:px-4">&ldquo;Powered by&rdquo; line</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/[0.06]">
+                        <tbody className="divide-y divide-tint/[0.06]">
                             {[['Free', '1', 'Shown'], ['Starter', '1', 'Shown'], ['Pro', '3', 'Not shown'], ['Business', '10', 'Not shown']].map(([plan, pages, powered]) => (
                                 <tr key={plan}>
                                     <th scope="row" className="px-3 py-3.5 font-medium text-foreground/90 sm:px-4">{plan}</th>

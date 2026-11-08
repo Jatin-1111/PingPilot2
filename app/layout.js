@@ -6,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { SocketProvider } from "./components/providers/SocketProvider";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { OG_IMAGE } from "@/lib/seo";
+import { THEME_SCRIPT } from "@/lib/theme-script";
 
 // Fonts are served from our own files, not fetched from Google at build time. A build on Vercel was handed a newer
 // Google Fonts address format that Next 16.1.5 with Turbopack cannot read ("next/font/google queries have exactly one
@@ -52,13 +53,20 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#07161c",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f3f8fa" },
+    { media: "(prefers-color-scheme: dark)", color: "#07161c" },
+  ],
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
+    // data-theme is replaced before first paint by THEME_SCRIPT (stored choice or OS), hence suppressHydrationWarning
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} ${outfit.variable} font-sans`}
       >

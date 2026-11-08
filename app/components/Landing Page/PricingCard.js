@@ -16,10 +16,10 @@ const PricingCard = ({ plan }) => {
                 'group h-full rounded-[1.75rem] p-1.5 transition-transform duration-700 ease-fluid hover:-translate-y-1',
                 featured
                     ? 'bg-primary/[0.08] ring-1 ring-primary/35 shadow-[0_30px_70px_-34px_oklch(0.7_0.13_220/0.7)]'
-                    : 'bg-white/[0.03] ring-1 ring-white/[0.07]'
+                    : 'bg-tint/[0.03] ring-1 ring-tint/[0.07]'
             )}
         >
-            <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-6 shadow-[inset_0_1px_1px_oklch(1_0_0/0.07)]">
+            <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-6 shadow-[inset_0_1px_1px_color-mix(in_oklch,var(--hi)_7%,transparent)]">
                 <div className="flex h-6 items-center justify-between">
                     <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</h3>
                     {tag && (
@@ -39,7 +39,7 @@ const PricingCard = ({ plan }) => {
 
                 <p className="mt-5 min-h-10 text-sm leading-relaxed text-muted-foreground">{description}</p>
 
-                <ul className="mt-6 flex-1 space-y-3 border-t border-white/[0.07] pt-6">
+                <ul className="mt-6 flex-1 space-y-3 border-t border-tint/[0.07] pt-6">
                     {features.map((f) => (
                         <li key={f.text} className="flex items-start gap-3 text-sm">
                             {f.included ? (

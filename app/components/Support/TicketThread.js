@@ -14,7 +14,7 @@ import { formatTicketDate } from './ticketMeta';
 export function TicketThread({ responses = [], viewer = 'user' }) {
     if (!responses.length) {
         return (
-            <div className="flex flex-col items-center gap-3 rounded-2xl bg-black/20 px-6 py-10 text-center ring-1 ring-white/[0.05]">
+            <div className="flex flex-col items-center gap-3 rounded-2xl bg-shade/20 px-6 py-10 text-center ring-1 ring-tint/[0.05]">
                 <ChatCircleDots weight="light" className="size-8 text-muted-foreground" aria-hidden="true" />
                 <p className="text-sm text-muted-foreground">No replies yet. The first reply will appear here.</p>
             </div>
@@ -37,7 +37,7 @@ export function TicketThread({ responses = [], viewer = 'user' }) {
                             <div
                                 className={`whitespace-pre-wrap rounded-3xl px-5 py-3.5 text-sm leading-relaxed ${mine
                                     ? 'rounded-br-lg bg-primary/[0.12] text-foreground ring-1 ring-primary/25'
-                                    : 'rounded-bl-lg bg-white/[0.05] text-foreground ring-1 ring-white/[0.08]'
+                                    : 'rounded-bl-lg bg-tint/[0.05] text-foreground ring-1 ring-tint/[0.08]'
                                     }`}
                             >
                                 {r.message}
@@ -97,7 +97,7 @@ export function ReplyComposer({ value, onChange, onSubmit, submitting, label = '
 
 export function ClosedNotice({ children }) {
     return (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/[0.03] px-6 py-8 text-center ring-1 ring-white/[0.07]">
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-tint/[0.03] px-6 py-8 text-center ring-1 ring-tint/[0.07]">
             <LockSimple weight="light" className="size-7 text-muted-foreground" aria-hidden="true" />
             <p className="text-sm text-muted-foreground">This ticket is closed and no longer accepts replies.</p>
             {children}

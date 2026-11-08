@@ -294,7 +294,7 @@ function SubscriptionContent() {
                                 )}
                             </div>
                             <div
-                                className="mt-3 h-2 overflow-hidden rounded-full bg-white/[0.08]"
+                                className="mt-3 h-2 overflow-hidden rounded-full bg-tint/[0.08]"
                                 role="progressbar"
                                 aria-label="Server slots used"
                                 aria-valuemin={0}
@@ -331,7 +331,7 @@ function SubscriptionContent() {
                             <div
                                 role="radiogroup"
                                 aria-label="Billing period"
-                                className="relative inline-grid grid-cols-2 rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]"
+                                className="relative inline-grid grid-cols-2 rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]"
                             >
                                 <span
                                     aria-hidden="true"
@@ -367,10 +367,10 @@ function SubscriptionContent() {
                                                 'h-full cursor-pointer rounded-[1.75rem] p-1.5 ring-1 transition-[background-color,box-shadow,transform] duration-700 ease-fluid',
                                                 selected
                                                     ? 'bg-primary/[0.08] ring-primary/40 shadow-[0_30px_70px_-34px_oklch(0.7_0.13_220/0.7)]'
-                                                    : 'bg-white/[0.03] ring-white/[0.07] hover:bg-white/[0.05]'
+                                                    : 'bg-tint/[0.03] ring-tint/[0.07] hover:bg-tint/[0.05]'
                                             )}
                                         >
-                                            <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-5 shadow-[inset_0_1px_1px_oklch(1_0_0/0.07)]">
+                                            <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-5 shadow-[inset_0_1px_1px_color-mix(in_oklch,var(--hi)_7%,transparent)]">
                                                 <div className="flex h-6 items-center justify-between">
                                                     <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{t.name}</h3>
                                                     {current ? (
@@ -384,7 +384,7 @@ function SubscriptionContent() {
                                                     <p className="mt-1 text-[13px] text-muted-foreground">{p.period}</p>
                                                 </div>
                                                 <p className="mt-4 min-h-5 text-sm text-muted-foreground">{p.description}</p>
-                                                <ul className="mt-5 flex-1 space-y-2.5 border-t border-white/[0.07] pt-5">
+                                                <ul className="mt-5 flex-1 space-y-2.5 border-t border-tint/[0.07] pt-5">
                                                     {featureList(id).map((text) => (
                                                         <li key={text} className="flex items-start gap-2.5 text-[13px] text-foreground/90">
                                                             <Check weight="light" className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
@@ -422,7 +422,7 @@ function SubscriptionContent() {
                             <div className="bezel-sm-core overflow-hidden">
                                 <table className="w-full text-sm">
                                     <caption className="sr-only">Plan limits and features, {billing} billing</caption>
-                                    <thead className="border-b border-white/[0.06]">
+                                    <thead className="border-b border-tint/[0.06]">
                                         <tr>
                                             <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Feature</th>
                                             {compareCols.map((c) => (
@@ -432,7 +432,7 @@ function SubscriptionContent() {
                                             ))}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-white/[0.05]">
+                                    <tbody className="divide-y divide-tint/[0.05]">
                                         {COMPARE_ROWS.map((row) => (
                                             <tr key={row.label}>
                                                 <th scope="row" className="px-5 py-3.5 text-left font-normal text-muted-foreground">{row.label}</th>
@@ -466,7 +466,7 @@ function SubscriptionContent() {
                                     <div key={c.id} className="bezel-sm">
                                         <div className="bezel-sm-core p-5">
                                             <h3 className={cn('text-xs font-medium uppercase tracking-[0.2em]', c.key === tier ? 'text-primary' : 'text-muted-foreground')}>{c.name}</h3>
-                                            <dl className="mt-4 divide-y divide-white/[0.05] text-sm">
+                                            <dl className="mt-4 divide-y divide-tint/[0.05] text-sm">
                                                 {COMPARE_ROWS.map((row) => (
                                                     <div key={row.label} className="flex items-center justify-between gap-4 py-2.5">
                                                         <dt className="text-muted-foreground">{row.label}</dt>
@@ -493,7 +493,7 @@ function SubscriptionContent() {
                             <div className="bezel-core p-6 sm:p-7">
                                 <h2 id="checkout" className="font-display text-xl font-medium tracking-tight">Payment details</h2>
 
-                                <div className="mt-5 rounded-2xl bg-black/20 p-4 ring-1 ring-white/[0.05]">
+                                <div className="mt-5 rounded-2xl bg-shade/20 p-4 ring-1 ring-tint/[0.05]">
                                     <div className="flex items-baseline justify-between gap-3">
                                         <p className="font-medium">{planLabel(selectedPlan)}</p>
                                         <p className="font-display text-2xl font-medium tabular-nums">{plan.price}</p>

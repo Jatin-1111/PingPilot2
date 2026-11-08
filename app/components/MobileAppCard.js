@@ -55,14 +55,14 @@ export default function MobileAppCard() {
             type="button"
             onClick={dismiss}
             aria-label="Hide this card"
-            className="absolute right-4 top-4 grid size-8 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-white/[0.06] hover:text-foreground"
+            className="absolute right-4 top-4 grid size-8 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-tint/[0.06] hover:text-foreground"
           >
             <X weight="light" className="size-4" />
           </button>
 
           <div className="space-y-5">
             <div className="flex items-center gap-3 pr-10">
-              <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-white/[0.05] text-primary ring-1 ring-white/10">
+              <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-tint/[0.05] text-primary ring-1 ring-tint/10">
                 <DeviceMobile weight="light" className="size-5" />
               </span>
               <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">

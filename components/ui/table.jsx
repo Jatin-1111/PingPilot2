@@ -25,7 +25,7 @@ function TableHeader({
   return (
     (<thead
       data-slot="table-header"
-      className={cn("border-b border-white/[0.06]", className)}
+      className={cn("border-b border-tint/[0.06]", className)}
       {...props} />)
   );
 }
@@ -37,7 +37,7 @@ function TableBody({
   return (
     (<tbody
       data-slot="table-body"
-      className={cn("divide-y divide-white/[0.05]", className)}
+      className={cn("divide-y divide-tint/[0.05]", className)}
       {...props} />)
   );
 }
@@ -49,7 +49,7 @@ function TableFooter({
   return (
     (<tfoot
       data-slot="table-footer"
-      className={cn("border-t border-white/[0.06] bg-white/[0.02] font-medium", className)}
+      className={cn("border-t border-tint/[0.06] bg-tint/[0.02] font-medium", className)}
       {...props} />)
   );
 }
@@ -62,7 +62,7 @@ function TableRow({
     (<tr
       data-slot="table-row"
       className={cn(
-        "transition-colors duration-300 ease-fluid hover:bg-white/[0.025] data-[state=selected]:bg-white/[0.05]",
+        "transition-colors duration-300 ease-fluid hover:bg-tint/[0.025] data-[state=selected]:bg-tint/[0.05]",
         className
       )}
       {...props} />)

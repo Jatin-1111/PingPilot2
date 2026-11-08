@@ -50,7 +50,7 @@ export default function MarketingPage({ path, crumb, eyebrow, title, intro, faqs
 
                 {faqs?.length > 0 && (
                     <Section id="faq" eyebrow="FAQ" title="Common questions">
-                        <dl className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+                        <dl className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
                             {faqs.map((f) => (
                                 <div key={f.q} className="grid gap-3 py-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
                                     <dt className="font-display text-xl font-medium tracking-tight">{f.q}</dt>
@@ -99,7 +99,7 @@ export function FeatureGrid({ items }) {
     return (
         <ul className="grid gap-5 sm:grid-cols-2">
             {items.map((i) => (
-                <li key={i.title} className="rounded-2xl bg-white/[0.03] p-6 ring-1 ring-white/[0.07]">
+                <li key={i.title} className="rounded-2xl bg-tint/[0.03] p-6 ring-1 ring-tint/[0.07]">
                     <h3 className="font-display text-xl font-medium tracking-tight">{i.title}</h3>
                     <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">{i.body}</p>
                 </li>

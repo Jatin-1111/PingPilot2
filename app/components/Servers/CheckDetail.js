@@ -68,8 +68,8 @@ function TimingBar({ steps, totalMs, phaseLabel }) {
             </dl>
             {phaseLabel && steps.length > 0 && (
                 <p className="mt-2 text-xs text-muted-foreground">
-                    The check stopped at <span className="text-foreground/80">{phaseLabel.toLowerCase()}</span>
-                    {totalMs ? `, ${totalMs.toLocaleString('en-US')} ms in` : ''}. Steps it never reached are not shown.
+                    Stopped at <span className="text-foreground/80">{phaseLabel.toLowerCase()}</span>
+                    {totalMs ? `, ${totalMs.toLocaleString('en-US')} ms in` : ''}.
                 </p>
             )}
         </div>
@@ -87,9 +87,10 @@ function Heading({ children }) {
  * nothing beyond the one-line diagnosis, so DiagnosisNote above it is all there is.
  *
  * source: a server, a check or an incident: anything with `diagnosis` and `failureDetail`.
- * collapsible: tucked behind a "Show details" line, for a list row where the whole panel would crowd it.
+ * collapsible: tucked behind one line ("Show details", or `label`), for a list row or a page where the whole panel would crowd it.
+ * showError: ends with the raw error message, for when the headline above leaves it out.
  */
-export default function CheckDetail({ source, className, collapsible = false }) {
+export default function CheckDetail({ source, className, collapsible = false, label, showError = false }) {
     const detail = failureDetailOf(source);
     if (!hasMoreDetail(detail)) return null;
 
@@ -97,13 +98,6 @@ export default function CheckDetail({ source, className, collapsible = false }) 
 
     const body = (
         <div className={cn('space-y-6', !collapsible && className)}>
-            {(detail.phaseLabel || detail.statusCode) && (
-                <div className="flex flex-wrap items-center gap-2">
-                    {detail.phaseLabel && <Badge variant="destructive">Failed at: {detail.phaseLabel}</Badge>}
-                    {detail.statusCode && <Badge variant="outline">HTTP {detail.statusCode}</Badge>}
-                </div>
-            )}
-
             {steps.length > 0 && <TimingBar steps={steps} totalMs={detail.totalMs} phaseLabel={detail.phaseLabel} />}
 
             {causes.length > 0 && (
@@ -113,7 +107,7 @@ export default function CheckDetail({ source, className, collapsible = false }) 
                         {causes.map((c) => {
                             const [label, tone] = CONFIDENCE[c.confidence];
                             return (
-                                <li key={c.text} className="rounded-xl bg-white/[0.03] px-4 py-3 ring-1 ring-white/[0.06]">
+                                <li key={c.text} className="rounded-xl bg-tint/[0.03] px-4 py-3 ring-1 ring-tint/[0.06]">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <Badge variant={tone}>{label}</Badge>
                                         <p className="text-sm font-medium">{c.text}</p>
@@ -138,11 +132,11 @@ export default function CheckDetail({ source, className, collapsible = false }) 
                     <ol className="space-y-3">
                         {checks.map((c, i) => (
                             <li key={`${i}-${c.step}`} className="flex gap-3 text-sm">
-                                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-white/[0.06] text-[11px] tabular-nums text-muted-foreground" aria-hidden="true">{i + 1}</span>
+                                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-tint/[0.06] text-[11px] tabular-nums text-muted-foreground" aria-hidden="true">{i + 1}</span>
                                 <div className="min-w-0 flex-1">
                                     <p>{c.step}</p>
                                     {c.command && (
-                                        <div className="mt-1.5 flex items-start gap-1 rounded-lg bg-black/30 py-1 pl-3 pr-1 ring-1 ring-white/[0.06]">
+                                        <div className="mt-1.5 flex items-start gap-1 rounded-lg bg-shade/30 py-1 pl-3 pr-1 ring-1 ring-tint/[0.06]">
                                             <code className="min-w-0 flex-1 overflow-x-auto whitespace-pre py-1.5 font-mono text-[12.5px]">{c.command}</code>
                                             <CopyButton text={c.command} label={`Copy command: ${c.command}`} />
                                         </div>
@@ -155,12 +149,12 @@ export default function CheckDetail({ source, className, collapsible = false }) 
             )}
 
             {evidence && (
-                <details className="group rounded-xl ring-1 ring-white/[0.08]">
+                <details className="group rounded-xl ring-1 ring-tint/[0.08]">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
                         What the server returned
                         <CaretDown weight="light" className="size-4 text-muted-foreground transition-transform duration-300 group-open:rotate-180" aria-hidden="true" />
                     </summary>
-                    <div className="space-y-4 border-t border-white/[0.06] px-4 py-4 text-sm">
+                    <div className="space-y-4 border-t border-tint/[0.06] px-4 py-4 text-sm">
                         <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
                             {evidence.statusCode && (<><dt className="text-muted-foreground">Status</dt><dd className="font-mono">{evidence.statusCode}</dd></>)}
                             {evidence.address && (<><dt className="text-muted-foreground">Resolved to</dt><dd className="break-all font-mono">{evidence.address}</dd></>)}
@@ -176,12 +170,14 @@ export default function CheckDetail({ source, className, collapsible = false }) 
                                 <p className="mb-1.5 text-xs text-muted-foreground">
                                     Start of the page{evidence.snippetTruncated ? ' (cut)' : ''}, shown as plain text. It may contain private content from your site.
                                 </p>
-                                <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-black/30 p-3 font-mono text-[12.5px] ring-1 ring-white/[0.06]">{evidence.snippet}</pre>
+                                <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-shade/30 p-3 font-mono text-[12.5px] ring-1 ring-tint/[0.06]">{evidence.snippet}</pre>
                             </div>
                         )}
                     </div>
                 </details>
             )}
+
+            {showError && source?.error && <p className="break-words font-mono text-xs text-muted-foreground">{source.error}</p>}
 
             {locked && (
                 <p className="flex items-start gap-2 text-[13px] text-muted-foreground">
@@ -200,8 +196,14 @@ export default function CheckDetail({ source, className, collapsible = false }) 
     return (
         <details className={cn('group', className)}>
             <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-sm text-sm text-primary outline-none underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-                <span className="group-open:hidden">Show details</span>
-                <span className="hidden group-open:inline">Hide details</span>
+                {label ? (
+                    <span>{label}</span>
+                ) : (
+                    <>
+                        <span className="group-open:hidden">Show details</span>
+                        <span className="hidden group-open:inline">Hide details</span>
+                    </>
+                )}
                 <CaretDown weight="light" className="size-3.5 transition-transform duration-300 group-open:rotate-180" aria-hidden="true" />
             </summary>
             <div className="mt-4">{body}</div>

@@ -18,12 +18,12 @@ export function Sparkline({ values = SERIES, className = '', height = 56, id = '
         <svg viewBox={`0 0 ${w} ${height}`} preserveAspectRatio="none" className={className} aria-hidden="true">
             <defs>
                 <linearGradient id={id} x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.82 0.11 215)" stopOpacity="0.28" />
-                    <stop offset="100%" stopColor="oklch(0.82 0.11 215)" stopOpacity="0" />
+                    <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.28" />
+                    <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
                 </linearGradient>
             </defs>
             <path d={area} fill={`url(#${id})`} />
-            <path d={line} fill="none" stroke="oklch(0.82 0.11 215)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
+            <path d={line} fill="none" stroke="var(--primary)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
         </svg>
     )
 }
@@ -46,12 +46,12 @@ export default function HeroPreview() {
                             3 of 4 <span className="text-muted-foreground">operational</span>
                         </p>
                     </div>
-                    <span className="rounded-md bg-white/[0.05] px-2 py-1 font-mono text-[11px] text-muted-foreground ring-1 ring-white/[0.07]">
+                    <span className="rounded-md bg-tint/[0.05] px-2 py-1 font-mono text-[11px] text-muted-foreground ring-1 ring-tint/[0.07]">
                         Sample data
                     </span>
                 </div>
 
-                <div className="mt-5 rounded-2xl bg-black/20 p-4 ring-1 ring-white/[0.05]">
+                <div className="mt-5 rounded-2xl bg-shade/20 p-4 ring-1 ring-tint/[0.05]">
                     <div className="flex items-baseline justify-between">
                         <p className="text-xs text-muted-foreground">Response time · last 40 checks</p>
                         <p className="font-mono text-xs tabular-nums text-foreground">146 ms avg</p>
@@ -59,7 +59,7 @@ export default function HeroPreview() {
                     <Sparkline className="mt-3 h-14 w-full" id="hero-spark" />
                 </div>
 
-                <ul className="mt-4 divide-y divide-white/[0.06]" aria-label="Sample monitors">
+                <ul className="mt-4 divide-y divide-tint/[0.06]" aria-label="Sample monitors">
                     {MONITORS.map((m) => (
                         <li key={m.name} className="flex items-center gap-3 py-3 first:pt-1">
                             <StatusDot status={m.status} />

@@ -11,15 +11,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.4),0_10px_28px_-10px_oklch(0.7_0.13_220/0.65)] hover:bg-[oklch(0.86_0.1_215)] hover:shadow-[inset_0_1px_0_oklch(1_0_0/0.5),0_14px_34px_-10px_oklch(0.7_0.13_220/0.8)]",
+          "bg-primary text-primary-foreground shadow-[inset_0_1px_0_color-mix(in_oklch,var(--hi)_40%,transparent),0_10px_28px_-10px_oklch(0.7_0.13_220/0.65)] hover:bg-primary-hover hover:shadow-[inset_0_1px_0_color-mix(in_oklch,var(--hi)_50%,transparent),0_14px_34px_-10px_oklch(0.7_0.13_220/0.8)]",
         destructive:
           "bg-destructive/12 text-destructive ring-1 ring-destructive/30 hover:bg-destructive/20",
         outline:
-          "bg-white/[0.03] text-foreground ring-1 ring-white/12 hover:bg-white/[0.07] hover:ring-white/20",
+          "bg-tint/[0.05] text-foreground ring-1 ring-tint/12 shadow-[inset_0_1px_0_color-mix(in_oklch,var(--hi)_8%,transparent)] backdrop-blur-md hover:bg-tint/[0.09] hover:ring-tint/20",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-accent",
         ghost:
-          "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground",
+          "text-muted-foreground hover:bg-tint/[0.06] hover:text-foreground",
         link: "rounded-sm text-primary underline-offset-4 hover:underline active:scale-100",
       },
       size: {
@@ -61,7 +61,7 @@ function ButtonArrow({ className, children, ...props }) {
       data-slot="button-arrow"
       aria-hidden="true"
       className={cn(
-        "grid size-7 place-items-center rounded-full bg-black/10 transition-transform duration-500 ease-fluid group-hover:-translate-y-px group-hover:translate-x-0.5 group-hover:scale-105",
+        "grid size-7 place-items-center rounded-full bg-shade/10 transition-transform duration-500 ease-fluid group-hover:-translate-y-px group-hover:translate-x-0.5 group-hover:scale-105",
         className
       )}
       {...props}>

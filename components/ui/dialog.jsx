@@ -64,7 +64,8 @@ function Dialog({ open, onClose, title, description, children, footer, className
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 flex items-end justify-center bg-black/60 p-4 backdrop-blur-sm sm:items-center"
+          data-slot="dialog-overlay"
+          className="fixed inset-0 flex items-end justify-center bg-shade/60 p-4 backdrop-blur-sm sm:items-center"
           style={{ zIndex: "var(--z-modal)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -76,6 +77,7 @@ function Dialog({ open, onClose, title, description, children, footer, className
           <motion.div
             ref={panelRef}
             role="dialog"
+            data-slot="dialog-panel"
             aria-modal="true"
             aria-labelledby={titleId}
             tabIndex={-1}
@@ -96,7 +98,7 @@ function Dialog({ open, onClose, title, description, children, footer, className
                   type="button"
                   onClick={onClose}
                   aria-label="Close"
-                  className="-mr-1 -mt-1 grid size-9 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-white/[0.06] hover:text-foreground">
+                  className="-mr-1 -mt-1 grid size-9 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors duration-300 ease-fluid hover:bg-tint/[0.06] hover:text-foreground">
                   <X weight="light" className="size-5" />
                 </button>
               </div>

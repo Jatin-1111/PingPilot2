@@ -27,9 +27,9 @@ function CommandBox({ text, label }) {
     };
 
     return (
-        <div className="rounded-xl bg-black/30 ring-1 ring-white/[0.08]">
+        <div className="rounded-xl bg-shade/30 ring-1 ring-tint/[0.08]">
             <pre tabIndex={0} aria-label={label} className="overflow-x-auto whitespace-pre px-4 py-3.5 font-mono text-[12.5px] leading-relaxed outline-none focus-visible:ring-2 focus-visible:ring-ring">{text}</pre>
-            <div className="flex items-center justify-between gap-3 border-t border-white/[0.06] px-2 py-1.5">
+            <div className="flex items-center justify-between gap-3 border-t border-tint/[0.06] px-2 py-1.5">
                 <span aria-live="polite" className={cn('pl-2 text-[13px]', state === 'failed' ? 'text-destructive' : 'text-success')}>
                     {state === 'copied' ? 'Copied' : state === 'failed' ? 'Could not copy: select it and copy by hand' : ''}
                 </span>
@@ -81,7 +81,7 @@ export function InstallDialog({ open, onClose, token, options, status, replacing
                                 onClick={() => setTab(t.id)}
                                 className={cn(
                                     'min-h-12 rounded-full px-4 text-sm transition-colors duration-300 ease-fluid outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-9',
-                                    t.id === tab ? 'bg-white/[0.1] text-foreground ring-1 ring-white/15' : 'text-muted-foreground hover:bg-white/[0.05] hover:text-foreground'
+                                    t.id === tab ? 'bg-tint/[0.1] text-foreground ring-1 ring-tint/15' : 'text-muted-foreground hover:bg-tint/[0.05] hover:text-foreground'
                                 )}>
                                 {t.label}
                             </button>
@@ -102,7 +102,7 @@ export function InstallDialog({ open, onClose, token, options, status, replacing
                     The token is shown once. If you lose it, choose <span className="text-foreground/90">Manage → Replace token</span> for a new one.
                 </p>
 
-                <div aria-live="polite" className={cn('flex items-start gap-2.5 rounded-xl px-4 py-3 text-sm ring-1', connected ? 'bg-success/8 ring-success/25' : 'bg-white/[0.03] ring-white/[0.07]')}>
+                <div aria-live="polite" className={cn('flex items-start gap-2.5 rounded-xl px-4 py-3 text-sm ring-1', connected ? 'bg-success/8 ring-success/25' : 'bg-tint/[0.03] ring-tint/[0.07]')}>
                     {connected ? (
                         <>
                             <CheckCircle weight="light" className="mt-0.5 size-5 shrink-0 text-success" aria-hidden="true" />

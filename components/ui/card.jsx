@@ -10,7 +10,7 @@ function Card({
     (<div
       data-slot="card"
       className={cn(
-        "flex flex-col gap-6 rounded-[1.5rem] bg-card py-6 text-card-foreground shadow-[inset_0_1px_1px_oklch(1_0_0/0.06),0_0_0_1px_oklch(1_0_0/0.06),0_24px_48px_-32px_oklch(0.1_0.04_225/0.9)]",
+        "flex flex-col gap-6 rounded-[1.5rem] bg-card py-6 text-card-foreground shadow-[inset_0_1px_1px_color-mix(in_oklch,var(--hi)_6%,transparent),0_0_0_1px_color-mix(in_oklch,var(--tint)_6%,transparent),0_24px_48px_-32px_color-mix(in_oklch,var(--shadow-ink)_90%,transparent)]",
         className
       )}
       {...props} />)

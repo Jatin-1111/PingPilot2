@@ -24,7 +24,7 @@ export default function Page() {
             cta={false}
         >
             <Section title="Latest guides">
-                <ul className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+                <ul className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
                     {POSTS.map((p) => (
                         <li key={p.slug} className="py-7">
                             <h3 className="font-display text-2xl font-medium tracking-tight">

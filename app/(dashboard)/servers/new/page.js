@@ -43,7 +43,7 @@ function PlanPanel({ plan, isAdmin, serverCount, maxServers }) {
                     </div>
                     {limited && (
                         <div
-                            className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.08]"
+                            className="mt-3 h-1.5 overflow-hidden rounded-full bg-tint/[0.08]"
                             role="progressbar"
                             aria-label="Server slots used"
                             aria-valuemin={0}
@@ -311,7 +311,7 @@ export default function NewServerPage() {
                                                     'grid size-8 place-items-center rounded-full text-sm font-medium tabular-nums ring-1 transition-[background-color,color,box-shadow] duration-500 ease-fluid',
                                                     current && 'bg-primary text-primary-foreground ring-primary',
                                                     done && 'bg-success/15 text-success ring-success/40',
-                                                    !current && !done && 'bg-white/[0.04] text-muted-foreground ring-white/10'
+                                                    !current && !done && 'bg-tint/[0.04] text-muted-foreground ring-tint/10'
                                                 )}
                                             >
                                                 {done ? <Check weight="bold" className="size-4" /> : s.number}
@@ -322,7 +322,7 @@ export default function NewServerPage() {
                                             </span>
                                         </li>
                                         {i < steps.length - 1 && (
-                                            <li aria-hidden="true" className="h-px flex-1 bg-white/10">
+                                            <li aria-hidden="true" className="h-px flex-1 bg-tint/10">
                                                 <span className={cn('block h-px origin-left bg-success transition-transform duration-700 ease-fluid', step === 2 || success ? 'scale-x-100' : 'scale-x-0')} />
                                             </li>
                                         )}
@@ -403,7 +403,7 @@ export default function NewServerPage() {
                             serverData && (
                                 <div className="space-y-6">
                                     {/* What is being added, with a way back to change it */}
-                                    <div className="flex items-start justify-between gap-4 rounded-2xl bg-white/[0.03] px-5 py-4 ring-1 ring-white/[0.08]">
+                                    <div className="flex items-start justify-between gap-4 rounded-2xl bg-tint/[0.03] px-5 py-4 ring-1 ring-tint/[0.08]">
                                         <div className="min-w-0">
                                             <p className="truncate font-medium">{serverData.name}</p>
                                             <p className="truncate font-mono text-xs text-muted-foreground">{displayUrl(serverData.url)}</p>
@@ -447,7 +447,7 @@ export default function NewServerPage() {
                                                         </p>
                                                     </div>
 
-                                                    <dl className="divide-y divide-white/[0.06] rounded-2xl bg-white/[0.02] ring-1 ring-white/[0.06]">
+                                                    <dl className="divide-y divide-tint/[0.06] rounded-2xl bg-tint/[0.02] ring-1 ring-tint/[0.06]">
                                                         {[
                                                             { icon: ClockCountdown, term: 'Checks', detail: `Every ${defaultMonitoring.checkFrequency} min, every day, all day` },
                                                             { icon: Bell, term: 'Alerts', detail: user?.email ? `Email to ${user.email} when it stops answering` : 'Email when it stops answering' },
@@ -463,7 +463,7 @@ export default function NewServerPage() {
                                                         ))}
                                                     </dl>
 
-                                                    <div className="flex flex-col-reverse gap-3 border-t border-white/[0.07] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                                                    <div className="flex flex-col-reverse gap-3 border-t border-tint/[0.07] pt-6 sm:flex-row sm:items-center sm:justify-between">
                                                         <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
                                                             <Button type="button" variant="ghost" onClick={() => setStep(1)} disabled={loading}>
                                                                 <ArrowLeft weight="light" />

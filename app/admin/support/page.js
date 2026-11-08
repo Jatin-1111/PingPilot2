@@ -305,7 +305,7 @@ export default function AdminTicketManager() {
                             </div>
 
                             {/* Mobile cards */}
-                            <ul className="divide-y divide-white/[0.05] md:hidden">
+                            <ul className="divide-y divide-tint/[0.05] md:hidden">
                                 {visible.map((ticket) => (
                                     <li key={ticket._id} className="space-y-3 p-4">
                                         <div className="flex items-start justify-between gap-3">

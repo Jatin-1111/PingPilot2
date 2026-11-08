@@ -26,7 +26,7 @@ export default function ServerTabs({ tabs, value, onChange, className }) {
     // The tab row scrolls sideways on a narrow screen. overflow-y is hidden so it never grows a vertical scrollbar, and the focus ring
     // is drawn inside the tab, since an outer ring would be clipped by that.
     return (
-        <div className={cn('border-b border-white/[0.07]', className)}>
+        <div className={cn('border-b border-tint/[0.07]', className)}>
             <div role="tablist" aria-label="Sections of this server" onKeyDown={onKeyDown} className="-mb-px flex gap-1 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {tabs.map((t) => {
                     const active = t.id === value;

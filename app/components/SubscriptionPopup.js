@@ -39,7 +39,7 @@ const SubscriptionPopup = ({ isOpen, onClose, currentPlan = 'free', serverCount 
                 <div
                     role="radiogroup"
                     aria-label="Billing period"
-                    className="relative inline-grid grid-cols-2 rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]"
+                    className="relative inline-grid grid-cols-2 rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]"
                 >
                     <span
                         aria-hidden="true"
@@ -74,7 +74,7 @@ const SubscriptionPopup = ({ isOpen, onClose, currentPlan = 'free', serverCount 
                                 onClick={() => setTier(t.key)}
                                 className={cn(
                                     'flex flex-col rounded-2xl p-4 text-left ring-1 transition-[background-color,box-shadow] duration-500 ease-fluid',
-                                    selected ? 'bg-primary/[0.08] ring-2 ring-primary/50' : 'bg-white/[0.03] ring-white/10 hover:bg-white/[0.06]'
+                                    selected ? 'bg-primary/[0.08] ring-2 ring-primary/50' : 'bg-tint/[0.03] ring-tint/10 hover:bg-tint/[0.06]'
                                 )}
                             >
                                 <span className="flex h-6 items-center justify-between">
@@ -83,7 +83,7 @@ const SubscriptionPopup = ({ isOpen, onClose, currentPlan = 'free', serverCount 
                                 </span>
                                 <span className="mt-3 font-display text-3xl font-medium tracking-tight tabular-nums">{p.price}</span>
                                 <span className="mt-0.5 text-[13px] text-muted-foreground">{p.period}</span>
-                                <ul className="mt-4 space-y-2 border-t border-white/[0.07] pt-4">
+                                <ul className="mt-4 space-y-2 border-t border-tint/[0.07] pt-4">
                                     {featureList(id).slice(0, 4).map((text) => (
                                         <li key={text} className="flex items-start gap-2 text-[13px] text-foreground/90">
                                             <Check weight="light" className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />

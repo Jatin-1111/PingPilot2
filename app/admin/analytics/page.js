@@ -22,8 +22,8 @@ const RANGES = [
     { key: 'year', label: 'Year' },
 ];
 
-const TICK = { fill: 'oklch(0.72 0.03 215)', fontSize: 12 };
-const GRID = 'oklch(1 0 0 / 0.06)';
+const TICK = { fill: 'var(--muted-foreground)', fontSize: 12 };
+const GRID = 'color-mix(in oklch, var(--tint) 6%, transparent)';
 
 const formatNumber = (num) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
@@ -194,7 +194,7 @@ export default function AdminAnalytics() {
                 description="How the platform is performing, compared with the previous period."
                 actions={
                     <>
-                        <div role="group" aria-label="Date range" className="inline-flex rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]">
+                        <div role="group" aria-label="Date range" className="inline-flex rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]">
                             {RANGES.map((r) => {
                                 const on = dateRange === r.key;
                                 return (
@@ -203,7 +203,7 @@ export default function AdminAnalytics() {
                                         type="button"
                                         aria-pressed={on}
                                         onClick={() => setDateRange(r.key)}
-                                        className={`min-h-9 rounded-full px-4 text-[13px] font-medium transition-[background-color,color] duration-500 ease-fluid ${on ? 'bg-white/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                                        className={`min-h-9 rounded-full px-4 text-[13px] font-medium transition-[background-color,color] duration-500 ease-fluid ${on ? 'bg-tint/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                                     >
                                         {r.label}
                                     </button>
@@ -256,7 +256,7 @@ export default function AdminAnalytics() {
                                     <CartesianGrid vertical={false} stroke={GRID} />
                                     <XAxis dataKey="name" tick={TICK} axisLine={false} tickLine={false} />
                                     <YAxis tick={TICK} axisLine={false} tickLine={false} allowDecimals={false} />
-                                    <Tooltip content={<ChartTooltip />} cursor={{ stroke: 'oklch(1 0 0 / 0.12)' }} />
+                                    <Tooltip content={<ChartTooltip />} cursor={{ stroke: 'color-mix(in oklch, var(--tint) 12%, transparent)' }} />
                                     <Area type="monotone" dataKey="users" name="Users" stroke="var(--chart-1)" strokeWidth={1.75} fill="url(#userGrowthFill)" />
                                 </AreaChart>
                             </ResponsiveContainer>
@@ -278,7 +278,7 @@ export default function AdminAnalytics() {
                                     <CartesianGrid vertical={false} stroke={GRID} />
                                     <XAxis dataKey="name" tick={TICK} axisLine={false} tickLine={false} />
                                     <YAxis tick={TICK} axisLine={false} tickLine={false} />
-                                    <Tooltip content={<ChartTooltip unit=" ms" />} cursor={{ stroke: 'oklch(1 0 0 / 0.12)' }} />
+                                    <Tooltip content={<ChartTooltip unit=" ms" />} cursor={{ stroke: 'color-mix(in oklch, var(--tint) 12%, transparent)' }} />
                                     <Line type="monotone" dataKey="avgTime" name="Response time" stroke="var(--chart-2)" strokeWidth={1.75} dot={false} activeDot={{ r: 4, fill: 'var(--chart-2)', stroke: 'none' }} />
                                 </LineChart>
                             </ResponsiveContainer>
@@ -338,7 +338,7 @@ export default function AdminAnalytics() {
                                         <span>{a.name}</span>
                                         <span className="font-mono tabular-nums text-muted-foreground">{a.value}</span>
                                     </div>
-                                    <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                                    <div className="h-2 overflow-hidden rounded-full bg-tint/[0.06]">
                                         <div
                                             className="h-full origin-left rounded-full transition-transform duration-1000 ease-fluid"
                                             style={{ width: '100%', transform: `scaleX(${(a.value || 0) / alertMax})`, background: alertColors[i % alertColors.length] }}

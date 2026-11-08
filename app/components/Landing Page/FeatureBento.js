@@ -66,7 +66,7 @@ export default function FeatureBento() {
                             Email, Slack, Discord and Telegram alerts on every plan, any webhook from Starter up. You hear about it before your customers write in.
                         </p>
                     </div>
-                    <div className="mt-auto rounded-2xl bg-black/20 p-4 ring-1 ring-white/[0.05]">
+                    <div className="mt-auto rounded-2xl bg-shade/20 p-4 ring-1 ring-tint/[0.05]">
                         <p className="font-mono text-[11px] text-muted-foreground">alerts@pingpilott · 09:41</p>
                         <p className="mt-2 text-sm font-medium">status.halden.io is down</p>
                         <p className="mt-1 text-[13px] text-muted-foreground">First failed check at 09:40. We&apos;ll email again when it recovers.</p>
@@ -108,7 +108,7 @@ export default function FeatureBento() {
                             When it started, what the server said, how long it lasted. Paid plans keep the full history for reporting.
                         </p>
                     </div>
-                    <ul className="mt-auto divide-y divide-white/[0.06] rounded-2xl bg-black/20 px-4 ring-1 ring-white/[0.05]">
+                    <ul className="mt-auto divide-y divide-tint/[0.06] rounded-2xl bg-shade/20 px-4 ring-1 ring-tint/[0.05]">
                         {INCIDENTS.map((i) => (
                             <li key={i.site + i.when} className="flex items-center gap-3 py-3.5 text-sm">
                                 <span className={`size-2 shrink-0 rounded-full ${i.open ? 'bg-destructive' : 'bg-muted-foreground/60'}`} />

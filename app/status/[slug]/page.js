@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { CheckCircle, Info, Warning, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import { cn } from '@/lib/utils';
+import { ThemeSwitch } from '@/components/ui/theme-switch';
 import { SITE_URL } from '@/lib/site';
 import { formatSpan } from '@/lib/time';
 import { COMPONENT, OVERALL, dayTitle, fetchPublicStatus, formatUtc, problemDays } from '@/lib/statusPage';
@@ -34,13 +35,13 @@ const BANNER = {
     success: { icon: CheckCircle, box: 'bg-success/10 ring-success/25', color: 'text-success' },
     warning: { icon: Warning, box: 'bg-warning/10 ring-warning/25', color: 'text-warning' },
     error: { icon: WarningCircle, box: 'bg-destructive/10 ring-destructive/30', color: 'text-destructive' },
-    muted: { icon: Info, box: 'bg-white/[0.04] ring-white/10', color: 'text-muted-foreground' },
+    muted: { icon: Info, box: 'bg-tint/[0.04] ring-tint/10', color: 'text-muted-foreground' },
 };
 
 const DOT = { success: 'bg-success', warning: 'bg-warning', error: 'bg-destructive', muted: 'bg-muted-foreground/60' };
 const TEXT = { success: 'text-success', warning: 'text-warning', error: 'text-destructive', muted: 'text-muted-foreground' };
 
-const CELL = { ok: 'bg-success/80', minor: 'bg-warning', major: 'bg-destructive', none: 'bg-white/10' };
+const CELL = { ok: 'bg-success/80', minor: 'bg-warning', major: 'bg-destructive', none: 'bg-tint/10' };
 
 function Banner({ overall }) {
     const { label, tone } = OVERALL[overall];
@@ -128,9 +129,9 @@ export default async function StatusPage({ params }) {
 
                 <section aria-label="Services">
                     {status.components.length === 0 ? (
-                        <p className="rounded-2xl px-5 py-6 text-sm text-muted-foreground ring-1 ring-white/10">Nothing is listed on this page yet.</p>
+                        <p className="rounded-2xl px-5 py-6 text-sm text-muted-foreground ring-1 ring-tint/10">Nothing is listed on this page yet.</p>
                     ) : (
-                        <ul className="divide-y divide-white/[0.07] overflow-hidden rounded-2xl bg-white/[0.03] ring-1 ring-white/10">
+                        <ul className="divide-y divide-tint/[0.07] overflow-hidden rounded-2xl bg-tint/[0.03] ring-1 ring-tint/10">
                             {status.components.map((c) => <ComponentRow key={c.id} component={c} />)}
                         </ul>
                     )}
@@ -141,14 +142,15 @@ export default async function StatusPage({ params }) {
                     {status.incidents.length === 0 ? (
                         <p className="text-sm text-muted-foreground">No incidents in the last 14 days.</p>
                     ) : (
-                        <ul className="divide-y divide-white/[0.07] overflow-hidden rounded-2xl bg-white/[0.03] ring-1 ring-white/10">
+                        <ul className="divide-y divide-tint/[0.07] overflow-hidden rounded-2xl bg-tint/[0.03] ring-1 ring-tint/10">
                             {status.incidents.map((i) => <IncidentRow key={`${i.name}-${i.startedAt}`} incident={i} />)}
                         </ul>
                     )}
                 </section>
 
-                <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] pt-6 text-xs text-muted-foreground">
+                <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-tint/[0.07] pt-6 text-xs text-muted-foreground">
                     <p>{status.generatedAt ? `Updated ${formatUtc(status.generatedAt)}. Times are in UTC.` : 'Times are in UTC.'}</p>
+                    <ThemeSwitch />
                     {status.poweredBy && (
                         <a href={`${SITE_URL}/?ref=status-page`} rel="noopener" className="underline-offset-4 hover:text-foreground hover:underline">
                             Powered by Ping Pilott

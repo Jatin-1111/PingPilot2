@@ -16,7 +16,7 @@ const shortTime = (period) => (period === '7d' || period === '30d' ? 'D MMM' : p
 function ChartTooltip({ active, payload, label, lines, format }) {
     if (!active || !payload?.length) return null;
     return (
-        <div className="rounded-xl bg-popover px-3 py-2 text-xs shadow-lg ring-1 ring-white/10">
+        <div className="rounded-xl bg-popover px-3 py-2 text-xs shadow-lg ring-1 ring-tint/10">
             <p className="mb-1 text-muted-foreground">{formatTimestamp(new Date(label), null, 'D MMM, HH:mm')}</p>
             {lines.map((line, i) => {
                 const entry = payload.find((p) => p.dataKey === line.key);
@@ -55,12 +55,12 @@ export function HostChart({ title, rows, lines, period, yMax, yTicks, yWidth = 4
                 </ul>
             </div>
             {empty ? (
-                <div style={{ height }} className="mt-3 grid place-items-center rounded-2xl bg-white/[0.02] text-sm text-muted-foreground ring-1 ring-white/[0.05]">No data for this period yet.</div>
+                <div style={{ height }} className="mt-3 grid place-items-center rounded-2xl bg-tint/[0.02] text-sm text-muted-foreground ring-1 ring-tint/[0.05]">No data for this period yet.</div>
             ) : (
                 <div role="img" aria-label={summary} style={{ height }} className="mt-3">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={rows} margin={{ top: 6, right: 6, left: 0, bottom: 0 }}>
-                            <CartesianGrid vertical={false} stroke="oklch(1 0 0 / 0.06)" />
+                            <CartesianGrid vertical={false} stroke="color-mix(in oklch, var(--tint) 6%, transparent)" />
                             <XAxis
                                 dataKey="t"
                                 type="number"
@@ -74,7 +74,7 @@ export function HostChart({ title, rows, lines, period, yMax, yTicks, yWidth = 4
                                 minTickGap={28}
                             />
                             <YAxis tick={AXIS} axisLine={false} tickLine={false} width={yWidth} domain={yMax ? [0, yMax] : [0, 'auto']} ticks={yTicks} tickFormatter={format} tickCount={4} />
-                            <Tooltip content={<ChartTooltip lines={lines} format={format} />} cursor={{ stroke: 'oklch(1 0 0 / 0.14)' }} />
+                            <Tooltip content={<ChartTooltip lines={lines} format={format} />} cursor={{ stroke: 'color-mix(in oklch, var(--tint) 14%, transparent)' }} />
                             {lines.map((line, i) => (
                                 <Line
                                     key={line.key}
@@ -120,7 +120,7 @@ export function UsageBar({ label, pct, detail }) {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={Math.round(width)}
-                className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/[0.07]">
+                className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-tint/[0.07]">
                 <div className={cn('h-full rounded-full transition-[width] duration-500 ease-fluid', LEVEL_BAR[level])} style={{ width: `${width}%` }} />
             </div>
             {detail && <p className="mt-1 text-xs text-muted-foreground">{detail}</p>}
@@ -183,7 +183,7 @@ export function ProcessList({ procs }) {
                             <th scope="col" className="pb-2 text-right font-medium">Memory</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/[0.06]">
+                    <tbody className="divide-y divide-tint/[0.06]">
                         {procs.map((p) => (
                             <tr key={p.name}>
                                 <th scope="row" className="max-w-[16rem] truncate py-2 pr-4 text-left font-mono text-[13px] font-normal">{p.name}</th>

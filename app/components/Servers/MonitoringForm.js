@@ -25,7 +25,7 @@ import { CHAT_LABELS, channelLabel, detectChat } from '@/lib/chatWebhook';
 import { MAX_KEYWORD_LENGTH, describeKeyword, emptyKeyword, supportsKeyword } from '@/lib/keyword';
 
 const selectClass =
-    'h-11 w-full min-w-0 rounded-xl bg-white/[0.035] px-3 text-sm text-foreground ring-1 ring-white/10 outline-none transition-[box-shadow,background-color] duration-300 ease-fluid hover:ring-white/20 focus-visible:ring-2 focus-visible:ring-ring [&>option]:bg-popover [&>option]:text-popover-foreground';
+    'h-11 w-full min-w-0 rounded-xl bg-tint/[0.035] px-3 text-sm text-foreground ring-1 ring-tint/10 outline-none transition-[box-shadow,background-color] duration-300 ease-fluid hover:ring-tint/20 focus-visible:ring-2 focus-visible:ring-ring [&>option]:bg-popover [&>option]:text-popover-foreground';
 
 // ─────────────────────────── Small helpers ───────────────────────────
 
@@ -69,7 +69,7 @@ const hoursLabel = (range) => (isAllDay(range) ? 'All day' : `${range.start} to 
 
 function Section({ step, title, description, children }) {
     return (
-        <section aria-labelledby={`mf-${step}`} className="border-t border-white/[0.07] py-9 first:border-t-0 first:pt-0">
+        <section aria-labelledby={`mf-${step}`} className="border-t border-tint/[0.07] py-9 first:border-t-0 first:pt-0">
             <header className="mb-6 flex items-start gap-4">
                 <span aria-hidden="true" className="mt-0.5 font-mono text-xs tabular-nums text-primary">0{step}</span>
                 <div className="space-y-1.5">
@@ -103,7 +103,7 @@ function SwitchVisual({ checked }) {
     return (
         <span
             aria-hidden="true"
-            className={cn('relative mt-0.5 h-5 w-9 shrink-0 rounded-full transition-colors duration-500 ease-fluid', checked ? 'bg-primary' : 'bg-white/15')}
+            className={cn('relative mt-0.5 h-5 w-9 shrink-0 rounded-full transition-colors duration-500 ease-fluid', checked ? 'bg-primary' : 'bg-tint/15')}
         >
             <span
                 className={cn(
@@ -121,8 +121,8 @@ function ToggleRow({ id, checked, onChange, title, description }) {
         <label
             htmlFor={id}
             className={cn(
-                'flex min-h-12 cursor-pointer items-center justify-between gap-4 rounded-xl bg-white/[0.03] px-4 py-3 ring-1 ring-white/10 transition-[background-color,box-shadow] duration-500 ease-fluid',
-                'hover:bg-white/[0.06] hover:ring-white/20 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring'
+                'flex min-h-12 cursor-pointer items-center justify-between gap-4 rounded-xl bg-tint/[0.03] px-4 py-3 ring-1 ring-tint/10 transition-[background-color,box-shadow] duration-500 ease-fluid',
+                'hover:bg-tint/[0.06] hover:ring-tint/20 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring'
             )}
         >
             <input id={id} type="checkbox" role="switch" checked={checked} onChange={onChange} className="sr-only" />
@@ -174,11 +174,11 @@ export const FrequencyPicker = ({ value, onChange, minValue, maxValue, premiumTe
                         <label
                             key={v}
                             className={cn(
-                                'relative flex h-14 cursor-pointer flex-col items-center justify-center rounded-xl bg-white/[0.03] ring-1 ring-white/10 transition-[background-color,box-shadow,transform] duration-500 ease-fluid',
-                                'hover:bg-white/[0.06] hover:ring-white/20 active:scale-[0.97]',
+                                'relative flex h-14 cursor-pointer flex-col items-center justify-center rounded-xl bg-tint/[0.03] ring-1 ring-tint/10 transition-[background-color,box-shadow,transform] duration-500 ease-fluid',
+                                'hover:bg-tint/[0.06] hover:ring-tint/20 active:scale-[0.97]',
                                 'has-[:checked]:bg-primary/12 has-[:checked]:ring-2 has-[:checked]:ring-primary/60',
                                 'has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring',
-                                !allowed && 'cursor-not-allowed opacity-40 hover:bg-white/[0.03] hover:ring-white/10 active:scale-100'
+                                !allowed && 'cursor-not-allowed opacity-40 hover:bg-tint/[0.03] hover:ring-tint/10 active:scale-100'
                             )}
                             title={!allowed ? (lockedBelow ? 'Needs a faster plan' : 'Above your plan’s longest interval') : undefined}
                         >
@@ -284,7 +284,7 @@ export const WeekdaySelector = ({ selectedDays, onChange }) => {
                                 onClick={() => onChange([...p.days])}
                                 className={cn(
                                     'min-h-8 rounded-full px-3 text-[13px] transition-[background-color,color] duration-500 ease-fluid',
-                                    on ? 'bg-white/[0.1] text-foreground' : 'text-muted-foreground hover:bg-white/[0.05] hover:text-foreground'
+                                    on ? 'bg-tint/[0.1] text-foreground' : 'text-muted-foreground hover:bg-tint/[0.05] hover:text-foreground'
                                 )}
                             >
                                 {p.label}
@@ -307,7 +307,7 @@ export const WeekdaySelector = ({ selectedDays, onChange }) => {
                                 'h-11 rounded-xl text-[13px] font-medium ring-1 transition-[background-color,color,box-shadow,transform] duration-500 ease-fluid active:scale-[0.97]',
                                 on
                                     ? 'bg-primary/15 text-primary ring-primary/50'
-                                    : 'bg-white/[0.03] text-muted-foreground ring-white/10 hover:bg-white/[0.06] hover:text-foreground'
+                                    : 'bg-tint/[0.03] text-muted-foreground ring-tint/10 hover:bg-tint/[0.06] hover:text-foreground'
                             )}
                         >
                             {day.name}
@@ -452,7 +452,7 @@ function ContactListManager({ id, label, icon: Icon, items, onAdd, onRemove, inp
             {items.length > 0 && (
                 <ul className="mt-3 flex flex-wrap gap-2">
                     {items.map((item) => (
-                        <li key={item} className="flex items-center gap-2 rounded-full bg-white/[0.05] py-1 pl-3 pr-1 text-sm ring-1 ring-white/10">
+                        <li key={item} className="flex items-center gap-2 rounded-full bg-tint/[0.05] py-1 pl-3 pr-1 text-sm ring-1 ring-tint/10">
                             <Icon weight="light" className="size-4 text-muted-foreground" />
                             <span className="break-all">{format(item)}</span>
                             <button
@@ -579,7 +579,7 @@ function ChannelCard({ id, icon: Icon, title, description, badge, checked, onCha
         <div
             className={cn(
                 'rounded-2xl ring-1 transition-[background-color,box-shadow] duration-500 ease-fluid',
-                open ? 'bg-primary/[0.05] ring-primary/35' : 'bg-white/[0.025] ring-white/10 hover:ring-white/20'
+                open ? 'bg-primary/[0.05] ring-primary/35' : 'bg-tint/[0.025] ring-tint/10 hover:ring-tint/20'
             )}
         >
             {always ? (
@@ -635,8 +635,8 @@ export const ResponseTimeThresholdInput = ({ value, onChange }) => {
                     <label
                         key={p.value}
                         className={cn(
-                            'flex h-11 min-w-16 cursor-pointer items-center justify-center rounded-xl bg-white/[0.03] px-4 font-mono text-sm tabular-nums ring-1 ring-white/10 transition-[background-color,box-shadow,transform] duration-500 ease-fluid',
-                            'hover:bg-white/[0.06] hover:ring-white/20 active:scale-[0.97]',
+                            'flex h-11 min-w-16 cursor-pointer items-center justify-center rounded-xl bg-tint/[0.03] px-4 font-mono text-sm tabular-nums ring-1 ring-tint/10 transition-[background-color,box-shadow,transform] duration-500 ease-fluid',
+                            'hover:bg-tint/[0.06] hover:ring-tint/20 active:scale-[0.97]',
                             'has-[:checked]:bg-primary/12 has-[:checked]:text-primary has-[:checked]:ring-2 has-[:checked]:ring-primary/60',
                             'has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring'
                         )}
@@ -730,12 +730,12 @@ function TimelineRow({ label, value, segs, muted }) {
                 <span className="text-muted-foreground">{label}</span>
                 <span className="font-mono tabular-nums text-foreground/90">{value}</span>
             </div>
-            <div className="relative mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.07]">
+            <div className="relative mt-1.5 h-2 overflow-hidden rounded-full bg-tint/[0.07]">
                 {layers.map((seg, i) => (
                     <span
                         key={i}
                         aria-hidden="true"
-                        className={cn('absolute inset-0 rounded-full transition-[clip-path,background-color] duration-700 ease-fluid', muted ? 'bg-white/25' : 'bg-primary')}
+                        className={cn('absolute inset-0 rounded-full transition-[clip-path,background-color] duration-700 ease-fluid', muted ? 'bg-tint/25' : 'bg-primary')}
                         style={{ clipPath: seg ? `inset(0 ${100 - seg[1] / 14.4}% 0 ${seg[0] / 14.4}%)` : 'inset(0 50% 0 50%)' }}
                     />
                 ))}
@@ -785,7 +785,7 @@ function SetupSummary({ data, issues, className }) {
                     </div>
                 </div>
 
-                <dl className="divide-y divide-white/[0.06] border-y border-white/[0.06]">
+                <dl className="divide-y divide-tint/[0.06] border-y border-tint/[0.06]">
                     <SummaryRow term="Interval"><span className="font-mono tabular-nums">Every {data.checkFrequency} min</span></SummaryRow>
                     <SummaryRow term="Days">{daysLabel(data.monitoringDays)}</SummaryRow>
                     <SummaryRow term="Volume"><span className="font-mono tabular-nums">{perDay.toLocaleString()}</span> checks per active day</SummaryRow>
@@ -793,7 +793,7 @@ function SetupSummary({ data, issues, className }) {
                         {channels.length ? (
                             <ul className="flex flex-wrap justify-end gap-1.5">
                                 {channels.map((c) => (
-                                    <li key={c} className="rounded-md bg-white/[0.06] px-2 py-0.5 text-xs ring-1 ring-white/10">{c}</li>
+                                    <li key={c} className="rounded-md bg-tint/[0.06] px-2 py-0.5 text-xs ring-1 ring-tint/10">{c}</li>
                                 ))}
                             </ul>
                         ) : (

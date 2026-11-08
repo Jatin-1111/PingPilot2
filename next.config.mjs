@@ -2,6 +2,8 @@ const PRIVATE = ['/dashboard', '/servers', '/incidents', '/status-pages', '/acco
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Dev-only Next.js badge: bottom-left sits on top of the sidebar's account block.
+  devIndicators: { position: 'bottom-right' },
   // Signed-in pages carry no public content; keep them out of Google's index even if linked.
   async headers() {
     return PRIVATE.flatMap((p) => [p, `${p}/:path*`]).map((source) => ({

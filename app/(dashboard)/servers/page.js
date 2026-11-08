@@ -12,8 +12,6 @@ import {
     Minus,
     WarningCircle,
     CheckCircle,
-    MagnifyingGlass,
-    CaretUpDown,
 } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useAuth } from '@/app/context/AuthContext';
@@ -25,7 +23,6 @@ import { PageContainer } from '@/app/components/Layout/AppShell';
 import { PageHeader } from '@/components/ui/page-header';
 import { Button, ButtonArrow } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Alert } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -35,6 +32,7 @@ import TrialNotice from '@/app/components/TrialNotice';
 import DiagnosisNote from '@/app/components/Servers/DiagnosisNote';
 import CheckDetail from '@/app/components/Servers/CheckDetail';
 import HostMetricsPanel from '@/app/components/Servers/HostMetrics/HostMetricsPanel';
+import ServerSwitcher from '@/app/components/Servers/ServerSwitcher';
 import ServerTabs, { panelId, tabId } from '@/app/components/Servers/ServerTabs';
 import { displayUrl, toHref, timeAgo, formatSpan } from '@/lib/time';
 import { cn } from '@/lib/utils';
@@ -42,7 +40,8 @@ import { channelLabel } from '@/lib/chatWebhook';
 import { certStatus, hasCertificate, noCertificateText } from '@/lib/cert';
 import { describeKeyword } from '@/lib/keyword';
 import { fetchAllServers } from '@/lib/servers';
-import { countByStatus, filterAndSort, statusOf } from '@/lib/server-list';
+import { failureDetailOf, hasMoreDetail } from '@/lib/checkDetail';
+import { filterAndSort } from '@/lib/server-list';
 
 const SERVER_TABS = [
     { id: 'overview', label: 'Overview' },
@@ -119,7 +118,7 @@ function ResponseChart({ data, height, summary }) {
 
     if (data.length === 0) {
         return (
-            <div className="flex items-center justify-center rounded-2xl bg-white/[0.02] text-sm text-muted-foreground ring-1 ring-white/[0.05]" style={{ height: Math.min(height, 120) }}>
+            <div className="flex items-center justify-center rounded-2xl bg-tint/[0.02] text-sm text-muted-foreground ring-1 ring-tint/[0.05]" style={{ height: Math.min(height, 120) }}>
                 No check history for this period yet.
             </div>
         );
@@ -129,7 +128,7 @@ function ResponseChart({ data, height, summary }) {
         <div role="img" aria-label={summary} style={{ height }}>
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 8, right: 8, left: -8, bottom: 4 }}>
-                    <CartesianGrid vertical={false} stroke="oklch(1 0 0 / 0.06)" />
+                    <CartesianGrid vertical={false} stroke="color-mix(in oklch, var(--tint) 6%, transparent)" />
                     <XAxis
                         dataKey="timestamp"
                         type="number"
@@ -152,7 +151,7 @@ function ResponseChart({ data, height, summary }) {
                         width={40}
                         tickFormatter={(v) => `${v}`}
                     />
-                    <Tooltip content={<ChartTooltip />} cursor={{ stroke: 'oklch(1 0 0 / 0.14)' }} />
+                    <Tooltip content={<ChartTooltip />} cursor={{ stroke: 'color-mix(in oklch, var(--tint) 14%, transparent)' }} />
                     <Line
                         type="monotone"
                         dataKey="avgTime"
@@ -284,7 +283,7 @@ function HistoryStrip({ data, loading = false }) {
                         className={cn(
                             'flex-1 rounded-[3px] transition-colors duration-500 ease-fluid',
                             loading && 'animate-pulse',
-                            x.down ? 'bg-destructive' : x.up ? 'bg-success/70' : 'bg-white/[0.07]'
+                            x.down ? 'bg-destructive' : x.up ? 'bg-success/70' : 'bg-tint/[0.07]'
                         )}
                     />
                 ))}
@@ -308,13 +307,6 @@ export default function EnhancedServersPage() {
     // True while the selected server’s history is being fetched, so "no checks yet" is not claimed before we know
     const [historyLoading, setHistoryLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-    const [query, setQuery] = useState('');
-    const [statusFilter, setStatusFilter] = useState('all');
-    const [sortMode, setSortMode] = useState('problems');
-    const listRef = useRef(null);
-    // The server picker is a dropdown above the details; it closes on a pick, Escape, or a click outside
-    const [pickerOpen, setPickerOpen] = useState(false);
-    const pickerRef = useRef(null);
     // The newest selection, for the loader, the timer and the socket handler. They are set up once and must not be rebuilt on every pick.
     const selectedRef = useRef(null);
     const [checkMessage, setCheckMessage] = useState('');
@@ -363,30 +355,9 @@ export default function EnhancedServersPage() {
         }
     };
 
-    // Keep the selected row visible inside the list, without moving the page
-    const selectedId = selectedServer ? idOf(selectedServer) : null;
     useEffect(() => {
         selectedRef.current = selectedServer;
     });
-    useEffect(() => {
-        const list = listRef.current;
-        const row = selectedId && list ? list.querySelector(`[data-id="${selectedId}"]`) : null;
-        if (!row) return;
-        if (row.offsetTop < list.scrollTop) list.scrollTop = row.offsetTop;
-        else if (row.offsetTop + row.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = row.offsetTop + row.offsetHeight - list.clientHeight;
-    }, [selectedId, pickerOpen]);
-
-    useEffect(() => {
-        if (!pickerOpen) return;
-        const onDown = (e) => { if (pickerRef.current && !pickerRef.current.contains(e.target)) setPickerOpen(false); };
-        const onKey = (e) => { if (e.key === 'Escape') setPickerOpen(false); };
-        document.addEventListener('mousedown', onDown);
-        document.addEventListener('keydown', onKey);
-        return () => {
-            document.removeEventListener('mousedown', onDown);
-            document.removeEventListener('keydown', onKey);
-        };
-    }, [pickerOpen]);
 
     // Set up initial data loading and WebSocket updates
     const { socket } = useSocket();
@@ -791,131 +762,8 @@ export default function EnhancedServersPage() {
     const uptime24 = calculateUptime(24);
     const incidents = s ? getIncidents(responseTimeData, monitoring?.frequency, sStatus === 'down') : [];
     const frequency = monitoring?.frequency || 5;
-    // The list: search, status filter and order. Controls appear once the list is long enough to need them.
-    const counts = countByStatus(servers);
-    const listed = filterAndSort(servers, { query, status: statusFilter, sort: sortMode });
-    const showControls = servers.length > 5;
-    const filtered = query.trim() !== '' || statusFilter !== 'all';
-    const clearFilters = () => {
-        setQuery('');
-        setStatusFilter('all');
-    };
-    // ↑ ↓ move through the list, like any list box
-    const handleListKeys = (e) => {
-        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-        e.preventDefault();
-        const at = listed.findIndex((x) => s && idOf(x) === idOf(s));
-        const next = listed[Math.min(listed.length - 1, Math.max(0, at + (e.key === 'ArrowDown' ? 1 : -1)))];
-        if (!next) return;
-        handleServerSelect(next);
-        requestAnimationFrame(() => listRef.current?.querySelector(`[data-id="${idOf(next)}"] button`)?.focus({ preventScroll: true }));
-    };
-
-    // Server picker: a dropdown showing the selected server; the list inside scrolls on its own, so 5 or 500 servers fit
-    const picker = (
-        <nav aria-label="Servers" ref={pickerRef} className="relative z-20 w-full min-w-0 sm:w-80 lg:w-96">
-            <button
-                type="button"
-                onClick={() => setPickerOpen((o) => !o)}
-                aria-haspopup="listbox"
-                aria-expanded={pickerOpen}
-                className="flex h-[3.75rem] w-full items-center gap-3 rounded-2xl bg-white/[0.03] px-4 text-left ring-1 ring-white/[0.1] transition-colors duration-300 ease-fluid hover:bg-white/[0.06]"
-            >
-                {s && <StatusDot status={s.status} />}
-                <span className="min-w-0 flex-1">
-                    <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Viewing</span>
-                    <span className="block truncate text-sm font-medium">{s ? s.name : 'Choose a server'}</span>
-                </span>
-                <CaretUpDown weight="bold" aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
-            </button>
-            {pickerOpen && (
-            <div className="absolute right-0 top-full mt-2 w-full sm:w-[26rem] sm:max-w-[calc(100vw-3rem)] flex max-h-[min(32rem,70vh)] flex-col overflow-hidden rounded-2xl bg-background/95 shadow-2xl ring-1 ring-white/[0.12] backdrop-blur-xl">
-                {showControls && (
-                    <div className="space-y-2.5 border-b border-white/[0.07] p-3">
-                        <div className="relative">
-                            <MagnifyingGlass weight="light" aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 size-[18px] -translate-y-1/2 text-muted-foreground" />
-                            <Input type="search" autoFocus aria-label="Find a server" placeholder="Find a server" value={query} onChange={(e) => setQuery(e.target.value)} className="rounded-full pl-10" />
-                        </div>
-                        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Show servers by status">
-                            {[
-                                ['all', 'All'],
-                                ['down', 'Down'],
-                                ['up', 'Up'],
-                                ['unknown', 'Pending'],
-                            ]
-                                .filter(([key]) => key === 'all' || counts[key] > 0 || statusFilter === key)
-                                .map(([key, label]) => (
-                                    <button
-                                        key={key}
-                                        type="button"
-                                        aria-pressed={statusFilter === key}
-                                        onClick={() => setStatusFilter(key)}
-                                        className={cn(
-                                            'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-medium tabular-nums ring-1 transition-colors duration-300 ease-fluid',
-                                            statusFilter === key
-                                                ? 'bg-primary/15 text-foreground ring-primary/50'
-                                                : 'text-muted-foreground ring-white/[0.1] hover:bg-white/[0.06] hover:text-foreground',
-                                            key === 'down' && counts.down > 0 && statusFilter !== key && 'text-destructive'
-                                        )}
-                                    >
-                                        {label}
-                                        <span className="font-mono">{counts[key]}</span>
-                                    </button>
-                                ))}
-                        </div>
-                    </div>
-                )}
-                <ul ref={listRef} onKeyDown={handleListKeys} className="relative min-h-0 flex-1 space-y-0.5 overflow-y-auto overscroll-contain p-1.5">
-                    {listed.map((server) => {
-                        const active = s && idOf(server) === idOf(s);
-                        const status = statusOf(server);
-                        return (
-                            <li key={idOf(server)} data-id={idOf(server)}>
-                                <button
-                                    type="button"
-                                    onClick={() => { handleServerSelect(server); setPickerOpen(false); }}
-                                    aria-current={active ? 'true' : undefined}
-                                    title={displayUrl(server.url)}
-                                    className={cn(
-                                        'flex h-10 w-full items-center gap-2.5 rounded-xl px-2.5 text-left transition-colors duration-300 ease-fluid',
-                                        active ? 'bg-primary/10 ring-1 ring-primary/50' : 'hover:bg-white/[0.06]'
-                                    )}
-                                >
-                                    <StatusDot status={server.status} />
-                                    <span className="min-w-0 flex-1 truncate text-sm font-medium">{server.name}</span>
-                                    <span className={cn('shrink-0 font-mono text-xs tabular-nums', status === 'down' ? 'text-destructive' : 'text-muted-foreground')}>
-                                        {status === 'down' ? 'Down' : server.responseTime ? `${server.responseTime} ms` : '—'}
-                                    </span>
-                                    <span className="sr-only">{status === 'up' ? 'Operational' : status === 'down' ? 'Down' : 'Pending'}</span>
-                                </button>
-                            </li>
-                        );
-                    })}
-                    {listed.length === 0 && (
-                        <li className="space-y-2 px-2.5 py-3 text-sm text-muted-foreground">
-                            <p>No servers match.</p>
-                            <Button size="sm" variant="outline" onClick={clearFilters}>Clear filters</Button>
-                        </li>
-                    )}
-                </ul>
-                {showControls && (
-                    <div className="flex items-center justify-between gap-3 border-t border-white/[0.07] px-3 py-2 text-xs text-muted-foreground">
-                        <span role="status" aria-live="polite">
-                            {filtered ? `${listed.length} of ${servers.length}` : plural(servers.length, 'server')}
-                        </span>
-                        <button
-                            type="button"
-                            onClick={() => setSortMode(sortMode === 'problems' ? 'name' : 'problems')}
-                            className="rounded-md px-1.5 py-1 transition-colors duration-300 ease-fluid hover:bg-white/[0.06] hover:text-foreground"
-                        >
-                            Sort: {sortMode === 'problems' ? 'problems first' : 'A–Z'}
-                        </button>
-                    </div>
-                )}
-            </div>
-            )}
-        </nav>
-    );
+    // Server switcher: a search-first overlay (Ctrl/⌘ + K), so it works the same for 5 servers or 500
+    const picker = <ServerSwitcher servers={servers} selected={s} onSelect={handleServerSelect} />;
 
     return (
         <PageContainer className="space-y-8">
@@ -983,7 +831,7 @@ export default function EnhancedServersPage() {
                                     </div>
 
                                     {/* Response time: labelled figures that reflow to the panel's width, so a long server name can never run into them */}
-                                    <div className="space-y-3 border-t border-white/[0.07] pt-5">
+                                    <div className="space-y-3 border-t border-tint/[0.07] pt-5">
                                         <dl className="grid grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] items-end gap-x-5 gap-y-4">
                                             {hasBreakdown ? (
                                                 <>
@@ -1026,13 +874,19 @@ export default function EnhancedServersPage() {
 
                                 {sStatus === 'down' && s.error && (
                                     <Alert tone="error" title="Last check failed">
-                                        <DiagnosisNote diagnosis={s.diagnosis} className="mb-3" />
-                                        <span className="font-mono text-[13px]">{s.error}</span>
+                                        {s.diagnosis?.title && hasMoreDetail(failureDetailOf(s)) ? (
+                                            <DiagnosisNote diagnosis={s.diagnosis} />
+                                        ) : (
+                                            <>
+                                                <DiagnosisNote diagnosis={s.diagnosis} className="mb-3" />
+                                                <span className="font-mono text-[13px]">{s.error}</span>
+                                            </>
+                                        )}
                                     </Alert>
                                 )}
 
                                 {sStatus === 'down' && (
-                                    <CheckDetail source={s} />
+                                    <CheckDetail source={s} collapsible label="Troubleshooting steps" showError />
                                 )}
 
                                 <CertificateAlert server={s} />
@@ -1047,7 +901,7 @@ export default function EnhancedServersPage() {
                                     <HistoryStrip data={responseTimeData} loading={historyPending} />
                                 </section>
 
-                                <div className="flex flex-wrap items-center gap-2.5 border-t border-white/[0.07] pt-5">
+                                <div className="flex flex-wrap items-center gap-2.5 border-t border-tint/[0.07] pt-5">
                                     <Button onClick={handleRefresh} disabled={refreshing}>
                                         <ArrowsClockwise weight="light" className={refreshing ? 'animate-spin' : ''} />
                                         {refreshing ? 'Checking' : 'Check now'}
@@ -1070,7 +924,7 @@ export default function EnhancedServersPage() {
                         {/* Uptime by window */}
                         <Reveal delay={80}>
                             <div className="bezel-sm">
-                                <div className="bezel-sm-core grid divide-y divide-white/[0.06] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                                <div className="bezel-sm-core grid divide-y divide-tint/[0.06] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
                                     {[8, 16, 24].map((hours) => {
                                         const uptime = calculateUptime(hours);
                                         const windowIncidents = countIncidents(hours);
@@ -1107,7 +961,7 @@ export default function EnhancedServersPage() {
                                     {historyPending ? <Skeleton className="h-[300px] rounded-2xl" role="status" aria-label="Loading response times" /> : <ResponseChart data={responseTimeData} height={300} summary={chartSummary} />}
                                 </div>
                                 {responseStats && (
-                                    <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-white/[0.07] pt-6">
+                                    <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-tint/[0.07] pt-6">
                                         {[
                                             ['Average', responseStats.avg],
                                             ['Fastest', responseStats.min],
@@ -1142,7 +996,7 @@ export default function EnhancedServersPage() {
                                         {hasChecks ? 'No failed checks in the last 24 hours.' : 'Nothing to report until the first checks have run.'}
                                     </p>
                                 ) : (
-                                    <ul className="mt-5 divide-y divide-white/[0.06]">
+                                    <ul className="mt-5 divide-y divide-tint/[0.06]">
                                         {incidents.slice(0, 6).map((inc) => (
                                             <li key={inc.start.getTime()} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
                                                 <span className={cn('mt-1.5 size-2 shrink-0 rounded-full', inc.ongoing ? 'bg-destructive' : 'bg-muted-foreground/60')} aria-hidden="true" />
@@ -1245,7 +1099,7 @@ export default function EnhancedServersPage() {
                                         <Fact label="Added">{formatTimestamp(s.uploadedAt || s.createdAt, null, 'D MMM YYYY')}</Fact>
                                     </dl>
                                 </div>
-                                {s.description && <p className="mt-6 border-t border-white/[0.07] pt-5 text-sm text-muted-foreground">{s.description}</p>}
+                                {s.description && <p className="mt-6 border-t border-tint/[0.07] pt-5 text-sm text-muted-foreground">{s.description}</p>}
                             </Panel>
                         </Reveal>                            </div>
                         )}

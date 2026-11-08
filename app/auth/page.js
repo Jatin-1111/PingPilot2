@@ -210,7 +210,7 @@ function AuthForm() {
             <div
                 role="tablist"
                 aria-label="Account"
-                className="mt-6 grid grid-cols-2 rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]"
+                className="mt-6 grid grid-cols-2 rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]"
             >
                 {[
                     { id: 'login', label: 'Sign in', on: isLogin },
@@ -224,7 +224,7 @@ function AuthForm() {
                         aria-selected={t.on}
                         aria-controls="auth-panel"
                         onClick={() => setMode(t.id === 'login')}
-                        className={`min-h-10 rounded-full px-4 text-sm font-medium transition-[background-color,color] duration-500 ease-fluid ${t.on ? 'bg-white/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                        className={`min-h-10 rounded-full px-4 text-sm font-medium transition-[background-color,color] duration-500 ease-fluid ${t.on ? 'bg-tint/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                     >
                         {t.label}
                     </button>

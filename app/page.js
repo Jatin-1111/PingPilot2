@@ -8,6 +8,7 @@ import FooterNav from './components/Landing Page/FooterNav'
 import { Brand } from '@/components/ui/brand'
 import { Button, ButtonArrow } from '@/components/ui/button'
 import { Reveal } from '@/components/ui/reveal'
+import { ThemeSwitch } from '@/components/ui/theme-switch'
 import { SITE_URL, SITE_NAME } from '@/lib/site'
 import { pageMetadata, faqSchema } from '@/lib/seo'
 
@@ -143,7 +144,7 @@ export default function LandingPage() {
                             <Reveal delay={360}>
                                 <Link
                                     href="/android-app"
-                                    className="inline-flex items-center gap-2 rounded-full bg-white/[0.04] px-3.5 py-1.5 text-[13px] text-muted-foreground ring-1 ring-white/10 transition-colors duration-300 ease-fluid hover:bg-white/[0.07] hover:text-foreground"
+                                    className="inline-flex items-center gap-2 rounded-full bg-tint/[0.04] px-3.5 py-1.5 text-[13px] text-muted-foreground ring-1 ring-tint/10 transition-colors duration-300 ease-fluid hover:bg-tint/[0.07] hover:text-foreground"
                                 >
                                     <DeviceMobile weight="light" className="size-4 text-primary" />
                                     New: the Android app sends alerts to your phone
@@ -182,7 +183,7 @@ export default function LandingPage() {
                         <ul className="grid gap-5 md:grid-cols-3">
                             {MORE.map((m, i) => (
                                 <Reveal as="li" key={m.href} delay={i * 80}>
-                                    <Link href={m.href} className="block h-full rounded-2xl bg-white/[0.03] p-7 ring-1 ring-white/[0.07] transition-colors duration-300 ease-fluid hover:bg-white/[0.06]">
+                                    <Link href={m.href} className="block h-full rounded-2xl bg-tint/[0.03] p-7 ring-1 ring-tint/[0.07] transition-colors duration-300 ease-fluid hover:bg-tint/[0.06]">
                                         <h3 className="font-display text-2xl font-medium tracking-tight">{m.title}</h3>
                                         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{m.body}</p>
                                     </Link>
@@ -203,7 +204,7 @@ export default function LandingPage() {
                                 </h2>
                             </div>
                         </Reveal>
-                        <ol className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+                        <ol className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
                             {STEPS.map((s, i) => (
                                 <Reveal as="li" key={s.n} delay={i * 80} className="grid grid-cols-[3.5rem_1fr] gap-4 py-9 md:grid-cols-[5rem_1fr]">
                                     <span className="font-mono text-sm tabular-nums text-primary">{s.n}</span>
@@ -225,7 +226,7 @@ export default function LandingPage() {
                             <span className="eyebrow">FAQ</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">Common questions.</h2>
                         </Reveal>
-                        <dl className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+                        <dl className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
                             {FAQS.map((f) => (
                                 <div key={f.q} className="grid gap-3 py-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
                                     <dt className="font-display text-xl font-medium tracking-tight">{f.q}</dt>
@@ -246,7 +247,7 @@ export default function LandingPage() {
                                     className="pointer-events-none absolute inset-0"
                                     style={{
                                         background:
-                                            'radial-gradient(36rem 18rem at 50% 0%, oklch(0.5 0.1 215 / 0.35), transparent 70%)',
+                                            'radial-gradient(36rem 18rem at 50% 0%, var(--hero-glow), transparent 70%)',
                                     }}
                                 />
                                 <div className="relative mx-auto max-w-2xl space-y-7">
@@ -269,7 +270,7 @@ export default function LandingPage() {
                 </section>
             </main>
 
-            <footer className="mt-auto border-t border-white/[0.07] px-4 py-12 sm:px-8">
+            <footer className="mt-auto border-t border-tint/[0.07] px-4 py-12 sm:px-8">
                 <div className="mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:items-start md:justify-between">
                     <div className="max-w-xs space-y-4">
                         <Brand />
@@ -279,9 +280,10 @@ export default function LandingPage() {
                     </div>
                     <FooterNav />
                 </div>
-                <p className="mx-auto mt-12 max-w-6xl text-xs text-muted-foreground/80">
-                    © {new Date().getFullYear()} Ping Pilott
-                </p>
+                <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-4">
+                    <p className="text-xs text-muted-foreground/80">© {new Date().getFullYear()} Ping Pilott</p>
+                    <ThemeSwitch />
+                </div>
             </footer>
         </div>
     )

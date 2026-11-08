@@ -199,7 +199,7 @@ export default function AdminDashboard() {
                             ) : recentActivity.length === 0 ? (
                                 <p className="mt-8 text-sm text-muted-foreground">No activity yet. New and changed servers appear here.</p>
                             ) : (
-                                <ul className="mt-4 divide-y divide-white/[0.06]">
+                                <ul className="mt-4 divide-y divide-tint/[0.06]">
                                     {recentActivity.map((a, i) => (
                                         <li key={i} className="flex items-center justify-between gap-4 py-3.5">
                                             <p className="min-w-0 text-sm">
@@ -244,10 +244,10 @@ export default function AdminDashboard() {
                     {/* Quick links */}
                     <Reveal delay={140}>
                         <nav aria-label="Admin shortcuts" className="bezel-sm">
-                            <ul className="bezel-sm-core divide-y divide-white/[0.06] overflow-hidden">
+                            <ul className="bezel-sm-core divide-y divide-tint/[0.06] overflow-hidden">
                                 {QUICK_LINKS.map(({ href, label, hint, icon: Icon }) => (
                                     <li key={href}>
-                                        <Link href={href} className="group flex items-center gap-4 px-5 py-4 transition-colors duration-300 ease-fluid hover:bg-white/[0.03]">
+                                        <Link href={href} className="group flex items-center gap-4 px-5 py-4 transition-colors duration-300 ease-fluid hover:bg-tint/[0.03]">
                                             <Icon weight="light" className="size-6 shrink-0 text-primary" aria-hidden="true" />
                                             <span className="min-w-0 flex-1">
                                                 <span className="block text-sm font-medium">{label}</span>

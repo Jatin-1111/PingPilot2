@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft } from '@phosphor-icons/react';
 import { Brand } from '@/components/ui/brand';
 import { Reveal } from '@/components/ui/reveal';
+import { ThemeSwitch } from '@/components/ui/theme-switch';
 import { StatusDot } from '@/components/ui/status';
 import { Sparkline } from '@/app/components/Landing Page/HeroPreview';
 
@@ -38,12 +39,12 @@ export default function AuthShell({ children }) {
                         <div className="bezel-sm-core p-5">
                             <div className="flex items-center justify-between">
                                 <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Response time</p>
-                                <span className="rounded-md bg-white/[0.05] px-2 py-0.5 font-mono text-[11px] text-muted-foreground ring-1 ring-white/[0.07]">
+                                <span className="rounded-md bg-tint/[0.05] px-2 py-0.5 font-mono text-[11px] text-muted-foreground ring-1 ring-tint/[0.07]">
                                     Sample data
                                 </span>
                             </div>
                             <Sparkline className="mt-3 h-12 w-full" id="auth-spark" />
-                            <ul className="mt-3 divide-y divide-white/[0.06]" aria-label="Sample monitors">
+                            <ul className="mt-3 divide-y divide-tint/[0.06]" aria-label="Sample monitors">
                                 {SAMPLE.map((m) => (
                                     <li key={m.name} className="flex items-center gap-3 py-2.5 text-[13px]">
                                         <StatusDot status={m.status} />
@@ -79,6 +80,7 @@ export default function AuthShell({ children }) {
                     <ArrowLeft weight="light" className="size-4 transition-transform duration-500 ease-fluid group-hover:-translate-x-0.5" />
                     Back to home
                 </Link>
+                <ThemeSwitch className="mt-3" />
             </section>
         </div>
     );

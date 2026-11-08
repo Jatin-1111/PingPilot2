@@ -36,7 +36,7 @@ export default function LegalPage({ path, title, intro, sections }) {
                         ))}
                     </div>
 
-                    <p className="mt-14 border-t border-white/[0.07] pt-6 text-sm text-muted-foreground">
+                    <p className="mt-14 border-t border-tint/[0.07] pt-6 text-sm text-muted-foreground">
                         See also: <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link> · <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>
                     </p>
                 </div>

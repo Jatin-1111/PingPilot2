@@ -466,7 +466,7 @@ export default function ServerSettingsPage() {
                 </div>
 
                 {/* Tabs */}
-                <div role="tablist" aria-label="Server settings sections" className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08] sm:inline-flex">
+                <div role="tablist" aria-label="Server settings sections" className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08] sm:inline-flex">
                     {TABS.map((tab, i) => {
                         const on = activeTab === tab.id;
                         return (
@@ -483,7 +483,7 @@ export default function ServerSettingsPage() {
                                 onKeyDown={(e) => onTabKeyDown(e, i)}
                                 className={cn(
                                     'inline-flex min-h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 text-sm font-medium transition-[background-color,color] duration-500 ease-fluid',
-                                    on ? 'bg-white/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'
+                                    on ? 'bg-tint/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'
                                 )}
                             >
                                 {tab.label}
@@ -531,7 +531,7 @@ export default function ServerSettingsPage() {
                 </div>
 
                 {/* Deleting: separate from the settings above, visible but not loud */}
-                <section aria-labelledby="delete-heading" className="flex flex-col gap-5 border-t border-white/[0.07] pt-8 sm:flex-row sm:items-center sm:justify-between">
+                <section aria-labelledby="delete-heading" className="flex flex-col gap-5 border-t border-tint/[0.07] pt-8 sm:flex-row sm:items-center sm:justify-between">
                     <div className="max-w-[52ch] space-y-1.5">
                         <h2 id="delete-heading" className="font-display text-lg font-medium tracking-tight">Delete this server</h2>
                         <p className="text-sm leading-relaxed text-muted-foreground">
@@ -575,7 +575,7 @@ export default function ServerSettingsPage() {
                             id="delete-confirm"
                             label={
                                 <>
-                                    Type <span className="rounded-md bg-white/[0.07] px-1.5 py-0.5 font-mono text-[13px]">{server?.name}</span> to confirm
+                                    Type <span className="rounded-md bg-tint/[0.07] px-1.5 py-0.5 font-mono text-[13px]">{server?.name}</span> to confirm
                                 </>
                             }
                         >

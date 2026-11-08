@@ -37,7 +37,7 @@ function VerifiedBadge({ verified }) {
 function Avatar({ user }) {
     const name = user.displayName || user.email || '?';
     return (
-        <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white/[0.07] font-display text-sm font-medium ring-1 ring-white/10" aria-hidden="true">
+        <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-2xl bg-tint/[0.07] font-display text-sm font-medium ring-1 ring-tint/10" aria-hidden="true">
             {user.photoURL ? <img src={user.photoURL} alt="" className="size-full object-cover" /> : name.trim().charAt(0).toUpperCase()}
         </span>
     );
@@ -260,7 +260,7 @@ export default function UsersManagement() {
                                 </Table>
                             </div>
 
-                            <ul className="divide-y divide-white/[0.05] md:hidden">
+                            <ul className="divide-y divide-tint/[0.05] md:hidden">
                                 {visible.map((u) => (
                                     <li key={idOf(u)} className="space-y-3 p-4">
                                         <div className="flex items-center gap-3">

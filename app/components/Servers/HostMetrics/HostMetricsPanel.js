@@ -297,7 +297,7 @@ export default function HostMetricsPanel({ server, apiRequest, user }) {
 
                 {!waiting && (
                     <>
-                        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] pt-6">
+                        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-tint/[0.07] pt-6">
                             <h4 className="text-sm font-medium">History, {periodWords(period).replace('the ', '')}</h4>
                             <div role="group" aria-label="Time range" className="flex flex-wrap gap-1">
                                 {PERIODS.map((p) => (
@@ -308,7 +308,7 @@ export default function HostMetricsPanel({ server, apiRequest, user }) {
                                         onClick={() => setPeriod(p.value)}
                                         className={cn(
                                             'min-h-12 rounded-full px-3.5 text-sm outline-none transition-colors duration-300 ease-fluid focus-visible:ring-2 focus-visible:ring-ring sm:min-h-8',
-                                            period === p.value ? 'bg-white/[0.1] text-foreground ring-1 ring-white/15' : 'text-muted-foreground hover:bg-white/[0.05] hover:text-foreground'
+                                            period === p.value ? 'bg-tint/[0.1] text-foreground ring-1 ring-tint/15' : 'text-muted-foreground hover:bg-tint/[0.05] hover:text-foreground'
                                         )}>
                                         {p.label}
                                     </button>
@@ -326,7 +326,7 @@ export default function HostMetricsPanel({ server, apiRequest, user }) {
                                     onClick={() => setChartPick(c.id)}
                                     className={cn(
                                         'min-h-12 rounded-full px-3.5 text-sm outline-none transition-colors duration-300 ease-fluid focus-visible:ring-2 focus-visible:ring-ring sm:min-h-8',
-                                        chart === c.id ? 'bg-white/[0.1] text-foreground ring-1 ring-white/15' : 'text-muted-foreground hover:bg-white/[0.05] hover:text-foreground'
+                                        chart === c.id ? 'bg-tint/[0.1] text-foreground ring-1 ring-tint/15' : 'text-muted-foreground hover:bg-tint/[0.05] hover:text-foreground'
                                     )}>
                                     {c.label}
                                 </button>
@@ -356,7 +356,7 @@ export default function HostMetricsPanel({ server, apiRequest, user }) {
                         )}
 
                         {metrics.latest?.procs?.length > 0 && (
-                            <details className="group border-t border-white/[0.07] pt-4">
+                            <details className="group border-t border-tint/[0.07] pt-4">
                                 <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-10">
                                     Busiest processes
                                     <span className="text-xs font-normal text-muted-foreground group-open:hidden">Show {metrics.latest.procs.length}</span>
@@ -368,7 +368,7 @@ export default function HostMetricsPanel({ server, apiRequest, user }) {
                     </>
                 )}
 
-                <p className="border-t border-white/[0.07] pt-4 text-xs text-muted-foreground">
+                <p className="border-t border-tint/[0.07] pt-4 text-xs text-muted-foreground">
                     {[
                         metrics.agent.version && `Agent ${metrics.agent.version}`,
                         metrics.agent.hostname && `on ${metrics.agent.hostname}`,

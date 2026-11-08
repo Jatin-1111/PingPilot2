@@ -85,7 +85,7 @@ const TicketList = () => {
                 }
             />
 
-            <div role="group" aria-label="Filter by status" className="inline-flex max-w-full overflow-x-auto rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]">
+            <div role="group" aria-label="Filter by status" className="inline-flex max-w-full overflow-x-auto rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]">
                 {FILTERS.map((f) => {
                     const on = statusFilter === f.key;
                     return (
@@ -94,7 +94,7 @@ const TicketList = () => {
                             type="button"
                             aria-pressed={on}
                             onClick={() => setStatusFilter(f.key)}
-                            className={`whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium transition-[background-color,color] duration-500 ease-fluid ${on ? 'bg-white/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                            className={`whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium transition-[background-color,color] duration-500 ease-fluid ${on ? 'bg-tint/[0.1] text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                         >
                             {f.label} <span className="ml-0.5 tabular-nums text-muted-foreground">{loading ? '' : count(f.key)}</span>
                         </button>
@@ -139,12 +139,12 @@ const TicketList = () => {
                             }
                         />
                     ) : (
-                        <ul className="divide-y divide-white/[0.05]">
+                        <ul className="divide-y divide-tint/[0.05]">
                             {visible.map((ticket, i) => (
                                 <Reveal as="li" key={ticket._id} delay={Math.min(i, 6) * 40}>
                                     <Link
                                         href={`/support/tickets/${ticket._id}`}
-                                        className="group flex items-start gap-4 px-5 py-5 transition-colors duration-300 ease-fluid hover:bg-white/[0.025] sm:items-center"
+                                        className="group flex items-start gap-4 px-5 py-5 transition-colors duration-300 ease-fluid hover:bg-tint/[0.025] sm:items-center"
                                     >
                                         <div className="min-w-0 flex-1 space-y-1.5">
                                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">

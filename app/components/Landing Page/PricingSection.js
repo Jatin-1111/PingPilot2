@@ -105,7 +105,7 @@ export default function PricingSection({ compact = false }) {
                         <div
                             role="radiogroup"
                             aria-label="Billing period"
-                            className="relative inline-grid grid-cols-2 rounded-full bg-white/[0.04] p-1 ring-1 ring-white/[0.08]"
+                            className="relative inline-grid grid-cols-2 rounded-full bg-tint/[0.04] p-1 ring-1 ring-tint/[0.08]"
                         >
                             <span
                                 aria-hidden="true"

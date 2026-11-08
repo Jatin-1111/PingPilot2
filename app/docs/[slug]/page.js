@@ -53,7 +53,7 @@ export default async function DocPage({ params }) {
                 <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-muted-foreground">{doc.summary}</p>
 
                 {headings.length > 2 && (
-                    <nav aria-label="On this page" className="mt-8 rounded-xl p-4 ring-1 ring-white/[0.07]">
+                    <nav aria-label="On this page" className="mt-8 rounded-xl p-4 ring-1 ring-tint/[0.07]">
                         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">On this page</p>
                         <ul className="mt-2 space-y-0.5">
                             {headings.map((h) => (
@@ -65,15 +65,15 @@ export default async function DocPage({ params }) {
 
                 <div className="mt-10"><DocBody blocks={doc.blocks} /></div>
 
-                <nav aria-label="Previous and next" className="mt-16 grid gap-4 border-t border-white/[0.07] pt-6 sm:grid-cols-2">
+                <nav aria-label="Previous and next" className="mt-16 grid gap-4 border-t border-tint/[0.07] pt-6 sm:grid-cols-2">
                     {prev ? (
-                        <Link href={`/docs/${prev.slug}`} className="block min-h-12 rounded-xl p-4 ring-1 ring-white/[0.08] transition-colors duration-300 ease-fluid hover:bg-white/[0.04]">
+                        <Link href={`/docs/${prev.slug}`} className="block min-h-12 rounded-xl p-4 ring-1 ring-tint/[0.08] transition-colors duration-300 ease-fluid hover:bg-tint/[0.04]">
                             <span className="text-xs text-muted-foreground">Previous</span>
                             <span className="mt-1 block font-medium">{prev.title}</span>
                         </Link>
                     ) : <span />}
                     {next && (
-                        <Link href={`/docs/${next.slug}`} className="block min-h-12 rounded-xl p-4 text-right ring-1 ring-white/[0.08] transition-colors duration-300 ease-fluid hover:bg-white/[0.04]">
+                        <Link href={`/docs/${next.slug}`} className="block min-h-12 rounded-xl p-4 text-right ring-1 ring-tint/[0.08] transition-colors duration-300 ease-fluid hover:bg-tint/[0.04]">
                             <span className="text-xs text-muted-foreground">Next</span>
                             <span className="mt-1 block font-medium">{next.title}</span>
                         </Link>
