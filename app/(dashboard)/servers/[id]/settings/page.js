@@ -6,7 +6,7 @@ import { useAuth } from '@/app/context/AuthContext';
 import { ServerForm } from '@/app/components/Servers/ServerForm';
 import { MonitoringForm } from '@/app/components/Servers/MonitoringForm';
 import TrialNotice from '@/app/components/TrialNotice';
-import { ArrowLeft, ArrowSquareOut, ArrowsClockwise, ChartLineUp, Trash, CircleNotch, WarningCircle } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowSquareOut, ArrowsClockwise, Trash, CircleNotch, WarningCircle } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { PageContainer } from '@/app/components/Layout/AppShell';
 import { PageHeader } from '@/components/ui/page-header';
@@ -390,7 +390,6 @@ export default function ServerSettingsPage() {
         <PageContainer>
             <div className="mx-auto max-w-3xl space-y-8">
                 <PageHeader
-                    eyebrow="Server settings"
                     title={server?.name}
                     description={
                         <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -416,8 +415,8 @@ export default function ServerSettingsPage() {
                 />
 
                 {/* Where this server stands right now, so a setting can be judged against it */}
-                <section aria-label="Current status" className="bezel-sm">
-                    <div className="bezel-sm-core flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                <section aria-label="Current status">
+                    <div className="flex flex-col gap-4 rounded-2xl p-5 ring-1 ring-border sm:flex-row sm:items-center sm:justify-between">
                         <div className="min-w-0 space-y-2">
                             <StatusBadge
                                 status={status}
@@ -443,12 +442,6 @@ export default function ServerSettingsPage() {
                             <Button variant="outline" size="sm" onClick={handleCheckNow} disabled={checking}>
                                 <ArrowsClockwise weight="light" className={checking ? 'animate-spin' : ''} />
                                 {checking ? 'Checking' : 'Check now'}
-                            </Button>
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="/servers">
-                                    <ChartLineUp weight="light" />
-                                    Live data
-                                </Link>
                             </Button>
                         </div>
                     </div>

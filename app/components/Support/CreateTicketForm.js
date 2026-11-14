@@ -76,7 +76,6 @@ const CreateTicketForm = () => {
     return (
         <div className="space-y-10">
             <PageHeader
-                eyebrow="Support"
                 title="New ticket"
                 description="Tell us what you need. The more detail you give, the faster we can help."
                 actions={

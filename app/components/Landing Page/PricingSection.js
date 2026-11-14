@@ -81,25 +81,26 @@ function buildPlans(yearly) {
     ]
 }
 
-// compact: the heading sits at the size of a sub-page section (the pricing page already has its own H1)
+// compact: for the pricing page, which already has its own H1 and intro, so the section skips its own heading
 export default function PricingSection({ compact = false }) {
     const [billing, setBilling] = useState('monthly')
     const yearly = billing === 'yearly'
     const plans = buildPlans(yearly)
 
     return (
-        <section id="pricing" className="px-4 py-24 sm:px-8 md:py-32">
+        <section id="pricing" className={compact ? 'px-4 pb-24 pt-4 sm:px-8 md:pb-32' : 'px-4 py-24 sm:px-8 md:py-32'}>
             <div className="mx-auto max-w-6xl">
                 <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-                    <Reveal className="max-w-xl space-y-5">
-                        <span className="eyebrow">Pricing</span>
-                        <h2 className={compact ? 'font-display text-3xl font-medium leading-[1.08] tracking-tight md:text-4xl' : 'font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl'}>
-                            Pay for the URLs you watch.
-                        </h2>
-                        <p className="text-[15px] leading-relaxed text-muted-foreground">
-                            Every plan includes uptime checks and alerts by email, Slack, Discord and Telegram, and the free plan never expires. Upgrade for more monitors and 1-minute checks.
-                        </p>
-                    </Reveal>
+                    {!compact && (
+                        <Reveal className="max-w-xl space-y-5">
+                            <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
+                                Pay for the URLs you watch.
+                            </h2>
+                            <p className="text-[15px] leading-relaxed text-muted-foreground">
+                                Every plan includes uptime checks and alerts by email, Slack, Discord and Telegram, and the free plan never expires. Upgrade for more monitors and 1-minute checks.
+                            </p>
+                        </Reveal>
+                    )}
 
                     <Reveal delay={90}>
                         <div
@@ -109,7 +110,7 @@ export default function PricingSection({ compact = false }) {
                         >
                             <span
                                 aria-hidden="true"
-                                className="absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-primary shadow-[0_8px_20px_-8px_oklch(0.7_0.13_220/0.7)] transition-transform duration-500 ease-fluid"
+                                className="absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-primary transition-transform duration-500 ease-fluid"
                                 style={{ transform: yearly ? 'translateX(100%)' : 'translateX(0)' }}
                             />
                             {['monthly', 'yearly'].map((v) => (
@@ -130,7 +131,7 @@ export default function PricingSection({ compact = false }) {
 
                 <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                     {plans.map((plan, i) => (
-                        <Reveal key={plan.title} delay={i * 80}>
+                        <Reveal key={plan.title} delay={Math.min(i * 55, 165)}>
                             <PricingCard plan={plan} />
                         </Reveal>
                     ))}

@@ -6,9 +6,6 @@ import {
   Plus,
   ArrowsClockwise,
   CaretRight,
-  CheckCircle,
-  Timer,
-  Pulse,
   EnvelopeSimple,
   ChartLineUp,
 } from '@phosphor-icons/react';
@@ -43,7 +40,6 @@ function GetStarted({ limits, plan, admin }) {
       <div className="bezel">
         <div className="bezel-core grid gap-10 p-7 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
           <div className="space-y-6">
-            <span className="eyebrow">Get started</span>
             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight">Add your first server.</h2>
             <p className="max-w-[44ch] text-[15px] leading-relaxed text-muted-foreground">
               Ping Pilott checks it on a schedule and tells you the moment it stops responding.
@@ -192,7 +188,6 @@ export default function DashboardPage() {
   return (
     <PageContainer className="space-y-10">
       <PageHeader
-        eyebrow={admin ? 'All accounts' : 'Overview'}
         title="Dashboard"
         description={
           loading
@@ -239,79 +234,21 @@ export default function DashboardPage() {
 
       {!firstRun && (
         <>
-          {/* Summary bento */}
-          <section aria-label="Summary" className="grid grid-cols-1 gap-4 md:grid-cols-12">
-            <Reveal className="md:col-span-6">
-              <div className="bezel-sm h-full">
-                <div className="bezel-sm-core flex h-full flex-col justify-between gap-6 p-6">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Fleet status</p>
-                      {loading ? (
-                        <Skeleton className="mt-3 h-10 w-44" />
-                      ) : (
-                        <p className="mt-2 font-display text-4xl font-medium tracking-tight tabular-nums">
-                          {counts.up}
-                          <span className="text-muted-foreground"> / {counts.total}</span>
-                          <span className="ml-2 text-base font-normal text-muted-foreground">operational</span>
-                        </p>
-                      )}
-                    </div>
-                    <CheckCircle weight="light" className={`size-6 ${counts.down > 0 ? 'text-muted-foreground' : 'text-success'}`} />
-                  </div>
-                  <div>
-                    <div className="flex h-2 gap-1 overflow-hidden rounded-full" role="img" aria-label={`${counts.up} operational, ${counts.down} down, ${counts.pending} pending`}>
-                      {counts.total === 0 ? (
-                        <span className="h-full flex-1 rounded-full bg-tint/[0.08]" />
-                      ) : (
-                        <>
-                          {counts.up > 0 && <span className="h-full rounded-full bg-success shadow-[0_0_14px_oklch(0.8_0.15_160/0.55)] transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.up / barTotal }} />}
-                          {counts.down > 0 && <span className="h-full rounded-full bg-destructive shadow-[0_0_14px_oklch(0.72_0.17_22/0.55)] transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.down / barTotal }} />}
-                          {counts.pending > 0 && <span className="h-full rounded-full bg-tint/20 transition-[flex-grow] duration-700 ease-fluid" style={{ flexGrow: counts.pending / barTotal }} />}
-                        </>
-                      )}
-                    </div>
-                    <p className="mt-3 text-xs text-muted-foreground">Refreshes every minute.</p>
-                  </div>
-                </div>
+          {/* Summary: one quiet row, no cards. The header line already says whether anything is down. */}
+          <dl aria-label="Summary" className="grid grid-cols-3 divide-x divide-border rounded-2xl ring-1 ring-border">
+            {[
+              { label: 'Operational', value: <>{counts.up}<span className="text-muted-foreground"> / {counts.total}</span></>, w: 'w-20' },
+              { label: 'Down now', value: counts.down, tone: counts.down > 0 ? 'text-destructive' : '', w: 'w-10' },
+              { label: 'Avg response', value: counts.avg === null ? '—' : <>{counts.avg}<span className="ml-1 text-base font-normal text-muted-foreground">ms</span></>, w: 'w-20' },
+            ].map((m) => (
+              <div key={m.label} className="px-4 py-5 sm:px-6">
+                <dt className="text-sm text-muted-foreground">{m.label}</dt>
+                <dd className={`mt-1 font-display text-3xl font-medium tracking-tight tabular-nums ${m.tone || ''}`}>
+                  {loading ? <Skeleton className={`h-9 ${m.w}`} /> : m.value}
+                </dd>
               </div>
-            </Reveal>
-
-            <Reveal delay={80} className="md:col-span-3">
-              <div className="bezel-sm h-full">
-                <div className="bezel-sm-core flex h-full flex-col justify-between gap-6 p-6">
-                  <div className="flex items-start justify-between">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Down now</p>
-                    <Pulse weight="light" className={`size-6 ${counts.down > 0 ? 'text-destructive' : 'text-muted-foreground/60'}`} />
-                  </div>
-                  {loading ? (
-                    <Skeleton className="h-10 w-16" />
-                  ) : (
-                    <p className={`font-display text-5xl font-medium tracking-tight tabular-nums ${counts.down > 0 ? 'text-destructive' : ''}`}>{counts.down}</p>
-                  )}
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={160} className="md:col-span-3">
-              <div className="bezel-sm h-full">
-                <div className="bezel-sm-core flex h-full flex-col justify-between gap-6 p-6">
-                  <div className="flex items-start justify-between">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Avg response</p>
-                    <Timer weight="light" className="size-6 text-muted-foreground/60" />
-                  </div>
-                  {loading ? (
-                    <Skeleton className="h-10 w-24" />
-                  ) : (
-                    <p className="font-display text-5xl font-medium tracking-tight tabular-nums">
-                      {counts.avg ?? '—'}
-                      {counts.avg !== null && <span className="ml-1 text-lg font-normal text-muted-foreground">ms</span>}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </Reveal>
-          </section>
+            ))}
+          </dl>
 
           {/* Needs attention */}
           {!loading && downServers.length > 0 && (

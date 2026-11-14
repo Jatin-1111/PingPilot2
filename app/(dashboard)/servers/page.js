@@ -288,7 +288,7 @@ function HistoryStrip({ data, loading = false }) {
                     />
                 ))}
             </div>
-            <div className="mt-2 flex justify-between font-mono text-[11px] text-muted-foreground">
+            <div className="mt-2 flex justify-between font-mono text-xs text-muted-foreground">
                 <span>24 hours ago</span>
                 <span>Now</span>
             </div>
@@ -684,7 +684,7 @@ export default function EnhancedServersPage() {
     if (loading && servers.length === 0) {
         return (
             <PageContainer className="space-y-10">
-                <PageHeader eyebrow="Monitoring" title="Servers" description="Loading your monitors." actions={addButton} />
+                <PageHeader title="Servers" description="Loading your monitors." actions={addButton} />
                 <div className="space-y-6" role="status" aria-label="Loading servers">
                     <Skeleton className="h-14 rounded-2xl" />
                     <div className="space-y-6">
@@ -701,7 +701,7 @@ export default function EnhancedServersPage() {
     if (error && servers.length === 0) {
         return (
             <PageContainer className="space-y-10">
-                <PageHeader eyebrow="Monitoring" title="Servers" actions={addButton} />
+                <PageHeader title="Servers" actions={addButton} />
                 <div className="bezel-sm">
                     <div className="bezel-sm-core">
                         <EmptyState
@@ -725,7 +725,7 @@ export default function EnhancedServersPage() {
     if (servers.length === 0) {
         return (
             <PageContainer className="space-y-10">
-                <PageHeader eyebrow="Monitoring" title="Servers" description="Websites, APIs and services you monitor appear here." />
+                <PageHeader title="Servers" description="Websites, APIs and services you monitor appear here." />
                 <div className="bezel-sm">
                     <div className="bezel-sm-core">
                         <EmptyState
@@ -768,13 +768,12 @@ export default function EnhancedServersPage() {
     return (
         <PageContainer className="space-y-8">
             <PageHeader
-                eyebrow="Monitoring"
                 title="Servers"
-                description={
-                    downCount > 0
-                        ? `${plural(downCount, 'server')} down, ${upCount} operational.`
-                        : `${plural(servers.length, 'server')} monitored, ${upCount} operational.`
-                }
+                description={`${plural(servers.length, 'server')}: ${[
+                    downCount > 0 && `${downCount} down`,
+                    `${upCount} operational`,
+                    servers.length - upCount - downCount > 0 && `${servers.length - upCount - downCount} pending`,
+                ].filter(Boolean).join(', ')}.`}
                 actions={<>{addButton}{picker}</>}
             />
 
@@ -794,9 +793,6 @@ export default function EnhancedServersPage() {
                         {/* Status, with the last 24 hours at a glance */}
                         <Reveal>
                             <Panel
-                                className={cn(
-                                    sStatus === 'down' && 'shadow-[0_0_0_1px_oklch(0.72_0.17_22/0.35),0_30px_60px_-40px_oklch(0.72_0.17_22/0.5)]'
-                                )}
                                 coreClassName="space-y-7"
                             >
                                 <div className="space-y-6">
@@ -836,31 +832,31 @@ export default function EnhancedServersPage() {
                                             {hasBreakdown ? (
                                                 <>
                                                     <div>
-                                                        <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Response time</dt>
+                                                        <dt className="text-xs font-medium text-muted-foreground">Response time</dt>
                                                         <dd className="mt-1 font-display text-4xl font-medium tracking-tight tabular-nums">
-                                                            {s.responseTime}
+                                                            {s.responseTime.toLocaleString()}
                                                             <span className="ml-1 text-base font-normal text-muted-foreground">ms</span>
                                                         </dd>
                                                     </div>
                                                     <div>
-                                                        <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Site&apos;s own time</dt>
+                                                        <dt className="text-xs font-medium text-muted-foreground">Site&apos;s own time</dt>
                                                         <dd className="mt-1 font-display text-2xl font-medium tracking-tight tabular-nums">
-                                                            {serverMs}
+                                                            {serverMs.toLocaleString()}
                                                             <span className="ml-1 text-sm font-normal text-muted-foreground">ms</span>
                                                         </dd>
                                                     </div>
                                                 </>
                                             ) : (
                                                 <div>
-                                                    <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Response</dt>
+                                                    <dt className="text-xs font-medium text-muted-foreground">Response</dt>
                                                     <dd className={cn('mt-1 font-display text-4xl font-medium tracking-tight tabular-nums', !s.responseTime && 'text-muted-foreground')}>
-                                                        {s.responseTime ? s.responseTime : '—'}
+                                                        {s.responseTime ? s.responseTime.toLocaleString() : '—'}
                                                         {s.responseTime ? <span className="ml-1 text-base font-normal text-muted-foreground">ms</span> : null}
                                                     </dd>
                                                 </div>
                                             )}
                                             <div>
-                                                <dt className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Last check</dt>
+                                                <dt className="text-xs font-medium text-muted-foreground">Last check</dt>
                                                 <dd className="mt-1 font-display text-2xl font-medium tracking-tight">{s.lastChecked ? timeAgo(s.lastChecked) : 'Not yet'}</dd>
                                             </div>
                                         </dl>
@@ -893,7 +889,7 @@ export default function EnhancedServersPage() {
 
                                 <section aria-labelledby="strip-heading">
                                     <div className="mb-3 flex items-baseline justify-between gap-3">
-                                        <h3 id="strip-heading" className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Last 24 hours</h3>
+                                        <h3 id="strip-heading" className="text-xs font-medium text-muted-foreground">Last 24 hours</h3>
                                         <p className={cn('font-mono text-sm tabular-nums', uptime24 === null ? 'text-muted-foreground' : parseFloat(uptime24) >= 99.9 ? 'text-success' : parseFloat(uptime24) >= 95 ? 'text-warning' : 'text-destructive')}>
                                             {historyPending ? 'Loading…' : uptime24 === null ? 'No checks yet' : `${uptime24}% uptime`}
                                         </p>
@@ -931,7 +927,7 @@ export default function EnhancedServersPage() {
                                         const downtime = calculateDowntime(hours);
                                         return (
                                             <div key={hours} className="p-6">
-                                                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Last {hours} hours</p>
+                                                <p className="text-xs text-muted-foreground">Last {hours} hours</p>
                                                 <p
                                                     className={cn(
                                                         'mt-3 font-display text-4xl font-medium tracking-tight tabular-nums',
@@ -1036,9 +1032,6 @@ export default function EnhancedServersPage() {
                             <Panel>
                                 <div className="flex flex-wrap items-center justify-between gap-3">
                                     <h3 className="font-display text-xl font-medium tracking-tight">How it’s monitored</h3>
-                                    <Button asChild variant="ghost" size="sm">
-                                        <Link href={`/servers/${idOf(s)}/settings`}>Change</Link>
-                                    </Button>
                                 </div>
                                 <div className="mt-6 grid gap-8 md:grid-cols-3">
                                     <dl className="space-y-4">

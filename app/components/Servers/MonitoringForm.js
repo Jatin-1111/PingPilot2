@@ -61,7 +61,6 @@ function segmentsOf(range) {
 }
 
 const overlaps = (s1, s2) => s1.some(([a, b]) => s2.some(([c, d]) => Math.max(a, c) < Math.min(b, d)));
-const totalMinutes = (segs) => segs.reduce((sum, [a, b]) => sum + (b - a), 0);
 const isAllDay = (range) => range.start === '00:00' && range.end === '23:59';
 const hoursLabel = (range) => (isAllDay(range) ? 'All day' : `${range.start} to ${range.end}`);
 
@@ -70,14 +69,13 @@ const hoursLabel = (range) => (isAllDay(range) ? 'All day' : `${range.start} to 
 function Section({ step, title, description, children }) {
     return (
         <section aria-labelledby={`mf-${step}`} className="border-t border-tint/[0.07] py-9 first:border-t-0 first:pt-0">
-            <header className="mb-6 flex items-start gap-4">
-                <span aria-hidden="true" className="mt-0.5 font-mono text-xs tabular-nums text-primary">0{step}</span>
+            <header className="mb-6">
                 <div className="space-y-1.5">
                     <h3 id={`mf-${step}`} className="font-display text-xl font-medium tracking-tight">{title}</h3>
                     {description && <p className="max-w-[52ch] text-sm leading-relaxed text-muted-foreground">{description}</p>}
                 </div>
             </header>
-            <div className="min-w-0 space-y-7 sm:pl-9">{children}</div>
+            <div className="min-w-0 space-y-7">{children}</div>
         </section>
     );
 }
@@ -757,7 +755,6 @@ function SetupSummary({ data, issues, className }) {
     const checkSegs = segmentsOf(data.checkTimeRange);
     const alertSegs = segmentsOf(data.alertTimeRange);
     const noDays = data.monitoringDays.length === 0;
-    const perDay = noDays ? 0 : Math.floor(totalMinutes(checkSegs) / data.checkFrequency);
     const hasWebhook = !!data.webhookUrl;
     const alertsOn = (data.alertPreferences.email && data.emails.length > 0) || hasWebhook;
 
@@ -788,7 +785,6 @@ function SetupSummary({ data, issues, className }) {
                 <dl className="divide-y divide-tint/[0.06] border-y border-tint/[0.06]">
                     <SummaryRow term="Interval"><span className="font-mono tabular-nums">Every {data.checkFrequency} min</span></SummaryRow>
                     <SummaryRow term="Days">{daysLabel(data.monitoringDays)}</SummaryRow>
-                    <SummaryRow term="Volume"><span className="font-mono tabular-nums">{perDay.toLocaleString()}</span> checks per active day</SummaryRow>
                     <SummaryRow term="Tell">
                         {channels.length ? (
                             <ul className="flex flex-wrap justify-end gap-1.5">
@@ -970,7 +966,7 @@ export const MonitoringForm = ({ onSave, initialData = {}, isLoading, submitLabe
     if (alertsOn && !noDays && checkSegs.length > 0 && alertSegs.length > 0 && !overlaps(checkSegs, alertSegs)) {
         issues.push('Alert hours sit outside check hours, so no alert would be sent.');
     }
-    if (!alertsOn && !issues.some((m) => m.includes('Email alerts are on'))) issues.push('Nobody will be alerted. Turn on a channel in step 2.');
+    if (!alertsOn && !issues.some((m) => m.includes('Email alerts are on'))) issues.push('Nobody will be alerted. Turn on a channel under Who to tell.');
 
     return (
         <form onSubmit={handleSubmit} noValidate aria-label="Monitoring settings" className="@container">
@@ -978,14 +974,7 @@ export const MonitoringForm = ({ onSave, initialData = {}, isLoading, submitLabe
                 <div className="min-w-0 space-y-6">
                     <div className="bezel-sm">
                         <div className="bezel-sm-core p-6 sm:p-8">
-                            <div className="mb-9 space-y-1.5">
-                                <h2 className="font-display text-2xl font-medium tracking-tight">Monitoring and alerts</h2>
-                                <p className="max-w-[52ch] text-sm leading-relaxed text-muted-foreground">
-                                    Choose when this server is checked, who is told when something changes, and what counts as a problem.
-                                </p>
-                            </div>
-
-                            <Section step={1} title="When to check" description="How often Ping Pilott checks, and on which days and hours.">
+                            <Section step={1} title="When to check" description="How often, and on which days and hours.">
                                 <FrequencyPicker
                                     value={formData.checkFrequency}
                                     onChange={(value) => handleChange('checkFrequency', value)}
@@ -1004,7 +993,7 @@ export const MonitoringForm = ({ onSave, initialData = {}, isLoading, submitLabe
                                 <p className="text-[13px] text-muted-foreground">Days and hours use the {timezone} timezone.</p>
                             </Section>
 
-                            <Section step={2} title="Who to tell" description="Turn on the ways you want to hear about problems. Each one opens its own settings.">
+                            <Section step={2} title="Who to tell" description="Turn on the ways you want to hear about problems.">
                                 <div className="space-y-3">
                                     <ChannelCard
                                         id="emailAlert"
@@ -1052,7 +1041,7 @@ export const MonitoringForm = ({ onSave, initialData = {}, isLoading, submitLabe
                                 </div>
                             </Section>
 
-                            <Section step={3} title="What counts as a problem" description="Down always sends an alert. These settings decide when slow does, and when you’re left in peace.">
+                            <Section step={3} title="What counts as a problem" description="Down always sends an alert. These decide when slow does, and when alerts stay quiet.">
                                 <ResponseTimeThresholdInput value={formData.responseThreshold} onChange={(value) => handleChange('responseThreshold', value)} />
                                 {supportsKeyword(serverType) && (
                                     <KeywordField value={formData.keyword || emptyKeyword()} onChange={(value) => handleChange('keyword', value)} />

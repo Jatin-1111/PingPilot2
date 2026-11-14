@@ -35,16 +35,15 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="UptimeRobot alternative"
-            eyebrow="Compare"
             title="Ping Pilott as an UptimeRobot alternative."
             intro="Both tools check your sites on a schedule and alert you when they fail. This is an honest look at how the plans compare, so you can pick the one that fits."
             faqs={FAQS}
         >
-            <Section eyebrow="At a glance" title="Ping Pilott vs UptimeRobot">
+            <Section title="Ping Pilott vs UptimeRobot">
                 <ComparisonTable theirs="UptimeRobot" caption="Ping Pilott compared with UptimeRobot" rows={ROWS} />
                 <p className="mt-4 text-xs text-muted-foreground">UptimeRobot details are from its public pricing page in October 2026 and may change. Check uptimerobot.com for current terms.</p>
             </Section>
-            <Section eyebrow="Where each fits" title="Choose the tool that matches your needs">
+            <Section title="Choose the tool that matches your needs">
                 <Prose>
                     <p><strong className="font-medium text-foreground">UptimeRobot fits</strong> teams that want many monitors, sub-minute checks, SMS and voice options, or integrations with chat and paging tools. Its plans scale to hundreds of monitors.</p>
                     <p><strong className="font-medium text-foreground">Ping Pilott fits</strong> individual developers and small teams who want to paste a URL, get an email when it fails, and look back over response times and every incident in one clear dashboard. It monitors websites, APIs, TCP ports and databases, explains each failure, and can publish a status page and show CPU, memory and disk through an optional host agent.</p>

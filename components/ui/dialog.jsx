@@ -70,7 +70,7 @@ function Dialog({ open, onClose, title, description, children, footer, className
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: EASE }}
+          transition={{ duration: 0.2, ease: EASE }}
           onMouseDown={(e) => {
             if (e.target === e.currentTarget) onClose?.()
           }}>
@@ -82,10 +82,10 @@ function Dialog({ open, onClose, title, description, children, footer, className
             aria-labelledby={titleId}
             tabIndex={-1}
             className={cn("bezel-sm max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto outline-none", className)}
-            initial={{ opacity: 0, y: 28, scale: 0.97 }}
+            initial={{ opacity: 0, y: 8, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.98 }}
-            transition={{ duration: 0.5, ease: EASE }}>
+            exit={{ opacity: 0, y: 4, scale: 0.98, transition: { duration: 0.18, ease: EASE } }}
+            transition={{ duration: 0.25, ease: EASE }}>
             <div className="bezel-sm-core p-6 sm:p-7">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1.5">

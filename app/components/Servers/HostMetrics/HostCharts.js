@@ -131,7 +131,7 @@ export function UsageBar({ label, pct, detail }) {
 function Fact({ label, children, sub }) {
     return (
         <div>
-            <dt className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">{label}</dt>
+            <dt className="text-xs font-medium text-muted-foreground">{label}</dt>
             <dd className="mt-1 font-display text-2xl font-medium tracking-tight tabular-nums">{children}</dd>
             {sub && <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>}
         </div>
@@ -156,7 +156,7 @@ export function CurrentValues({ latest }) {
             </dl>
             {latest.disks.length > 0 && (
                 <div>
-                    <h4 className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Disks</h4>
+                    <h4 className="text-xs font-medium text-muted-foreground">Disks</h4>
                     <div className="mt-3 grid gap-x-8 gap-y-4 sm:grid-cols-2">
                         {latest.disks.map((d) => (
                             <UsageBar key={d.mount} label={d.mount} pct={d.pct} detail={`${formatBytes(d.used)} of ${formatBytes(d.total)}`} />

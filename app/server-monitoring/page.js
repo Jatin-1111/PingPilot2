@@ -36,18 +36,17 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Server monitoring"
-            eyebrow="Server monitoring"
             title="Server monitoring for the websites, APIs and ports you depend on."
             intro="Know when a server stops answering, and why. Ping Pilott checks websites, APIs, TCP ports and databases on a schedule, alerts you at the first failure, records every outage, and with the host agent shows CPU, memory and disk."
             faqs={FAQS}
         >
-            <Section eyebrow="Outside in, then inside" title="Server monitoring from both sides">
+            <Section title="Server monitoring from both sides">
                 <Prose>
                     <p>Ping Pilott first watches your servers the way your users reach them: from the outside. That catches the failures that matter, such as a crashed service, a closed port or a host that no longer responds.</p>
                     <p>For the cause, add the host agent. It reports the machine&apos;s CPU, memory, disk and network, so a 504 can be tied to a CPU that sat at 98% rather than guessed at. See <Link href="/server-resource-monitoring" className="text-primary underline-offset-4 hover:underline">server resource monitoring</Link> for what it sends and what it never does.</p>
                 </Prose>
             </Section>
-            <Section eyebrow="What you can monitor" title="One dashboard for every server">
+            <Section title="One dashboard for every server">
                 <FeatureGrid items={FEATURES} />
             </Section>
         </MarketingPage>

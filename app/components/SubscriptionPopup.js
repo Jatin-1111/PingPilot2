@@ -78,7 +78,7 @@ const SubscriptionPopup = ({ isOpen, onClose, currentPlan = 'free', serverCount 
                                 )}
                             >
                                 <span className="flex h-6 items-center justify-between">
-                                    <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{t.name}</span>
+                                    <span className="text-xs font-medium text-muted-foreground">{t.name}</span>
                                     {t.recommended && <Badge>Most popular</Badge>}
                                 </span>
                                 <span className="mt-3 font-display text-3xl font-medium tracking-tight tabular-nums">{p.price}</span>

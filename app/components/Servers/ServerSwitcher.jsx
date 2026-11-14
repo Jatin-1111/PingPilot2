@@ -21,6 +21,9 @@ const GROUPS = { down: 'Needs attention', unknown: 'Waiting for first check', up
 
 const EASE = [0.32, 0.72, 0, 1];
 
+// Rows drawn at once. An account can have well over a thousand monitors; search narrows what is beyond this.
+const MAX_ROWS = 100;
+
 const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 const isMac = () => typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || '');
@@ -88,14 +91,16 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
     }, [open]);
 
     const counts = useMemo(() => countByStatus(servers), [servers]);
-    const listed = useMemo(() => filterAndSort(servers, { query, status, sort }), [servers, query, status, sort]);
+    const matches = useMemo(() => filterAndSort(servers, { query, status, sort }), [servers, query, status, sort]);
+    const listed = useMemo(() => matches.slice(0, MAX_ROWS), [matches]);
+    const capped = matches.length > listed.length;
     const current = Math.min(active, Math.max(0, listed.length - 1));
 
     // Headings split the list into "needs attention" and the rest, but only while it is in problems-first order
     const rows = useMemo(() => {
         if (sort !== 'problems') return listed.map((server) => ({ server }));
         const tally = { down: 0, unknown: 0, up: 0 };
-        listed.forEach((x) => { tally[statusOf(x)] += 1; });
+        matches.forEach((x) => { tally[statusOf(x)] += 1; });
         const out = [];
         let last = null;
         listed.forEach((server) => {
@@ -107,7 +112,7 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
             out.push({ server });
         });
         return out;
-    }, [listed, sort]);
+    }, [listed, matches, sort]);
 
     // Keep the highlighted row in view
     useEffect(() => {
@@ -173,17 +178,17 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: reduce ? 0 : 0.25, ease: EASE }}
+            transition={{ duration: reduce ? 0 : 0.12, ease: EASE }}
             className="fixed inset-0 flex items-start justify-center bg-shade/60 p-3 pt-[8vh] backdrop-blur-sm sm:p-6 sm:pt-[12vh]"
             style={{ zIndex: 'var(--z-modal)' }}
             onMouseDown={(e) => { if (e.target === e.currentTarget) close(); }}
         >
             <motion.div
                 ref={panelRef}
-                initial={reduce ? false : { opacity: 0, y: -12, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.985 }}
-                transition={{ duration: reduce ? 0 : 0.35, ease: EASE }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: reduce ? 0 : 0.12, ease: EASE }}
                 role="dialog"
                 aria-modal="true"
                 aria-label="Switch server"
@@ -208,7 +213,7 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
                         onChange={(e) => { setQuery(e.target.value); setActive(0); }}
                         className="h-14 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
                     />
-                    <kbd className="hidden rounded-md px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground ring-1 ring-tint/[0.1] sm:inline">Esc</kbd>
+                    <kbd className="hidden rounded-md px-1.5 py-0.5 font-mono text-xs text-muted-foreground ring-1 ring-tint/[0.1] sm:inline">Esc</kbd>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 border-b border-tint/[0.07] px-4 py-3" role="group" aria-label="Show servers by status">
@@ -245,7 +250,7 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
                                 <li
                                     key={`h-${row.key}`}
                                     role="presentation"
-                                    className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground first:pt-1"
+                                    className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-3 py-2 text-xs font-medium text-muted-foreground first:pt-1"
                                 >
                                     <span>{row.heading}</span>
                                     <span className="font-mono tabular-nums">{row.count}</span>
@@ -272,19 +277,28 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
                             >
                                 <StatusDot status={server.status} />
                                 <span className="min-w-0 flex-1">
-                                    <span className="block truncate text-sm font-medium">
-                                        {server.name}
-                                        {isCurrent && <span className="ml-2 text-xs font-normal text-muted-foreground">Viewing</span>}
+                                    <span className="flex items-baseline gap-2">
+                                        <span className={cn('truncate text-sm font-medium', !server.name?.trim() && 'font-mono text-xs font-normal')} title={server.name?.trim() || displayUrl(server.url)}>
+                                            {server.name?.trim() || displayUrl(server.url)}
+                                        </span>
+                                        {isCurrent && <span className="shrink-0 text-xs font-normal text-muted-foreground">Viewing</span>}
                                     </span>
-                                    <span className="block truncate font-mono text-xs text-muted-foreground">{displayUrl(server.url)}</span>
+                                    {server.name?.trim() && (
+                                        <span className="block truncate font-mono text-xs text-muted-foreground" title={displayUrl(server.url)}>{displayUrl(server.url)}</span>
+                                    )}
                                 </span>
                                 <span className={cn('shrink-0 font-mono text-xs tabular-nums', st === 'down' ? 'text-destructive' : 'text-muted-foreground')}>
-                                    {st === 'down' ? 'Down' : st === 'unknown' ? 'Pending' : server.responseTime ? `${server.responseTime} ms` : '—'}
+                                    {st === 'down' ? 'Down' : st === 'unknown' ? 'Pending' : server.responseTime ? `${Number(server.responseTime).toLocaleString()} ms` : '—'}
                                 </span>
                                 <span className="sr-only">{st === 'up' ? 'Operational' : st === 'down' ? 'Down' : 'Pending'}</span>
                             </li>
                         );
                     })}
+                    {capped && (
+                        <li role="presentation" className="px-3 py-3 text-center text-xs text-muted-foreground">
+                            Showing the first {MAX_ROWS} of {matches.length.toLocaleString()}. Type to narrow the list.
+                        </li>
+                    )}
                     {listed.length === 0 && (
                         <li role="presentation" className="px-3 py-10 text-center text-sm text-muted-foreground">
                             <p>No servers match{query.trim() ? ` “${query.trim()}”` : ''}.</p>
@@ -303,7 +317,7 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
 
                 <div className="flex items-center justify-between gap-3 border-t border-tint/[0.07] px-4 py-2.5 text-xs text-muted-foreground">
                     <span role="status" aria-live="polite" className="tabular-nums">
-                        {filtered ? `${listed.length} of ${servers.length}` : `${servers.length} ${servers.length === 1 ? 'server' : 'servers'}`}
+                        {filtered ? `${matches.length.toLocaleString()} of ${servers.length.toLocaleString()}` : `${servers.length.toLocaleString()} ${servers.length === 1 ? 'server' : 'servers'}`}
                     </span>
                     <span className="hidden items-center gap-3 sm:flex" aria-hidden="true">
                         <span><kbd className="font-mono">↑↓</kbd> move</span>
@@ -336,7 +350,7 @@ export default function ServerSwitcher({ servers, selected, onSelect, className 
             >
                 <MagnifyingGlass weight="light" aria-hidden="true" className="size-[1.1em]" />
                 Switch server
-                <kbd className="hidden rounded-full bg-shade/15 px-2 py-0.5 font-mono text-[11px] font-normal text-muted-foreground sm:inline" aria-hidden="true">
+                <kbd className="hidden rounded-full bg-shade/15 px-2 py-0.5 font-mono text-xs font-normal text-muted-foreground sm:inline" aria-hidden="true">
                     {mac ? '⌘K' : 'Ctrl K'}
                 </kbd>
                 <span className="sr-only">, {servers.length} {servers.length === 1 ? 'server' : 'servers'}{selected ? `, viewing ${selected.name}` : ''}</span>

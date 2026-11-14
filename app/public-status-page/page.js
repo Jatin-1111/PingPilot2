@@ -36,26 +36,25 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Public status page"
-            eyebrow="Status page"
             title="A public status page that updates itself."
             intro="Give customers one link that shows whether your website and services are up, with 30 days of history and recent incidents, built from the uptime checks you already run."
             faqs={FAQS}
         >
-            <Section eyebrow="Why publish one" title="Fewer tickets, more trust">
+            <Section title="Fewer tickets, more trust">
                 <Prose>
                     <p>When something breaks, the first question from customers is whether it is you or them. A status page answers it before they ask, and a visible record of fast recoveries builds more trust than silence.</p>
                     <p>Ping Pilott builds the page from your monitors, so it is accurate the moment a check fails and the moment it recovers, with no one needing to log in during an outage.</p>
                 </Prose>
             </Section>
-            <Section eyebrow="What you get" title="Everything a status page needs, nothing to maintain">
+            <Section title="Everything a status page needs, nothing to maintain">
                 <FeatureGrid items={FEATURES} />
             </Section>
-            <Section eyebrow="Plans" title="Status pages on every plan">
+            <Section title="Status pages on every plan">
                 <div className="overflow-x-auto rounded-2xl ring-1 ring-tint/[0.07]">
                     <table className="w-full min-w-[26rem] border-collapse text-left text-sm">
                         <caption className="sr-only">Status pages included in each Ping Pilott plan</caption>
                         <thead>
-                            <tr className="bg-tint/[0.04] text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                            <tr className="bg-tint/[0.04] text-xs text-muted-foreground">
                                 <th scope="col" className="px-3 py-3 font-medium sm:px-4">Plan</th>
                                 <th scope="col" className="px-3 py-3 font-medium sm:px-4">Status pages</th>
                                 <th scope="col" className="px-3 py-3 font-medium sm:px-4">&ldquo;Powered by&rdquo; line</th>
@@ -73,7 +72,7 @@ export default function Page() {
                     </table>
                 </div>
             </Section>
-            <Section eyebrow="Setup" title="Publish a page in three steps">
+            <Section title="Publish a page in three steps">
                 <ol className="max-w-[62ch] list-decimal space-y-3 pl-5 text-[15px] leading-relaxed text-muted-foreground">
                     <li>Add the websites or servers you want to show as monitors. <Link href="/docs/getting-started" className="text-primary underline-offset-4 hover:underline">Getting started</Link> shows how.</li>
                     <li>Open Status pages in the dashboard, choose a title and address, and pick the monitors to list.</li>

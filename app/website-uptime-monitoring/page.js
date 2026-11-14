@@ -39,21 +39,20 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Website uptime monitoring"
-            eyebrow="Website uptime monitoring"
             title="Website uptime monitoring that tells you the moment you're down."
             intro="Ping Pilott checks your website on a schedule, as often as every minute, emails you when it stops answering, and keeps a record of every outage and every response time."
             faqs={FAQS}
         >
-            <Section eyebrow="Why monitor uptime" title="Visitors notice downtime before you do">
+            <Section title="Visitors notice downtime before you do">
                 <Prose>
                     <p>Most outages are found by customers, not by the team running the site. Every minute a checkout, login or landing page is unreachable costs sales and support tickets, and Google also sees pages that fail to load.</p>
                     <p>An uptime monitor closes that gap. It makes the same request a visitor would, on a timer, from outside your own network, and alerts you when the answer is an error or never arrives.</p>
                 </Prose>
             </Section>
-            <Section eyebrow="What you get" title="Everything you need to watch a website">
+            <Section title="Everything you need to watch a website">
                 <FeatureGrid items={FEATURES} />
             </Section>
-            <Section eyebrow="Setup" title="Start monitoring in three steps">
+            <Section title="Start monitoring in three steps">
                 <ol className="max-w-[62ch] list-decimal space-y-3 pl-5 text-[15px] leading-relaxed text-muted-foreground">
                     <li>Create a free account.</li>
                     <li>Paste your website address and choose a check interval.</li>

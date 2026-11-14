@@ -32,7 +32,7 @@ function PlanPanel({ plan, isAdmin, serverCount, maxServers }) {
         <aside aria-label="Your plan" className="bezel-sm">
             <div className="bezel-sm-core space-y-5 p-6">
                 <div className="flex items-baseline justify-between gap-3">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Your plan</p>
+                    <p className="text-xs text-muted-foreground">Your plan</p>
                     <p className="font-display text-lg font-medium tracking-tight">{isAdmin ? 'Admin' : planLabel(plan)}</p>
                 </div>
 
@@ -283,7 +283,6 @@ export default function NewServerPage() {
                 />
 
                 <PageHeader
-                    eyebrow="New monitor"
                     title="Add a server"
                     description={
                         success

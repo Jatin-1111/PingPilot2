@@ -21,10 +21,10 @@ const PricingCard = ({ plan }) => {
         >
             <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-6 shadow-[inset_0_1px_1px_color-mix(in_oklch,var(--hi)_7%,transparent)]">
                 <div className="flex h-6 items-center justify-between">
-                    <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</h3>
+                    <h3 className="text-xs font-medium text-muted-foreground">{title}</h3>
                     {tag && (
                         <span className={cn(
-                            'rounded-md px-2 py-0.5 text-[11px] font-medium ring-1',
+                            'rounded-md px-2 py-0.5 text-xs font-medium ring-1',
                             featured ? 'bg-primary/15 text-primary ring-primary/30' : 'bg-success/10 text-success ring-success/25'
                         )}>
                             {tag}

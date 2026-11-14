@@ -247,18 +247,6 @@
       radial-gradient(50rem 30rem at 50% 110%, var(--ambient-3), transparent 60%);
   }
 
-  /* Film grain: fixed, non-interactive */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: var(--z-grain);
-    pointer-events: none;
-    opacity: var(--grain-opacity);
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
-
   /* Thin, tinted scrollbars */
   * {
     scrollbar-width: thin;
@@ -338,21 +326,6 @@
     0 18px 40px -18px color-mix(in oklch, var(--shadow-ink) 70%, transparent);
 }
 
-@utility eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--primary);
-  background: color-mix(in oklch, var(--primary) 8%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent);
-}
-
 @utility hairline-b {
   border-bottom: 1px solid var(--border);
 }
@@ -360,12 +333,12 @@
 /* Scroll-entry: heavy fade-up. Toggled by <Reveal> via IntersectionObserver. */
 @utility reveal {
   opacity: 0;
-  transform: translate3d(0, 2.5rem, 0);
+  transform: translate3d(0, 1rem, 0);
   filter: blur(6px);
   transition:
-    opacity 900ms var(--ease-fluid),
-    transform 900ms var(--ease-fluid),
-    filter 900ms var(--ease-fluid);
+    opacity 500ms var(--ease-fluid),
+    transform 500ms var(--ease-fluid),
+    filter 500ms var(--ease-fluid);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
@@ -577,10 +550,8 @@
    (a filtered or translucent ancestor stops backdrop-filter from seeing the backdrop). */
 :is(.app-glass, .glass-app) .reveal {
   filter: none;
-  transform: translate3d(0, 0.875rem, 0);
-  transition:
-    opacity 420ms var(--ease-fluid),
-    transform 700ms var(--ease-fluid);
+  transform: none;
+  transition: opacity 200ms var(--ease-fluid);
   transition-delay: var(--reveal-delay, 0ms);
 }
 :is(.app-glass, .glass-app) .reveal-in {

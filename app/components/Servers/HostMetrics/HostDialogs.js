@@ -5,7 +5,6 @@ import { Check, Copy, CircleNotch, CheckCircle } from '@phosphor-icons/react';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
-import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { copyText } from '@/lib/clipboard';
 import { DEFAULT_LIMITS, LIMITS, checkLimits } from '@/lib/hostMetrics';
@@ -149,28 +148,24 @@ const toForm = (limits) => ({
     missing: { minutes: String(limits.missing.minutes) },
 });
 
-function NumberField({ id, label, error, value, onChange, suffix, range }) {
+// A number that sits inside a sentence ("above [90] % for [5] min"), so a limit reads as one rule, not two stacked fields
+function InlineNumber({ id, label, value, onChange, error, range }) {
     return (
-        <Field id={id} label={label} error={error} className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-                <Input
-                    id={id}
-                    inputMode="numeric"
-                    autoComplete="off"
-                    value={value}
-                    onChange={(e) => onChange(e.target.value)}
-                    aria-invalid={error ? true : undefined}
-                    aria-describedby={error ? `${id}-msg` : undefined}
-                    className="max-w-24 tabular-nums"
-                />
-                <span className="text-sm text-muted-foreground">{suffix}</span>
-            </div>
-            {range && !error && <span className="sr-only">{range}</span>}
-        </Field>
+        <Input
+            id={id}
+            inputMode="numeric"
+            autoComplete="off"
+            aria-label={label}
+            aria-invalid={error ? true : undefined}
+            title={error || range}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="h-10 w-[4.5rem] text-center tabular-nums"
+        />
     );
 }
 
-/** The limits for the alerts: prefilled, with units, checked as you leave a field and again on save */
+/** The limits for the alerts: one rule per line, prefilled, checked as you save */
 export function LimitsDialog({ open, onClose, limits, onSave, busy, error }) {
     const [form, setForm] = useState(() => toForm(limits));
     const [errors, setErrors] = useState({});
@@ -184,15 +179,20 @@ export function LimitsDialog({ open, onClose, limits, onSave, busy, error }) {
         if (result.ok) onSave(result.payload.monitoring.hostAlerts);
     };
 
-    const row = (group, name, hint) => (
-        <fieldset key={group} className="space-y-2">
-            <legend className="text-sm font-medium">{name}</legend>
-            <p className="text-[13px] text-muted-foreground">{hint}</p>
-            <div className="flex flex-wrap gap-4">
-                <NumberField id={`limit-${group}-percent`} label="Above" suffix="%" value={form[group].percent} onChange={set(group, 'percent')} error={errors[`${group}.percent`]} range={`${LIMITS.percent[0]} to ${LIMITS.percent[1]}`} />
-                <NumberField id={`limit-${group}-minutes`} label="For at least" suffix={group === 'disk' ? 'min' : 'minutes'} value={form[group].minutes} onChange={set(group, 'minutes')} error={errors[`${group}.minutes`]} range={`${LIMITS.minutes[0]} to ${LIMITS.minutes[1]}`} />
+    const percentRange = `${LIMITS.percent[0]} to ${LIMITS.percent[1]}`;
+    const minutesRange = `${LIMITS.minutes[0]} to ${LIMITS.minutes[1]}`;
+
+    const rule = (group, name, what) => (
+        <div key={group} role="group" aria-label={name} className="grid items-center gap-x-4 gap-y-2 sm:grid-cols-[6.5rem_1fr]">
+            <p className="text-sm font-medium">{name}</p>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-muted-foreground">
+                <span className="sm:min-w-[8.5rem]">{what} above</span>
+                <InlineNumber id={`limit-${group}-percent`} label={`${name}: percent limit`} value={form[group].percent} onChange={set(group, 'percent')} error={errors[`${group}.percent`]} range={percentRange} />
+                <span>% for</span>
+                <InlineNumber id={`limit-${group}-minutes`} label={`${name}: minutes above the limit`} value={form[group].minutes} onChange={set(group, 'minutes')} error={errors[`${group}.minutes`]} range={minutesRange} />
+                <span>min</span>
             </div>
-        </fieldset>
+        </div>
     );
 
     return (
@@ -200,7 +200,7 @@ export function LimitsDialog({ open, onClose, limits, onSave, busy, error }) {
             open={open}
             onClose={busy ? undefined : onClose}
             title="Alert limits"
-            description="You are told once when a number stays above its limit for the time you set, and once when it is back to normal. 0 minutes means at once."
+            description="You hear once when a value stays above its limit for the time you set, and once when it recovers. 0 minutes alerts at once."
             className="max-w-xl"
             footer={
                 <>
@@ -209,26 +209,29 @@ export function LimitsDialog({ open, onClose, limits, onSave, busy, error }) {
                     <Button type="submit" form="limits-form" disabled={busy} className="min-h-12 sm:min-h-10">{busy ? 'Saving…' : 'Save limits'}</Button>
                 </>
             }>
-            <form id="limits-form" onSubmit={submit} noValidate className="space-y-6">
+            <form id="limits-form" onSubmit={submit} noValidate className="space-y-5">
                 {error && <Alert tone="error" title="Could not save">{error}</Alert>}
                 {Object.keys(errors).length > 0 && (
                     <Alert tone="error" title="Check these fields">
                         <ul className="list-disc pl-4">{Object.values(errors).map((message) => <li key={message}>{message}</li>)}</ul>
                     </Alert>
                 )}
-                <label className="flex min-h-12 cursor-pointer items-center gap-3 text-sm">
-                    <input type="checkbox" checked={form.enabled} onChange={(e) => setForm((f) => ({ ...f, enabled: e.target.checked }))} className="size-5 accent-[var(--primary)]" />
-                    <span>Send these alerts</span>
+                <label className="flex min-h-11 cursor-pointer items-center justify-between gap-4 rounded-xl px-4 text-sm ring-1 ring-border">
+                    <span className="font-medium">Send these alerts</span>
+                    <input type="checkbox" role="switch" checked={form.enabled} onChange={(e) => setForm((f) => ({ ...f, enabled: e.target.checked }))} className="size-5 accent-[var(--primary)]" />
                 </label>
-                <div className={cn('space-y-6', !form.enabled && 'opacity-50')}>
-                    {row('cpu', 'CPU', 'Alert when CPU use stays above this.')}
-                    {row('memory', 'Memory', 'Alert when memory use stays above this.')}
-                    {row('disk', 'Disk space', 'Alert when the fullest disk stays above this.')}
-                    <fieldset className="space-y-2">
-                        <legend className="text-sm font-medium">No data</legend>
-                        <p className="text-[13px] text-muted-foreground">Alert when the agent has not reported for this long.</p>
-                        <NumberField id="limit-missing-minutes" label="Not reporting for at least" suffix="minutes" value={form.missing.minutes} onChange={set('missing', 'minutes')} error={errors['missing.minutes']} range={`${LIMITS.missingMinutes[0]} to ${LIMITS.missingMinutes[1]}`} />
-                    </fieldset>
+                <div className={cn('space-y-5 transition-opacity duration-150 ease-fluid', !form.enabled && 'opacity-50')}>
+                    {rule('cpu', 'CPU', 'Use')}
+                    {rule('memory', 'Memory', 'Use')}
+                    {rule('disk', 'Disk space', 'Fullest disk')}
+                    <div role="group" aria-label="No data" className="grid items-center gap-x-4 gap-y-2 sm:grid-cols-[6.5rem_1fr]">
+                        <p className="text-sm font-medium">No data</p>
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-muted-foreground">
+                            <span className="sm:min-w-[8.5rem]">Agent silent for</span>
+                            <InlineNumber id="limit-missing-minutes" label="No data: minutes silent" value={form.missing.minutes} onChange={set('missing', 'minutes')} error={errors['missing.minutes']} range={`${LIMITS.missingMinutes[0]} to ${LIMITS.missingMinutes[1]}`} />
+                            <span>min</span>
+                        </div>
+                    </div>
                 </div>
             </form>
         </Dialog>

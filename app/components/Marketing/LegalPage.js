@@ -20,7 +20,6 @@ export default function LegalPage({ path, title, intro, sections }) {
             <Navbar />
             <main id="main-content" className="px-4 pb-24 pt-32 sm:px-8 md:pt-44">
                 <div className="mx-auto max-w-3xl">
-                    <span className="eyebrow">Legal</span>
                     <h1 className="mt-6 font-display text-4xl font-medium leading-[1.05] tracking-[-0.03em] md:text-5xl">{title}</h1>
                     <p className="mt-4 text-sm text-muted-foreground">Last updated {LEGAL.updatedLabel}</p>
                     <p className="mt-6 max-w-[62ch] text-[15px] leading-relaxed text-muted-foreground">{intro}</p>

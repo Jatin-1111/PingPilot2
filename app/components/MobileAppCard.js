@@ -65,7 +65,7 @@ export default function MobileAppCard() {
               <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-tint/[0.05] text-primary ring-1 ring-tint/10">
                 <DeviceMobile weight="light" className="size-5" />
               </span>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 New · Android app{app.name ? ` · version ${app.name}` : ''}
               </span>
             </div>

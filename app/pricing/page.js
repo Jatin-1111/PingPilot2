@@ -50,7 +50,6 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Pricing"
-            eyebrow="Pricing"
             title="Uptime monitoring pricing that scales with the URLs you watch."
             intro="Every plan includes uptime checks and email alerts. Start free, then upgrade for more monitors and 1-minute checks."
             faqs={FAQS}

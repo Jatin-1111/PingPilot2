@@ -18,7 +18,6 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Blog"
-            eyebrow="Blog"
             title="Uptime monitoring guides."
             intro="Practical advice on keeping websites and servers available, and on knowing quickly when they are not."
             cta={false}

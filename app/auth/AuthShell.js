@@ -38,8 +38,8 @@ export default function AuthShell({ children }) {
                     <div className="bezel-sm">
                         <div className="bezel-sm-core p-5">
                             <div className="flex items-center justify-between">
-                                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Response time</p>
-                                <span className="rounded-md bg-tint/[0.05] px-2 py-0.5 font-mono text-[11px] text-muted-foreground ring-1 ring-tint/[0.07]">
+                                <p className="text-xs text-muted-foreground">Response time</p>
+                                <span className="rounded-md bg-tint/[0.05] px-2 py-0.5 font-mono text-xs text-muted-foreground ring-1 ring-tint/[0.07]">
                                     Sample data
                                 </span>
                             </div>

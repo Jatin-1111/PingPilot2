@@ -128,7 +128,6 @@ export default function LandingPage() {
                     <div data-hero-copy className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-12 lg:items-end lg:gap-x-10">
                         <div className="space-y-6 lg:col-span-8">
                             <div data-hero-in className="flex flex-wrap items-center gap-3">
-                                <span className="eyebrow">Website uptime monitoring</span>
                                 <Link
                                     href="/android-app"
                                     className="inline-flex items-center gap-2 rounded-full bg-tint/[0.04] px-3 py-1 text-[12px] text-muted-foreground ring-1 ring-tint/10 backdrop-blur-sm transition-colors duration-300 ease-fluid hover:bg-tint/[0.07] hover:text-foreground"
@@ -177,7 +176,6 @@ export default function LandingPage() {
                 <section id="features" className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto max-w-6xl">
                         <div data-reveal="heading" className="mb-14 max-w-xl space-y-5">
-                            <span className="eyebrow">What you get</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
                                 Website and server monitoring, without the setup.
                             </h2>
@@ -190,7 +188,6 @@ export default function LandingPage() {
                 <section className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto max-w-6xl">
                         <div data-reveal="heading" className="mb-12 max-w-xl space-y-5">
-                            <span className="eyebrow">More than a ping</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
                                 Find out why, and tell your customers.
                             </h2>
@@ -213,7 +210,6 @@ export default function LandingPage() {
                     <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
                         <div className="md:sticky md:top-32 md:self-start">
                             <div data-reveal="heading" className="space-y-5">
-                                <span className="eyebrow">How it works</span>
                                 <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
                                     Three steps to a quiet pager.
                                 </h2>
@@ -245,7 +241,6 @@ export default function LandingPage() {
                 <section id="faq" className="px-4 py-24 sm:px-8 md:py-32">
                     <div className="mx-auto max-w-6xl">
                         <div data-reveal="heading" className="mb-12 max-w-xl space-y-5">
-                            <span className="eyebrow">FAQ</span>
                             <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">Common questions.</h2>
                         </div>
                         <dl data-reveal-group className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">

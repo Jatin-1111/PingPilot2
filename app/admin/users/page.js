@@ -188,7 +188,6 @@ export default function UsersManagement() {
     return (
         <PageContainer className="space-y-10">
             <PageHeader
-                eyebrow="Admin"
                 title="Users"
                 description={loading ? 'Loading users.' : `${users.length} ${users.length === 1 ? 'account' : 'accounts'}, ${adminCount} with admin access.`}
                 actions={

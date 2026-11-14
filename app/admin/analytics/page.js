@@ -69,7 +69,7 @@ function Tile({ title, value, unit, change, better, className = '', big = false,
         <Reveal delay={delay} className={className}>
             <div className="bezel-sm h-full">
                 <div className="bezel-sm-core flex h-full flex-col justify-between gap-8 p-6">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{title}</p>
+                    <p className="text-xs text-muted-foreground">{title}</p>
                     <div>
                         <p className={`font-display font-medium tracking-tight tabular-nums ${big ? 'text-6xl' : 'text-4xl'}`}>
                             {value}
@@ -189,7 +189,6 @@ export default function AdminAnalytics() {
     return (
         <PageContainer className="space-y-10">
             <PageHeader
-                eyebrow="Admin"
                 title="Analytics"
                 description="How the platform is performing, compared with the previous period."
                 actions={

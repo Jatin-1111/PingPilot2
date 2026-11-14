@@ -146,7 +146,6 @@ const TicketDetail = () => {
     return (
         <div className="space-y-8">
             <PageHeader
-                eyebrow="Support ticket"
                 title={ticket.subject}
                 actions={
                     <>

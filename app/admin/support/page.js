@@ -131,7 +131,7 @@ export default function AdminTicketManager() {
                 <button
                     type="button"
                     onClick={() => toggleSort(field)}
-                    className="inline-flex items-center gap-1.5 rounded-md uppercase tracking-[0.14em] transition-colors duration-300 ease-fluid hover:text-foreground"
+                    className="inline-flex items-center gap-1.5 rounded-md transition-colors duration-300 ease-fluid hover:text-foreground"
                 >
                     {children}
                     {active ? (
@@ -166,7 +166,6 @@ export default function AdminTicketManager() {
     return (
         <PageContainer className="space-y-10">
             <PageHeader
-                eyebrow="Admin"
                 title="Support tickets"
                 description={
                     loading

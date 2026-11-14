@@ -23,7 +23,6 @@ export default function DocsIndex() {
     return (
         <DocsShell current={null}>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
-            <span className="eyebrow">Documentation</span>
             <h1 className="mt-6 font-display text-4xl font-medium leading-[1.05] tracking-[-0.03em] md:text-5xl">Set up Ping Pilott</h1>
             <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-muted-foreground">Everything from your first monitor to a public status page and CPU, memory and disk metrics for a server, in the order you will need it.</p>
             <ol className="mt-12 grid gap-4 sm:grid-cols-2">

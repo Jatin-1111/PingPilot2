@@ -36,16 +36,15 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Pingdom alternative"
-            eyebrow="Compare"
             title="Ping Pilott as a Pingdom alternative."
             intro="Pingdom is a broad monitoring platform. If you mainly need to know when a site is down and how fast it responds, a simpler tool can be enough."
             faqs={FAQS}
         >
-            <Section eyebrow="At a glance" title="Ping Pilott vs Pingdom">
+            <Section title="Ping Pilott vs Pingdom">
                 <ComparisonTable theirs="Pingdom" caption="Ping Pilott compared with Pingdom" rows={ROWS} />
                 <p className="mt-4 text-xs text-muted-foreground">Pingdom details are from its public pricing page in October 2026 and may change. Check pingdom.com for current terms and prices.</p>
             </Section>
-            <Section eyebrow="Where each fits" title="Simple uptime or a full platform">
+            <Section title="Simple uptime or a full platform">
                 <Prose>
                     <p><strong className="font-medium text-foreground">Pingdom fits</strong> organisations that want synthetic transaction checks and real user monitoring alongside uptime checks, and that can budget for a larger platform.</p>
                     <p><strong className="font-medium text-foreground">Ping Pilott fits</strong> developers and small teams who want scheduled checks on websites, APIs and ports, email alerts, response times and an incident history, with prices that are listed up front.</p>

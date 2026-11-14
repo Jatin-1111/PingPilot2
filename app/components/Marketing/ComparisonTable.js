@@ -5,7 +5,7 @@ export default function ComparisonTable({ theirs, rows, caption }) {
             <table className="w-full min-w-[30rem] border-collapse text-left text-sm">
                 <caption className="sr-only">{caption}</caption>
                 <thead>
-                    <tr className="bg-tint/[0.04] text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                    <tr className="bg-tint/[0.04] text-xs text-muted-foreground">
                         <th scope="col" className="px-3 py-3 sm:px-4 font-medium">Feature</th>
                         <th scope="col" className="px-3 py-3 sm:px-4 font-medium text-primary">Ping Pilott</th>
                         <th scope="col" className="px-3 py-3 sm:px-4 font-medium">{theirs}</th>

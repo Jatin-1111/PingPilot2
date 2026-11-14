@@ -37,21 +37,20 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Server resource monitoring"
-            eyebrow="Host metrics"
             title="See CPU, memory and disk, and know when they caused an outage."
             intro="An uptime check tells you a server stopped answering. The Ping Pilott host agent tells you whether the machine ran out of CPU, memory or disk when it did."
             faqs={FAQS}
         >
-            <Section eyebrow="Why add an agent" title="From &ldquo;it is down&rdquo; to &ldquo;here is why&rdquo;">
+            <Section title="From &ldquo;it is down&rdquo; to &ldquo;here is why&rdquo;">
                 <Prose>
                     <p>A check from outside can only see the symptom: a timeout, a 502, a refused connection. Many of those come from the machine itself, a full disk, exhausted memory or a runaway process, and the quickest way to know is to look at the machine at that moment.</p>
                     <p>The agent keeps that record. Open a failed check and the host&apos;s CPU, memory and disk for the minutes around it are right there, next to the likely causes. If the host looked normal, the diagnosis says so too, which rules out running out of resources.</p>
                 </Prose>
             </Section>
-            <Section eyebrow="What you get" title="Server resource monitoring, built into uptime monitoring">
+            <Section title="Server resource monitoring, built into uptime monitoring">
                 <FeatureGrid items={FEATURES} />
             </Section>
-            <Section eyebrow="Setup" title="Reporting in about two minutes">
+            <Section title="Reporting in about two minutes">
                 <ol className="max-w-[62ch] list-decimal space-y-3 pl-5 text-[15px] leading-relaxed text-muted-foreground">
                     <li>Add the server as a monitor on a Starter, Pro or Business plan.</li>
                     <li>On the monitor, choose Set up host metrics and copy the command for your system.</li>

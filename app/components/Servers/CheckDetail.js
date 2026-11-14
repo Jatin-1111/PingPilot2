@@ -77,7 +77,7 @@ function TimingBar({ steps, totalMs, phaseLabel }) {
 }
 
 function Heading({ children }) {
-    return <h4 className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{children}</h4>;
+    return <h4 className="text-xs font-medium text-muted-foreground">{children}</h4>;
 }
 
 /**
@@ -132,7 +132,7 @@ export default function CheckDetail({ source, className, collapsible = false, la
                     <ol className="space-y-3">
                         {checks.map((c, i) => (
                             <li key={`${i}-${c.step}`} className="flex gap-3 text-sm">
-                                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-tint/[0.06] text-[11px] tabular-nums text-muted-foreground" aria-hidden="true">{i + 1}</span>
+                                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-tint/[0.06] text-xs tabular-nums text-muted-foreground" aria-hidden="true">{i + 1}</span>
                                 <div className="min-w-0 flex-1">
                                     <p>{c.step}</p>
                                     {c.command && (

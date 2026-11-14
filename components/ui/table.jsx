@@ -78,7 +78,7 @@ function TableHead({
       data-slot="table-head"
       scope="col"
       className={cn(
-        "h-11 px-5 text-left align-middle text-[11px] font-medium uppercase tracking-[0.14em] whitespace-nowrap text-muted-foreground",
+        "h-11 px-5 text-left align-middle text-xs font-medium whitespace-nowrap text-muted-foreground",
         className
       )}
       {...props} />)

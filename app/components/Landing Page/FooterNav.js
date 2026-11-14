@@ -11,7 +11,7 @@ export default function FooterNav() {
     return (
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-16 gap-y-8 text-sm sm:grid-cols-3">
             <div className="space-y-3">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">Product</p>
+                <p className="text-xs font-medium text-muted-foreground/70">Product</p>
                 <ul className="space-y-3">
                     <li><Link href="/website-uptime-monitoring" className={linkClass}>Website uptime monitoring</Link></li>
                     <li><Link href="/server-monitoring" className={linkClass}>Server monitoring</Link></li>
@@ -24,7 +24,7 @@ export default function FooterNav() {
                 </ul>
             </div>
             <div className="space-y-3">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">Account</p>
+                <p className="text-xs font-medium text-muted-foreground/70">Account</p>
                 <ul className={`space-y-3 ${authView === 'pending' ? 'invisible' : ''}`}>
                     {authView === 'in' ? (
                         <li><Link href="/dashboard" className={linkClass}>Dashboard</Link></li>
@@ -37,7 +37,7 @@ export default function FooterNav() {
                 </ul>
             </div>
             <div className="space-y-3">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">Help</p>
+                <p className="text-xs font-medium text-muted-foreground/70">Help</p>
                 <ul className="space-y-3">
                     <li><Link href="/blog" className={linkClass}>Blog</Link></li>
                     <li><Link href="/alternatives/uptimerobot" className={linkClass}>UptimeRobot alternative</Link></li>

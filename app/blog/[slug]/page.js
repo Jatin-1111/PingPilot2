@@ -30,7 +30,7 @@ function Block({ b }) {
                 <div className="overflow-x-auto rounded-2xl ring-1 ring-tint/[0.07]">
                     <table className="w-full min-w-[20rem] border-collapse text-left text-sm">
                         <thead>
-                            <tr className="bg-tint/[0.04] text-[11px] uppercase tracking-[0.15em]">
+                            <tr className="bg-tint/[0.04] text-xs">
                                 {b.head.map((h) => <th key={h} scope="col" className="px-3 py-3 sm:px-4 font-medium">{h}</th>)}
                             </tr>
                         </thead>
@@ -73,13 +73,13 @@ export default async function Page({ params }) {
         <MarketingPage
             path={path}
             crumb={post.title}
-            eyebrow={`Guide · ${post.readMinutes} min read`}
             title={post.title}
             intro={post.description}
         >
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(article) }} />
             <Section>
                 <article className="max-w-[62ch] space-y-5 text-[15px] leading-relaxed text-muted-foreground">
+                    <p className="text-sm text-muted-foreground/80">{post.readMinutes} min read</p>
                     {post.blocks.map((b, i) => <Block key={i} b={b} />)}
                 </article>
             </Section>

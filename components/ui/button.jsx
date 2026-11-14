@@ -6,7 +6,7 @@ import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group relative inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium select-none outline-none transition-[transform,background-color,box-shadow,color,opacity] duration-500 ease-fluid active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[1.1em] has-[[data-slot=button-arrow]]:pr-1.5",
+  "group relative inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium select-none outline-none transition-[transform,background-color,box-shadow,color,opacity] duration-150 ease-fluid active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[1.1em] has-[[data-slot=button-arrow]]:pr-1.5",
   {
     variants: {
       variant: {

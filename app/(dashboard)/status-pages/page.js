@@ -337,7 +337,6 @@ export default function StatusPagesPage() {
     return (
         <PageContainer className="space-y-10">
             <PageHeader
-                eyebrow="Monitoring"
                 title="Status pages"
                 description={description}
                 actions={

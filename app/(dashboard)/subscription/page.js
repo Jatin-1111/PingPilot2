@@ -249,7 +249,6 @@ function SubscriptionContent() {
     return (
         <PageContainer className="space-y-10">
             <PageHeader
-                eyebrow="Plan"
                 title="Plans and billing"
                 description="See what your current plan includes and move to one that fits the servers you monitor."
                 actions={
@@ -267,7 +266,7 @@ function SubscriptionContent() {
                 <section aria-labelledby="current-plan" className="bezel-sm">
                     <div className="bezel-sm-core grid gap-6 p-6 sm:grid-cols-[1fr_1.2fr] sm:items-center sm:p-7">
                         <div className="space-y-3">
-                            <p id="current-plan" className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Current plan</p>
+                            <p id="current-plan" className="text-xs text-muted-foreground">Current plan</p>
                             <div className="flex flex-wrap items-center gap-3">
                                 <p className="font-display text-3xl font-medium tracking-tight">{planLabel(admin ? 'admin' : currentPlanId)}</p>
                                 <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
@@ -335,7 +334,7 @@ function SubscriptionContent() {
                             >
                                 <span
                                     aria-hidden="true"
-                                    className="absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-primary shadow-[0_8px_20px_-8px_oklch(0.7_0.13_220/0.7)] transition-transform duration-500 ease-fluid"
+                                    className="absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-primary transition-transform duration-500 ease-fluid"
                                     style={{ transform: billing === 'yearly' ? 'translateX(100%)' : 'translateX(0)' }}
                                 />
                                 {BILLING.map((v) => (
@@ -364,15 +363,13 @@ function SubscriptionContent() {
                                         <div
                                             onClick={() => setTier(t.key)}
                                             className={cn(
-                                                'h-full cursor-pointer rounded-[1.75rem] p-1.5 ring-1 transition-[background-color,box-shadow,transform] duration-700 ease-fluid',
-                                                selected
-                                                    ? 'bg-primary/[0.08] ring-primary/40 shadow-[0_30px_70px_-34px_oklch(0.7_0.13_220/0.7)]'
-                                                    : 'bg-tint/[0.03] ring-tint/[0.07] hover:bg-tint/[0.05]'
+                                                'h-full cursor-pointer rounded-2xl bg-card ring-1 transition-[box-shadow] duration-500 ease-fluid',
+                                                selected ? 'ring-2 ring-primary' : 'ring-border hover:ring-tint/20'
                                             )}
                                         >
-                                            <div className="flex h-full flex-col rounded-[calc(1.75rem-0.375rem)] bg-card p-5 shadow-[inset_0_1px_1px_color-mix(in_oklch,var(--hi)_7%,transparent)]">
-                                                <div className="flex h-6 items-center justify-between">
-                                                    <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{t.name}</h3>
+                                            <div className="flex h-full flex-col p-5">
+                                                <div className="flex min-h-6 flex-wrap items-center justify-between gap-x-2 gap-y-1">
+                                                    <h3 className="text-xs font-medium text-muted-foreground">{t.name}</h3>
                                                     {current ? (
                                                         <Badge variant="secondary">Current plan</Badge>
                                                     ) : t.recommended ? (
@@ -424,9 +421,9 @@ function SubscriptionContent() {
                                     <caption className="sr-only">Plan limits and features, {billing} billing</caption>
                                     <thead className="border-b border-tint/[0.06]">
                                         <tr>
-                                            <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Feature</th>
+                                            <th scope="col" className="px-5 py-3.5 text-left text-xs font-medium text-muted-foreground">Feature</th>
                                             {compareCols.map((c) => (
-                                                <th key={c.id} scope="col" className={cn('px-4 py-3.5 text-center text-[11px] font-medium uppercase tracking-[0.14em]', c.key === tier ? 'text-primary' : 'text-muted-foreground')}>
+                                                <th key={c.id} scope="col" className={cn('px-4 py-3.5 text-center text-xs font-medium', c.key === tier ? 'text-primary' : 'text-muted-foreground')}>
                                                     {c.name}
                                                 </th>
                                             ))}
@@ -465,7 +462,7 @@ function SubscriptionContent() {
                                 return (
                                     <div key={c.id} className="bezel-sm">
                                         <div className="bezel-sm-core p-5">
-                                            <h3 className={cn('text-xs font-medium uppercase tracking-[0.2em]', c.key === tier ? 'text-primary' : 'text-muted-foreground')}>{c.name}</h3>
+                                            <h3 className={cn('text-xs font-medium', c.key === tier ? 'text-primary' : 'text-muted-foreground')}>{c.name}</h3>
                                             <dl className="mt-4 divide-y divide-tint/[0.05] text-sm">
                                                 {COMPARE_ROWS.map((row) => (
                                                     <div key={row.label} className="flex items-center justify-between gap-4 py-2.5">

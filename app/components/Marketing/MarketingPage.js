@@ -7,7 +7,7 @@ import { SITE_URL, SITE_NAME } from '@/lib/site'
 import { faqSchema } from '@/lib/seo'
 
 /** Page chrome for public SEO pages: nav, hero, JSON-LD (breadcrumb), closing CTA, footer. */
-export default function MarketingPage({ path, crumb, eyebrow, title, intro, faqs, children, cta = true, schema = [] }) {
+export default function MarketingPage({ path, crumb, title, intro, faqs, children, cta = true, schema = [] }) {
     const url = `${SITE_URL}${path}`
     const graph = [
         {
@@ -31,7 +31,6 @@ export default function MarketingPage({ path, crumb, eyebrow, title, intro, faqs
             <main id="main-content">
                 <section className="px-4 pb-16 pt-32 sm:px-8 md:pb-24 md:pt-44">
                     <div className="mx-auto max-w-4xl space-y-7">
-                        <Reveal><span className="eyebrow">{eyebrow}</span></Reveal>
                         <Reveal delay={80}>
                             <h1 className="font-display text-4xl font-medium leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-6xl">{title}</h1>
                         </Reveal>
@@ -49,7 +48,7 @@ export default function MarketingPage({ path, crumb, eyebrow, title, intro, faqs
                 {children}
 
                 {faqs?.length > 0 && (
-                    <Section id="faq" eyebrow="FAQ" title="Common questions">
+                    <Section id="faq" title="Common questions">
                         <dl className="divide-y divide-tint/[0.07] border-y border-tint/[0.07]">
                             {faqs.map((f) => (
                                 <div key={f.q} className="grid gap-3 py-7 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
@@ -78,13 +77,12 @@ export default function MarketingPage({ path, crumb, eyebrow, title, intro, faqs
     )
 }
 
-export function Section({ id, eyebrow, title, children }) {
+export function Section({ id, title, children }) {
     return (
         <section id={id} className="px-4 py-16 sm:px-8 md:py-24">
             <div className="mx-auto max-w-4xl">
                 {title && (
                     <div className="mb-10 space-y-4">
-                        {eyebrow && <span className="eyebrow">{eyebrow}</span>}
                         <h2 className="font-display text-3xl font-medium leading-[1.08] tracking-tight md:text-4xl">{title}</h2>
                     </div>
                 )}

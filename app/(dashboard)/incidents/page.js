@@ -76,7 +76,7 @@ function Segmented({ label, options, value, onChange }) {
 function Stat({ label, children }) {
   return (
     <div className="p-6">
-      <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{label}</p>
+      <p className="text-xs text-muted-foreground">{label}</p>
       <div className="mt-3 font-display text-4xl font-medium tracking-tight tabular-nums">{children}</div>
     </div>
   );
@@ -176,7 +176,6 @@ export default function IncidentsPage() {
   return (
     <PageContainer className="space-y-10">
       <PageHeader
-        eyebrow="Monitoring"
         title="Incidents"
         description={description}
         actions={

@@ -53,7 +53,7 @@ function Block({ block }) {
                 <div className="overflow-x-auto rounded-2xl ring-1 ring-tint/[0.07]">
                     <table className="w-full min-w-[22rem] border-collapse text-left text-sm">
                         <thead>
-                            <tr className="bg-tint/[0.04] text-[11px] uppercase tracking-[0.15em]">
+                            <tr className="bg-tint/[0.04] text-xs">
                                 {block.head.map((h, i) => <th key={i} scope="col" className="px-3 py-3 font-medium sm:px-4">{h}</th>)}
                             </tr>
                         </thead>

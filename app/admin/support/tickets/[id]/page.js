@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 function Fact({ label, children }) {
     return (
         <div className="space-y-1">
-            <dt className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</dt>
+            <dt className="text-xs text-muted-foreground">{label}</dt>
             <dd className="break-words text-sm text-foreground">{children}</dd>
         </div>
     );
@@ -185,7 +185,6 @@ export default function AdminTicketDetail() {
     return (
         <PageContainer className="space-y-8">
             <PageHeader
-                eyebrow="Admin · Ticket"
                 title={ticket.subject}
                 actions={
                     <>
@@ -206,7 +205,7 @@ export default function AdminTicketDetail() {
                 <div className="space-y-6 lg:col-span-8">
                     <section aria-label="Original request" className="bezel-sm">
                         <div className="bezel-sm-core space-y-3 p-6">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">Original request · {formatTicketDate(ticket.createdAt)}</p>
+                            <p className="text-xs text-muted-foreground">Original request · {formatTicketDate(ticket.createdAt)}</p>
                             <p className="max-w-[70ch] whitespace-pre-wrap text-[15px] leading-relaxed">{ticket.description}</p>
                         </div>
                     </section>
@@ -237,7 +236,7 @@ export default function AdminTicketDetail() {
                     <div className="bezel-sm">
                         <div className="bezel-sm-core space-y-5 p-6">
                             <div className="space-y-2">
-                                <label htmlFor="ticket-status" className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">Status</label>
+                                <label htmlFor="ticket-status" className="text-xs text-muted-foreground">Status</label>
                                 <Select value={ticket.status} onValueChange={handleStatusUpdate}>
                                     <SelectTrigger id="ticket-status" className="w-full">
                                         <SelectValue />

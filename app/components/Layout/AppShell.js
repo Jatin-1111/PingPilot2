@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import SideBar from './SideBar';
 
 const STORAGE_KEY = 'pp.sidebar.collapsed';
+const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
 const PANE_SELECTOR = '.glass-app :is(.bezel-core, .bezel-sm-core, [data-slot="card"])';
 
 /**
@@ -14,6 +15,9 @@ const PANE_SELECTOR = '.glass-app :is(.bezel-core, .bezel-sm-core, [data-slot="c
  */
 export default function AppShell({ children }) {
     const [collapsed, setCollapsed] = useState(false);
+    const mainRef = useRef(null);
+    // Where the page content started before a toggle, so the layout can change at once and the content slide from there
+    const contentLeft = useRef(null);
 
     useEffect(() => {
         try {
@@ -22,6 +26,7 @@ export default function AppShell({ children }) {
     }, []);
 
     const toggle = () => {
+        contentLeft.current = mainRef.current?.firstElementChild?.getBoundingClientRect().left ?? null;
         setCollapsed((c) => {
             const next = !c;
             try {
@@ -30,6 +35,22 @@ export default function AppShell({ children }) {
             return next;
         });
     };
+
+    // The sidebar width and the page padding change in one frame (animating them would re-lay-out the whole page every
+    // frame). The motion is a transform: the content starts where it was and slides to where it is now, and the
+    // sidebar fades in at its new width. Only a toggle animates: the first paint from storage does not.
+    useLayoutEffect(() => {
+        const before = contentLeft.current;
+        contentLeft.current = null;
+        const main = mainRef.current;
+        const now = main?.firstElementChild?.getBoundingClientRect().left;
+        if (before == null || now == null || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+        const delta = before - now;
+        if (Math.abs(delta) > 1) {
+            main.animate([{ transform: `translateX(${delta}px)` }, { transform: 'translateX(0)' }], { duration: 250, easing: EASE });
+        }
+        document.querySelector('aside[aria-label="Main"]')?.animate([{ opacity: 0.35 }, { opacity: 1 }], { duration: 180, easing: EASE });
+    }, [collapsed]);
 
     // Dialogs and menus are portalled to <body>, outside this tree. Flag the document while the
     // shell is mounted so globals.css can give them the same glass.
@@ -83,8 +104,9 @@ export default function AppShell({ children }) {
             </div>
             <SideBar collapsed={collapsed} onToggle={toggle} />
             <main
+                ref={mainRef}
                 id="main-content"
-                className={`min-h-[100dvh] transition-[padding] duration-700 ease-fluid ${collapsed ? 'md:pl-[100px]' : 'md:pl-[272px]'}`}
+                className={`min-h-[100dvh] overflow-x-clip ${collapsed ? 'md:pl-[100px]' : 'md:pl-[272px]'}`}
             >
                 {children}
             </main>

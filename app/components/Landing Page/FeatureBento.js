@@ -1,5 +1,4 @@
 import React from 'react'
-import { Bell, ChartLineUp, ClockCountdown, Receipt } from '@phosphor-icons/react/dist/ssr'
 import { Bezel } from '@/components/ui/bezel'
 import { Reveal } from '@/components/ui/reveal'
 import { Sparkline } from './HeroPreview'
@@ -13,15 +12,6 @@ const INCIDENTS = [
     { site: 'northwind.dev/api', note: 'Connection refused', when: 'Sun, 03:15', length: '2 min', open: false },
 ]
 
-function Label({ icon: Icon, children }) {
-    return (
-        <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
-            <Icon weight="light" className="size-4" />
-            {children}
-        </span>
-    )
-}
-
 export default function FeatureBento() {
     return (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-12">
@@ -29,7 +19,6 @@ export default function FeatureBento() {
             <Reveal className="md:col-span-7">
                 <Bezel className="h-full" coreClassName="flex h-full flex-col justify-between gap-10 p-7 sm:p-9">
                     <div className="max-w-md space-y-4">
-                        <Label icon={ClockCountdown}>Check cadence</Label>
                         <h3 className="font-display text-3xl font-medium leading-[1.1] tracking-tight">
                             Every check, as often as every minute.
                         </h3>
@@ -55,10 +44,9 @@ export default function FeatureBento() {
             </Reveal>
 
             {/* Narrow: alerts */}
-            <Reveal delay={90} className="md:col-span-5">
+            <Reveal delay={60} className="md:col-span-5">
                 <Bezel className="h-full" coreClassName="flex h-full flex-col gap-8 p-7 sm:p-9">
                     <div className="space-y-4">
-                        <Label icon={Bell}>Alerts</Label>
                         <h3 className="font-display text-3xl font-medium leading-[1.1] tracking-tight">
                             Told the moment it fails.
                         </h3>
@@ -78,7 +66,6 @@ export default function FeatureBento() {
             <Reveal className="md:col-span-5">
                 <Bezel className="h-full" coreClassName="flex h-full flex-col gap-8 p-7 sm:p-9">
                     <div className="space-y-4">
-                        <Label icon={ChartLineUp}>Response time</Label>
                         <h3 className="font-display text-3xl font-medium leading-[1.1] tracking-tight">
                             See slow before it&apos;s down.
                         </h3>
@@ -97,10 +84,9 @@ export default function FeatureBento() {
             </Reveal>
 
             {/* Wide: incident history */}
-            <Reveal delay={90} className="md:col-span-7">
+            <Reveal delay={40} className="md:col-span-7">
                 <Bezel className="h-full" coreClassName="flex h-full flex-col gap-8 p-7 sm:p-9">
                     <div className="max-w-md space-y-4">
-                        <Label icon={Receipt}>Incident history</Label>
                         <h3 className="font-display text-3xl font-medium leading-[1.1] tracking-tight">
                             A record of every outage.
                         </h3>

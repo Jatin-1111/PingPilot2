@@ -66,7 +66,6 @@ const TicketList = () => {
     return (
         <div className="space-y-10">
             <PageHeader
-                eyebrow="Support"
                 title="Your tickets"
                 description="Ask a question or report a problem. We reply on the ticket and you can follow the conversation here."
                 actions={

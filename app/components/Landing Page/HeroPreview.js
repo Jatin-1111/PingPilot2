@@ -41,12 +41,12 @@ export default function HeroPreview() {
             <Bezel coreClassName="p-5 sm:p-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Overview</p>
+                        <p className="text-xs text-muted-foreground">Overview</p>
                         <p className="mt-1 font-display text-2xl font-medium tracking-tight tabular-nums">
                             3 of 4 <span className="text-muted-foreground">operational</span>
                         </p>
                     </div>
-                    <span className="rounded-md bg-tint/[0.05] px-2 py-1 font-mono text-[11px] text-muted-foreground ring-1 ring-tint/[0.07]">
+                    <span className="rounded-md bg-tint/[0.05] px-2 py-1 font-mono text-xs text-muted-foreground ring-1 ring-tint/[0.07]">
                         Sample data
                     </span>
                 </div>

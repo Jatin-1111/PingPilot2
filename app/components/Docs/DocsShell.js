@@ -37,7 +37,7 @@ export default function DocsShell({ current = null, children }) {
                             <div className="px-2 pb-3"><Menu current={current} /></div>
                         </details>
                         <div className="hidden lg:block">
-                            <p className="mb-3 px-3 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/70">Documentation</p>
+                            <p className="mb-3 px-3 text-xs font-medium text-muted-foreground/70">Documentation</p>
                             <Menu current={current} />
                         </div>
                     </aside>

@@ -46,19 +46,18 @@ export default function Page() {
         <MarketingPage
             path={PATH}
             crumb="Android app"
-            eyebrow="Android app"
             title="Server alerts on your phone, the moment they happen."
             intro="The Ping Pilott app for Android tells you when a website or server goes down, comes back or slows down, even when the app is closed. Sign in with your Ping Pilott account."
             faqs={FAQS}
             schema={SCHEMA}
         >
-            <Section id="download" eyebrow="Download" title="Get the app">
+            <Section id="download" title="Get the app">
                 <AndroidDownloadPanel />
             </Section>
-            <Section eyebrow="What you get" title="Built for being woken up for the right reasons">
+            <Section title="Built for being woken up for the right reasons">
                 <FeatureGrid items={FEATURES} />
             </Section>
-            <Section eyebrow="Install" title="Up and running in a few minutes">
+            <Section title="Up and running in a few minutes">
                 <ol className="max-w-[62ch] list-decimal space-y-3 pl-5 text-[15px] leading-relaxed text-muted-foreground">
                     <li>Download the file on your phone, or scan the code above from your computer.</li>
                     <li>Open it. If Android asks, allow installs from your browser, then tap Install.</li>
@@ -66,7 +65,7 @@ export default function Page() {
                     <li>Follow the short setup guide: it helps you set the battery option that keeps alerts reliable.</li>
                 </ol>
             </Section>
-            <Section eyebrow="Reliable alerts" title="Tell your phone not to put the app to sleep">
+            <Section title="Tell your phone not to put the app to sleep">
                 <Prose>
                     <p>Android saves battery by stopping apps it thinks you are not using. For an app whose job is to wake you up, that can mean a late alert. In the app, set Ping Pilott to Unrestricted battery use. The setup guide opens the right settings for you.</p>
                     <p>Some makers, including Xiaomi, Oppo, Vivo and Samsung, add their own restrictions on top. If alerts ever stop arriving, allow Ping Pilott to start automatically and lock it in the recent apps list. The Diagnostics screen in the app shows whether it is connected and when it last heard from the server.</p>
