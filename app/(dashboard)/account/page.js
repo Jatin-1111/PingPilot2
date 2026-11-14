@@ -89,10 +89,10 @@ export default function AccountPage() {
     };
 
     const pwErrors = {
-        next: next && next.length < 6 ? 'Use at least 6 characters.' : null,
+        next: next && next.length < 8 ? 'Use at least 8 characters.' : null,
         confirm: confirm && confirm !== next ? 'The passwords don’t match.' : null,
     };
-    const pwReady = current && next.length >= 6 && confirm === next && next !== current;
+    const pwReady = current && next.length >= 8 && confirm === next && next !== current;
 
     const savePassword = async (e) => {
         e.preventDefault();
@@ -141,7 +141,7 @@ export default function AccountPage() {
 
     return (
         <PageContainer className="space-y-8">
-            <PageHeader eyebrow="Account" title="Your account" description="Your details, your password and your plan." />
+            <PageHeader title="Your account" description="Your details, your password and your plan." />
 
             <div className="max-w-4xl space-y-6">
                 <Section title="Profile" description="How you appear in Ping Pilott and where we reach you.">
@@ -172,7 +172,7 @@ export default function AccountPage() {
                         <Field id="acc-current" label="Current password">
                             <Input id="acc-current" type="password" value={current} onChange={(e) => setCurrent(e.target.value)} autoComplete="current-password" />
                         </Field>
-                        <Field id="acc-new" label="New password" error={pwErrors.next} hint="At least 6 characters.">
+                        <Field id="acc-new" label="New password" error={pwErrors.next} hint="At least 8 characters.">
                             <Input id="acc-new" type="password" value={next} onChange={(e) => setNext(e.target.value)} autoComplete="new-password" aria-invalid={!!pwErrors.next} aria-describedby="acc-new-msg" />
                         </Field>
                         <Field id="acc-confirm" label="Confirm new password" error={pwErrors.confirm}>
