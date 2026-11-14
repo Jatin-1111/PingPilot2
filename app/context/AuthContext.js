@@ -251,6 +251,17 @@ export const AuthProvider = ({ children }) => {
     // Logout function
     const logout = useCallback(async (redirectTo = '/auth') => {
         signedOutByUser.current = true;
+        // End the sign-in on the server too, so a copied refresh token stops working. Best effort and not waited for:
+        // signing out must work offline, and keepalive lets the request finish while the page navigates away.
+        const refresh = localStorage.getItem('refreshToken');
+        if (refresh) {
+            fetch(getApiUrl('/api/auth/logout'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ refreshToken: refresh }),
+                keepalive: true,
+            }).catch(() => {});
+        }
         clearTokens();
         setUser(null);
         router.push(redirectTo);
@@ -386,17 +397,14 @@ export const AuthProvider = ({ children }) => {
     // Verify email with token
     const verifyEmail = useCallback(async (token, userId) => {
         try {
-            // Properly append query parameters to the URL
-            const base = getApiUrl('/api/auth/verify-email');
-            const url = new URL(base, window.location.origin);
-            url.searchParams.append('token', token);
-            url.searchParams.append('userId', userId);
-
-            const response = await fetch(url, {
-                method: 'GET',
+            // POST with the token in the body: a link that changes something when it is merely fetched is opened by
+            // mail scanners and previews, and a token in a URL ends up in logs.
+            const response = await fetch(getApiUrl('/api/auth/verify-email'), {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({ token, userId }),
             });
 
             const data = await readJson(response);
@@ -483,46 +491,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Initial admin setup (first admin setup)
-    const setupInitialAdmin = async (email, password, displayName, setupToken) => {
-        setError(null);
-
-        try {
-            const response = await fetch(getApiUrl('/api/admin/initial-setup'), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                    displayName,
-                    setupToken
-                }),
-            });
-
-            const data = await readJson(response);
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Initial admin setup failed');
-            }
-
-            // Store tokens if they were returned
-            if (data.data.token) {
-                localStorage.setItem('token', data.data.token);
-            }
-            if (data.data.refreshToken) {
-                localStorage.setItem('refreshToken', data.data.refreshToken);
-            }
-
-            setUser(data.data.user);
-            return data.data.user;
-        } catch (err) {
-            setError(err.message);
-            throw err;
-        }
-    };
-
     // Get list of admins
     const getAdminList = async () => {
         setError(null);
@@ -588,13 +556,15 @@ export const AuthProvider = ({ children }) => {
         updateUserRole,
         apiRequest, // Expose apiRequest for other components to use
         refreshUser,
+        // Swap the refresh token for a new pair (calls share one request). The live-updates socket uses it before it
+        // connects, because access tokens are short-lived now.
+        refreshSession: refreshToken,
         hasSignedOut: () => signedOutByUser.current,
         // 'in' | 'out' | 'pending' for UI that differs by sign-in state without waiting for the server to confirm it.
         // A saved session counts as 'in' until the check says otherwise; 'pending' only before the page has mounted.
         authView: user ? 'in' : !loading ? 'out' : hasSavedSession === null ? 'pending' : hasSavedSession ? 'in' : 'out',
         // New admin management functions
         makeAdmin,
-        setupInitialAdmin,
         getAdminList,
         revokeAdmin
     };
