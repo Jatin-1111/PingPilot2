@@ -120,7 +120,7 @@ function ResetPasswordForm() {
                 </div>
             ) : (
                 <div className="space-y-6">
-                    <AuthHeading icon={Key} title="Choose a new password" description="Use at least 6 characters." />
+                    <AuthHeading icon={Key} title="Choose a new password" description="Use at least 8 characters." />
 
                     {error && (
                         <Alert
@@ -144,8 +144,8 @@ function ResetPasswordForm() {
                                 {...register('password', {
                                     required: 'Enter a new password',
                                     minLength: {
-                                        value: 6,
-                                        message: 'Password must be at least 6 characters'
+                                        value: 8,
+                                        message: 'Password must be at least 8 characters'
                                     }
                                 })}
                             />

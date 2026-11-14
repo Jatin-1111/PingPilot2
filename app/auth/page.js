@@ -308,7 +308,7 @@ function AuthForm() {
                         <Field
                             id="register-password"
                             label="Password"
-                            hint="At least 6 characters."
+                            hint="At least 8 characters."
                             error={registerErrors.password?.message}
                         >
                             <PasswordInput
@@ -319,7 +319,7 @@ function AuthForm() {
                                 {...field(registerErrors, 'password')}
                                 {...registerRegister('password', {
                                     required: 'Create a password',
-                                    minLength: { value: 6, message: 'Password must be at least 6 characters' }
+                                    minLength: { value: 8, message: 'Password must be at least 8 characters' }
                                 })}
                             />
                         </Field>
